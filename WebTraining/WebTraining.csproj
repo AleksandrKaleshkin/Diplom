@@ -18,7 +18,10 @@
   <ItemGroup>
     <ProjectReference Include="..\WebTraining.Common\WebTraining.Common.csproj" />
     <ProjectReference Include="..\WebTraining.Core\WebTraining.Core.csproj" />
-    <ProjectReference Include="..\WebTraining.DB\WebTraining.DB.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\files\image\" />
   </ItemGroup>
 
 </Project>

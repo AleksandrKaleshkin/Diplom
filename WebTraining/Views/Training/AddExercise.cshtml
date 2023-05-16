@@ -1,0 +1,30 @@
+﻿@model WebTraining.Core.DTO.TrainingExerciseDTO
+
+<h2>Добавление упражнения</h2>
+<form method="post" asp-action="AddExercise" >
+    <div>
+        <label asp-for="ExerciseId">Упражнения</label>
+        <input asp-for="ExerciseId" />
+        <span asp-validation-for="ExerciseId"></span>
+    </div>
+    <div>
+        <label asp-for="Sets">Сеты</label>
+        <input asp-for="Sets" type="number" />
+        <span asp-validation-for="Sets"></span>
+    </div>
+    <div>
+        <label asp-for="Repetitions">Повторения</label>
+        <input asp-for="Repetitions" type="number" />
+        <span asp-validation-for="Repetitions"></span>
+    </div>
+
+    <div hidden>
+        <label asp-for="TrainingId">Трненировка</label>
+        <input asp-for="TrainingId" type="number" />
+        <span asp-validation-for="TrainingId"></span>
+    </div>
+
+    <div>
+        <input type="submit" value="Добавить" />
+    </div>
+</form>

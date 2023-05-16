@@ -1,5 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using WebTraining.Core.Interfaces;
+using WebTraining.Core.Services;
 using WebTraining.DB.DataContext;
+using WebTraining.DB.Interfaces;
+using WebTraining.DB.Repositories;
 
 internal class Program
 {
@@ -8,6 +12,10 @@ internal class Program
         var builder = WebApplication.CreateBuilder(args);
 
         string? connection = builder.Configuration.GetConnectionString("Connection");
+        builder.Services.AddTransient<IExerciseService, ExerciseService>();
+        builder.Services.AddTransient<ITrainingService, TrainingService>();
+        builder.Services.AddTransient<ITrainingExerciseService,TrainingExerciseService>();
+        builder.Services.AddTransient<IUnitOfWork, EFUnitOfWork>();
         builder.Services.AddDbContext<WebTrainingContext>(options => options.UseNpgsql(connection)); 
 
         // Add services to the container.

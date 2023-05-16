@@ -1,0 +1,50 @@
+﻿@model TrainingExerciseViewModel
+
+<table>
+    <thead>
+    <tr>
+        <th>
+            <a>Упражнение</a>
+        </th>
+        <th>
+            <a>Сеты</a>
+        </th>
+        <th>
+            <a>Повторения</a>
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+        @foreach (var exercise in @Model.ExerciseTraining)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(item => exercise.Exercise.NameExercise )
+                </td>
+                <td>
+                    @Html.DisplayFor(item=> exercise.Sets)
+                </td>
+                <td>
+                    @Html.DisplayFor(item=> exercise.Repetitions)
+                </td>
+                <td>
+                    <form method="get" asp-action="EditExercise" asp-route-id="@exercise.ID">
+                        <button>Изменить</button>
+                    </form>
+                </td>
+                <td>
+                    <form method="delete" asp-action="DeleteExercise" asp-route-id="@exercise.ID">
+                        <button>Удалить</button>
+                    </form>
+                </td>
+            </tr>
+        }        
+    </tbody>
+</table>
+<form asp-action="AddExercise" method="get" asp-route-id="@Model.TrainingId">
+    <button>Добавить</button>
+</form>
+
+
+
+

@@ -1,0 +1,21 @@
+﻿@model WebTraining.Core.DTO.TrainingDTO
+
+<h1>Добавить тренировки</h1>
+
+<form asp-action="CreateTraining" method="post">
+    <div>
+        <label asp-for="NameTraining">Название тренировки</label>
+        <input asp-for="NameTraining" />
+        <span asp-validation-for="NameTraining"></span>
+    </div>
+    <div>
+        <label asp-for="DateTraining">Название тренировки</label>
+        <input asp-for="DateTraining" type="date" />
+        <span asp-validation-for="DateTraining"></span>
+    </div>
+
+    <div>
+        <input type="submit" value="Добавить" />
+    </div>
+
+</form>

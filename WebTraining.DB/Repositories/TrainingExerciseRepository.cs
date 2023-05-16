@@ -40,7 +40,21 @@ namespace WebTraining.DB.Repositories
 
         public IEnumerable<TrainingExercise> GetAll()
         {
-            return db.TrainingExercises.ToList();
+            return db.TrainingExercises.Include(o=>o.Exercise).ToList();
+        }
+
+        public List<TrainingExercise> GetExercises(int id)
+        {
+            IEnumerable<TrainingExercise> training = GetAll();
+            List<TrainingExercise> exercises = new List<TrainingExercise>();
+            foreach (var item in training)
+            {
+                if (item.TrainingId==id)
+                {
+                    exercises.Add(item);
+                }
+            }
+            return exercises;
         }
 
         public void Update(TrainingExercise item)

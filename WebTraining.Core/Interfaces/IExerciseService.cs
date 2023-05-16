@@ -1,4 +1,5 @@
 ﻿using WebTraining.Core.DTO;
+using WebTraining.DB.Models;
 
 namespace WebTraining.Core.Interfaces
 {
@@ -6,9 +7,10 @@ namespace WebTraining.Core.Interfaces
     {
         ExerciseDTO GetExercise(int id);
         void DeleteExercise(int id);
-        void AddExercise(ExerciseDTO exercise);
+        void AddExercise(ExerciseDTO exercise, int type);
         IEnumerable<ExerciseDTO> GetExercises();
         void UpdateExercise(ExerciseDTO exercise);
+        IEnumerable<TypeOfMuscle> GetTypeOfMuscles();
         void Dispose();
     }
 }

@@ -1,0 +1,58 @@
+﻿@model ExerciseViewModel
+@{
+    ViewData["Title"] = "Упражнения";
+}
+
+<h1>База данных</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th><a>Название</a></th>
+            <th>
+                <a>Тип мышц</a>
+            </th>
+            <th>
+                <a>Описание</a>
+            </th>
+            <th>
+                <a>Фото 1</a>
+            </th>
+            <th>
+                <a>Фото 2</a>
+                </th>
+            <th>
+                <a>Фото 3</a>
+                </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var exercise in Model.Exercises)
+        {
+                <tr>
+                <td>@Html.DisplayFor(item => exercise.NameExercise)</td>
+                <td>@Html.DisplayFor(item => exercise.TypeOfMuscle.NameType)</td>
+                <td>@Html.DisplayFor(item => exercise.Description)</td>
+                <td><img width="200" class="imagecar" src="@Url.Content(exercise.PathImage1)" /></td>
+                <td><img width="200" class="imagecar" src="@Url.Content(exercise.PathImage2)" /></td>
+                <td><img width="200" class="imagecar" src="@Url.Content(exercise.PathImage3)" /></td>
+
+                <td>
+                    <form method="get" asp-action="EditExercise" asp-route-id="@exercise.ID">
+                    <button>Изменить</button>
+                    </form>
+                </td>
+                <td>
+                    <form method="get" asp-action="Delete" asp-route-id="@exercise.ID">
+                    <button>Удалить</button>
+                    </form>
+                </td>
+                </tr>
+        }
+    </tbody>
+</table>
+
+<form method="get" asp-action="CreateExercise">
+    <button>Добавить</button>
+</form>

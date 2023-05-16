@@ -16,12 +16,18 @@ namespace WebTraining.Core.Services
             Database = unit;
         }
 
-        public void AddExercise(ExerciseDTO exerciseDTO)
+        public void AddExercise(ExerciseDTO exerciseDTO, int type)
         {
+            TypeOfMuscle typeMusc = Database.Type.Get(type);
+            exerciseDTO.TypeOfMuscleID = type;
+            exerciseDTO.TypeOfMuscle = typeMusc;
+
             Exercise exercise = new Exercise
             {
                 NameExercise = exerciseDTO.NameExercise,
                 Description = exerciseDTO.Description,
+                TypeOfMuscleID= typeMusc.ID,
+                TypeOfMuscle=typeMusc,
                 NameImage1 = exerciseDTO.NameImage1,
                 NameImage2 = exerciseDTO.NameImage2,
                 NameImage3 = exerciseDTO.NameImage3,
@@ -37,7 +43,7 @@ namespace WebTraining.Core.Services
         {
             if (id==0)
             {
-                throw new ValidationException("Упражнение не найден", "");
+                throw new ValidationException("Упражнение не найден");
             }
             Database.Exercises.Delete(id);
             Database.Save();
@@ -62,6 +68,7 @@ namespace WebTraining.Core.Services
             return new ExerciseDTO
             {
                 Description = exercise.Description,
+                TypeOfMuscleID= exercise.TypeOfMuscleID,
                 NameImage1 = exercise.NameImage1,
                 NameImage2 = exercise.NameImage2,
                 NameImage3 = exercise.NameImage3,
@@ -89,6 +96,10 @@ namespace WebTraining.Core.Services
             exercise.PathImage1= exerciseDTO.PathImage1;
             exercise.PathImage2 = exerciseDTO.PathImage2;
             exercise.PathImage3 = exerciseDTO.PathImage3;
+            Database.Exercises.Update(exercise);
+            Database.Save();
         }
+
+        public IEnumerable<TypeOfMuscle> GetTypeOfMuscles() => Database.Type.GetTypes();
     }
 }

@@ -9,6 +9,8 @@ namespace WebTraining.DB.Repositories
         private WebTrainingContext db;
         private TrainingRepository trainingRepository;
         private ExerciseRepository exerciseRepository;
+        private TypeOfMuscleRepository typeOfMuscleRepository;
+        private TrainingExerciseRepository trainingExerciseRepository;
 
         public EFUnitOfWork(WebTrainingContext db)
         {
@@ -16,10 +18,20 @@ namespace WebTraining.DB.Repositories
         }
 
 
+        IRepository<TrainingExercise> IUnitOfWork.TrainingExercise
+        {
+            get
+            {
+                if (trainingExerciseRepository == null)
+                {
+                    trainingExerciseRepository = new TrainingExerciseRepository(db);
+                }
+                return trainingExerciseRepository;
+            }
+        }
 
 
-
-        IRepository<Exercise> IUnitOfWork.ExerciseRepository
+        IRepository<Exercise> IUnitOfWork.Exercises
         {
             get
             {
@@ -31,7 +43,7 @@ namespace WebTraining.DB.Repositories
             }
         }
 
-        IRepository<Training> IUnitOfWork.TrainingRepository
+        IRepository<Training> IUnitOfWork.Training
         {
             get
             {
@@ -42,6 +54,19 @@ namespace WebTraining.DB.Repositories
                 return trainingRepository;
             }
         }
+
+        ITypeRepository<TypeOfMuscle> IUnitOfWork.Type
+        {
+            get
+            {
+                if (typeOfMuscleRepository == null)
+                {
+                    typeOfMuscleRepository = new TypeOfMuscleRepository(db);
+                }
+                return typeOfMuscleRepository;
+            }
+        }
+
 
 
         private bool disposed = false;

@@ -7,7 +7,7 @@ namespace WebTraining.Core.Interfaces
         TrainingDTO GetTraining(int id);
         void DeleteTraining(int id);
         void AddTraing(TrainingDTO training);
-        IEnumerable<TrainingDTO> GetTraining();
+        IEnumerable<TrainingDTO> GetTrainings();
         void UpdateTraining(TrainingDTO training);
         void Dispose();
     }

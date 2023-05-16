@@ -9,7 +9,8 @@ namespace WebTraining.DB.Models
 
         public string? NameExercise { get; set; }
 
-        public string? TypeOfMuscleID { get; set; }
+        public int TypeOfMuscleID { get; set; }
+        public TypeOfMuscle? TypeOfMuscle { get; set; }
 
         public string? Description { get; set; }
 

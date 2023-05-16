@@ -1,10 +1,15 @@
-﻿namespace WebTraining.Core.DTO
+﻿using WebTraining.DB.Models;
+
+namespace WebTraining.Core.DTO
 {
     public class ExerciseDTO
     {
         public int ID { get; set; }
 
         public string? NameExercise { get; set; }
+
+        public int TypeOfMuscleID { get; set; }
+        public TypeOfMuscle? TypeOfMuscle { get; set; }
 
         public string? Description { get; set; }
 

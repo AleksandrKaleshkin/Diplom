@@ -40,7 +40,7 @@ namespace WebTraining.DB.Repositories
 
         public IEnumerable<Exercise> GetAll()
         {
-            return db.Exercises.ToList();
+            return db.Exercises.Include(o=>o.TypeOfMuscle);
         }
 
         public void Update(Exercise item)

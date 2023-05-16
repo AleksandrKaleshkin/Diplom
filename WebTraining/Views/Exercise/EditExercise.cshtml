@@ -1,0 +1,49 @@
+﻿@model WebTraining.Core.DTO.ExerciseDTO;
+
+<h1>Редактировать упражнения</h1>
+
+@using (Html.BeginForm("EditExercise", "Exercise", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <fieldset>
+        @Html.HiddenFor(m => m.ID)
+        <p>
+            @Html.LabelFor(m => m.NameExercise, "Название упражнения")
+            <br />
+            @Html.EditorFor(m => m.NameExercise)
+        </p>
+        <p>
+            @Html.LabelFor(m => m.Description, "Описание")
+            <br />
+            @Html.TextAreaFor(m => m.Description)
+        </p>
+
+        <p>
+            @Html.LabelFor(m => m.TypeOfMuscleID, "Тип мышц")
+            <br />
+            @Html.EditorFor(m => m.TypeOfMuscleID)
+        </p>
+
+        <p>
+            @Html.LabelFor(m => m.NameImage1, "Фото начала упражнения")
+            <br />
+            <input type="file" name="uploadedNameImage" />
+        </p>
+
+        <p>
+            @Html.LabelFor(m => m.NameImage2, "Фото конца упражнения")
+            <br />
+            <input type="file" name="uploadedNameImage" />
+        </p>
+
+        <p>
+            @Html.LabelFor(m => m.NameImage3, "Фото задействующих мышц")
+            <br />
+            <input type="file" name="uploadedNameImage" />
+        </p>
+
+        
+
+
+        <p><input type="submit" value="Изменить" /></p>
+    </fieldset>
+}
