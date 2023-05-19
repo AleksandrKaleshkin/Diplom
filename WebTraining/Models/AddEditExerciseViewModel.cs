@@ -5,7 +5,7 @@ namespace WebTraining.Models
 {
     public class AddEditExerciseViewModel
     {
-        public ExerciseDTO ExerciseDTO { get; set; }
+        public ExerciseDTO? ExerciseDTO { get; set; }
         public TypeOfMyscList? TypeOfMysc { get; set; }
     }
 }

@@ -7,8 +7,10 @@ namespace WebTraining.Core.DTO
         [Key]
         public int ID { get; set; }
 
-        public string? NameTraining { get; set; }
+        [Required(ErrorMessage = "Укажите название тренировки")]
+        public string NameTraining { get; set; }
 
+        [Required(ErrorMessage = "Укажите дату тренировки")]
         public DateTime DateTraining { get; set; }
     }
 }

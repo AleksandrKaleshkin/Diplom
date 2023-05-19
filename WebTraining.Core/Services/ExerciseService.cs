@@ -45,6 +45,7 @@ namespace WebTraining.Core.Services
             {
                 throw new ValidationException("Упражнение не найден");
             }
+            ExerciseDTO exercise= GetExercise(id);          
             Database.Exercises.Delete(id);
             Database.Save();
         }
@@ -67,6 +68,7 @@ namespace WebTraining.Core.Services
             }
             return new ExerciseDTO
             {
+                ID= exercise.ID,
                 Description = exercise.Description,
                 TypeOfMuscleID= exercise.TypeOfMuscleID,
                 NameImage1 = exercise.NameImage1,
@@ -85,11 +87,16 @@ namespace WebTraining.Core.Services
             return mapper.Map<IEnumerable<Exercise>, List<ExerciseDTO>>(Database.Exercises.GetAll());
         }
 
-        public void UpdateExercise(ExerciseDTO exerciseDTO)
+        public void UpdateExercise(ExerciseDTO exerciseDTO, int type)
         {
+            TypeOfMuscle typeMusc = Database.Type.Get(type);
+            exerciseDTO.TypeOfMuscleID = type;
+            exerciseDTO.TypeOfMuscle = typeMusc;
             var exercise = Database.Exercises.Get(exerciseDTO.ID);
             exercise.NameExercise = exerciseDTO.NameExercise;
             exercise.Description= exerciseDTO.Description;
+            exercise.TypeOfMuscleID = typeMusc.ID;
+            exercise.TypeOfMuscle = typeMusc;
             exercise.NameImage1 = exerciseDTO.NameImage1;
             exercise.NameImage2 = exerciseDTO.NameImage2;
             exercise.NameImage3 = exerciseDTO.NameImage3;
@@ -100,6 +107,10 @@ namespace WebTraining.Core.Services
             Database.Save();
         }
 
-        public IEnumerable<TypeOfMuscle> GetTypeOfMuscles() => Database.Type.GetTypes();
+        public IEnumerable<TypeOfMuscleDTO> GetTypeOfMuscles()
+        {
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<TypeOfMuscle, TypeOfMuscleDTO>()).CreateMapper();
+            return mapper.Map<IEnumerable<TypeOfMuscle>, List<TypeOfMuscleDTO>>(Database.Type.GetTypes());            
+        }
     }
 }

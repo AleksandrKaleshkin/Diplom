@@ -1,0 +1,20 @@
+﻿@model WebTraining.Core.DTO.NotepadDTO
+
+<h1>Редактировать заметки</h1>
+
+<form method="post" asp-action="EditNote">
+    <div>
+        <label asp-for="DateNote">Дата</label>
+        <input asp-for="DateNote" type="date" />
+        <span asp-validation-for="DateNote"></span>
+    </div>
+    <div>
+        <label asp-for="Description">Содержание</label>
+        <textarea asp-for="Description" rows="3" cols="40"></textarea>
+        <span asp-validation-for="Description"></span>
+    </div>
+
+    <div>
+        <input type="submit" value="Изменить" />
+    </div>
+</form>

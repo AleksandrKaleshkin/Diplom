@@ -17,11 +17,10 @@ namespace WebTraining.Controllers
         }
 
         public IActionResult Index()
-        {
-            IEnumerable<TrainingDTO> trainings = trainingService.GetTrainings().ToList();
+        {            
             TrainingViewModel training = new TrainingViewModel()
             {
-                Trainings = trainings
+                Trainings = trainingService.GetTrainings().ToList()
             };
             return View(training);
         }
@@ -35,8 +34,9 @@ namespace WebTraining.Controllers
         [HttpPost]
         public IActionResult CreateTraining(TrainingDTO training)
         {
-            if (ModelState.IsValid !=null)
+            if (ModelState.IsValid !=false)
             {
+                
                 trainingService.AddTraing(training);
                 return RedirectToAction("Index");
             }
@@ -65,7 +65,7 @@ namespace WebTraining.Controllers
   
                 
             };
-            if (id!= null)
+            if (id!= 0)
             {
                 return View(exerciseViewModel);
             }
@@ -81,8 +81,9 @@ namespace WebTraining.Controllers
         [HttpPost]
         public IActionResult AddExercise(TrainingExerciseDTO exercise) 
         {
-            if (ModelState.IsValid != null)
+            if (ModelState.IsValid != false)
             {
+
                 trainingExerciseService.AddExercise(exercise);
                 return RedirectToAction("Index");
             }

@@ -11,6 +11,7 @@ namespace WebTraining.DB.Repositories
         private ExerciseRepository exerciseRepository;
         private TypeOfMuscleRepository typeOfMuscleRepository;
         private TrainingExerciseRepository trainingExerciseRepository;
+        private NotepadRepository notepadRepository;
 
         public EFUnitOfWork(WebTrainingContext db)
         {
@@ -64,6 +65,18 @@ namespace WebTraining.DB.Repositories
                     typeOfMuscleRepository = new TypeOfMuscleRepository(db);
                 }
                 return typeOfMuscleRepository;
+            }
+        }
+
+        IRepository<Notepad> IUnitOfWork.Notepads
+        {
+            get
+            {
+                if (notepadRepository == null)
+                {
+                    notepadRepository = new NotepadRepository(db);
+                }
+                return notepadRepository;
             }
         }
 

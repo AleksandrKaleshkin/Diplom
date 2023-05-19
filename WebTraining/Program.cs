@@ -15,6 +15,7 @@ internal class Program
         builder.Services.AddTransient<IExerciseService, ExerciseService>();
         builder.Services.AddTransient<ITrainingService, TrainingService>();
         builder.Services.AddTransient<ITrainingExerciseService,TrainingExerciseService>();
+        builder.Services.AddTransient<INotepadService, NotepadService>();
         builder.Services.AddTransient<IUnitOfWork, EFUnitOfWork>();
         builder.Services.AddDbContext<WebTrainingContext>(options => options.UseNpgsql(connection)); 
 

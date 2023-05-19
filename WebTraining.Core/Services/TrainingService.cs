@@ -34,6 +34,7 @@ namespace WebTraining.Core.Services
         {
             if (id!= 0)
             {
+               
                 Database.Training.Delete(id);
                 Database.Save();
             }

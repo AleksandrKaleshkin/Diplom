@@ -8,6 +8,7 @@ namespace WebTraining.DB.Interfaces
         IRepository<Training> Training { get; }
         ITypeRepository<TypeOfMuscle> Type { get; }
         IRepository<TrainingExercise> TrainingExercise { get; } 
+        IRepository<Notepad> Notepads { get; }
         void Save();
     }
 }

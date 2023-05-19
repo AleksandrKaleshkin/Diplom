@@ -80,7 +80,7 @@ namespace WebTraining.Core.Services
 
         public TrainingExerciseDTO GetNeedExercise(int id)
         {
-            if (id != null)
+            if (id != 0)
             {
                 var exercise = Database.TrainingExercise.Get(id);
                 if (exercise != null)

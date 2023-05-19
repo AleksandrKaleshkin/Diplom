@@ -1,0 +1,52 @@
+﻿@model NoteViewModel
+@{
+    ViewData["Title"] = "Блокнот";
+}
+
+<h1>База данных</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th><a>Дата</a></th>
+            <th>
+                <a>Содержание</a>
+            </th>
+
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var note in Model.Exercises)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(item => note.DateNote.Day)
+                    @Html.DisplayFor(item => note.DateNote.Month)
+                    @Html.DisplayFor(item => note.DateNote.Year)
+                </td>
+                <td>
+
+
+                    @Html.DisplayFor(item => note.Description)
+                    </td>
+
+
+                <td>
+                    <form method="get" asp-action="EditNote" asp-route-id="@note.ID">
+                        <button>Изменить</button>
+                    </form>
+                </td>
+                <td>
+                    <form method="get" asp-action="DeleteNote" asp-route-id="@note.ID">
+                        <button>Удалить</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<form method="get" asp-action="CreateNote">
+    <button>Добавить</button>
+</form>

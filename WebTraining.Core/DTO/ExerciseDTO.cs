@@ -1,4 +1,5 @@
-﻿using WebTraining.DB.Models;
+﻿using System.ComponentModel.DataAnnotations;
+using WebTraining.DB.Models;
 
 namespace WebTraining.Core.DTO
 {
