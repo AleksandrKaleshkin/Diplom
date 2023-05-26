@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WebTraining.Core.DTO;
 using WebTraining.Core.Interfaces;
 using WebTraining.Models;
 
 namespace WebTraining.Controllers
 {
+    
     public class TrainingController : Controller
     {
         readonly ITrainingService trainingService;
@@ -15,6 +17,7 @@ namespace WebTraining.Controllers
             trainingService = serv;
             trainingExerciseService = service;
         }
+
 
         public IActionResult Index()
         {            

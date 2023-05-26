@@ -1,5 +1,4 @@
-﻿using System.Data.Entity;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using WebTraining.DB.DataContext;
 using WebTraining.DB.Interfaces;
 using WebTraining.DB.Models;
@@ -46,7 +45,7 @@ namespace WebTraining.DB.Repositories
 
         public void Update(Notepad item)
         {
-            db.Entry(item).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            db.Entry(item).State = EntityState.Modified;
 
         }
     }
