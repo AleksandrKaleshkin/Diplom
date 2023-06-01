@@ -5,54 +5,333 @@
 
 <h1>База данных</h1>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th><a>Название</a></th>
-            <th>
-                <a>Тип мышц</a>
-            </th>
-            <th>
-                <a>Описание</a>
-            </th>
-            <th>
-                <a>Фото 1</a>
-            </th>
-            <th>
-                <a>Фото 2</a>
-                </th>
-            <th>
-                <a>Фото 3</a>
-                </th>
-
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var exercise in Model.Exercises)
+<h2>Битцепс</h2>
+@if (Model.Exercises.Where(x => x.TypeOfMuscle.NameType == "Битцепс").Count() == 0)
+{
+    <p>Упражнений нет!</p>
+}
+<table>
+    <tbody>     
+        @foreach (var exercise in Model.Exercises.Where(x=>x.TypeOfMuscle.NameType=="Битцепс"))
         {
                 <tr>
-                <td>@Html.DisplayFor(item => exercise.NameExercise)</td>
-                <td>@Html.DisplayFor(item => exercise.TypeOfMuscle.NameType)</td>
-                <td>@Html.DisplayFor(item => exercise.Description)</td>
                 <td><img width="200" class="imagecar" src="@Url.Content(exercise.PathImage1)" /></td>
-                <td><img width="200" class="imagecar" src="@Url.Content(exercise.PathImage2)" /></td>
-                <td><img width="200" class="imagecar" src="@Url.Content(exercise.PathImage3)" /></td>
-
+                <td>@Html.DisplayFor(item => exercise.NameExercise)</td>
+                <td>
+                    <form method="get" asp-action="Exercise" asp-route-id="@exercise.ID">
+                        <button>Посмотреть</button>
+                    </form>
+                </td>
+                @if (User.IsInRole("coach") | User.IsInRole("admin"))
+                {
                 <td>
                     <form method="get" asp-action="EditExercise" asp-route-id="@exercise.ID">
-                    <button>Изменить</button>
+                        <button>Изменить</button>
                     </form>
                 </td>
                 <td>
                     <form method="get" asp-action="Delete" asp-route-id="@exercise.ID">
-                    <button>Удалить</button>
+                        <button>Удалить</button>
                     </form>
                 </td>
+                }
                 </tr>
         }
     </tbody>
 </table>
 
-<form method="get" asp-action="CreateExercise">
-    <button>Добавить</button>
-</form>
+
+<h2>Пресс</h2>
+@if (Model.Exercises.Where(x => x.TypeOfMuscle.NameType == "Пресс").Count() == 0)
+{
+    <p>Упражнений нет!</p>
+}
+<table>
+    <tbody>
+        @foreach (var exercise in Model.Exercises.Where(x => x.TypeOfMuscle.NameType == "Пресс"))
+        {
+            <tr>
+                <td><img width="200" class="imagecar" src="@Url.Content(exercise.PathImage1)" /></td>
+                <td>@Html.DisplayFor(item => exercise.NameExercise)</td>
+                <td>
+                    <form method="get" asp-action="Exercise" asp-route-id="@exercise.ID">
+                        <button>Посмотреть</button>
+                    </form>
+                </td>
+                @if (User.IsInRole("coach") | User.IsInRole("admin"))
+                {
+                    <td>
+                        <form method="get" asp-action="EditExercise" asp-route-id="@exercise.ID">
+                            <button>Изменить</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form method="get" asp-action="Delete" asp-route-id="@exercise.ID">
+                            <button>Удалить</button>
+                        </form>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h2>Трицепс</h2>
+@if (Model.Exercises.Where(x => x.TypeOfMuscle.NameType == "Трицепс").Count() == 0)
+{
+    <p>Упражнений нет!</p>
+}
+<table>
+    <tbody>
+        @foreach (var exercise in Model.Exercises.Where(x => x.TypeOfMuscle.NameType == "Трицепс"))
+        {
+            <tr>
+                <td><img width="200" class="imagecar" src="@Url.Content(exercise.PathImage1)" /></td>
+                <td>@Html.DisplayFor(item => exercise.NameExercise)</td>
+                <td>
+                    <form method="get" asp-action="Exercise" asp-route-id="@exercise.ID">
+                        <button>Посмотреть</button>
+                    </form>
+                </td>
+                @if (User.IsInRole("coach") | User.IsInRole("admin"))
+                {
+                    <td>
+                        <form method="get" asp-action="EditExercise" asp-route-id="@exercise.ID">
+                            <button>Изменить</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form method="get" asp-action="Delete" asp-route-id="@exercise.ID">
+                            <button>Удалить</button>
+                        </form>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<h2>Плечи</h2>
+@if (Model.Exercises.Where(x => x.TypeOfMuscle.NameType == "Плечи").Count() == 0)
+{
+    <p>Упражнений нет!</p>
+}
+<table>
+    <tbody>
+        @foreach (var exercise in Model.Exercises.Where(x => x.TypeOfMuscle.NameType == "Плечи"))
+        {
+            <tr>
+                <td><img width="200" class="imagecar" src="@Url.Content(exercise.PathImage1)" /></td>
+                <td>@Html.DisplayFor(item => exercise.NameExercise)</td>
+                <td>
+                    <form method="get" asp-action="Exercise" asp-route-id="@exercise.ID">
+                        <button>Посмотреть</button>
+                    </form>
+                </td>
+                @if (User.IsInRole("coach") | User.IsInRole("admin"))
+                {
+                    <td>
+                        <form method="get" asp-action="EditExercise" asp-route-id="@exercise.ID">
+                            <button>Изменить</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form method="get" asp-action="Delete" asp-route-id="@exercise.ID">
+                            <button>Удалить</button>
+                        </form>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<h2>Предплечья</h2>
+@if (Model.Exercises.Where(x => x.TypeOfMuscle.NameType == "Предплечья").Count() == 0)
+{
+    <p>Упражнений нет!</p>
+}
+<table>
+    <tbody>
+        @foreach (var exercise in Model.Exercises.Where(x => x.TypeOfMuscle.NameType == "Предплечья"))
+        {
+            <tr>
+                <td><img width="200" class="imagecar" src="@Url.Content(exercise.PathImage1)" /></td>
+                <td>@Html.DisplayFor(item => exercise.NameExercise)</td>
+                <td>
+                    <form method="get" asp-action="Exercise" asp-route-id="@exercise.ID">
+                        <button>Посмотреть</button>
+                    </form>
+                </td>
+                @if (User.IsInRole("coach") | User.IsInRole("admin"))
+                {
+                    <td>
+                        <form method="get" asp-action="EditExercise" asp-route-id="@exercise.ID">
+                            <button>Изменить</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form method="get" asp-action="Delete" asp-route-id="@exercise.ID">
+                            <button>Удалить</button>
+                        </form>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h2>Ноги</h2>
+@if (Model.Exercises.Where(x => x.TypeOfMuscle.NameType == "Ноги").Count() == 0)
+{
+    <p>Упражнений нет!</p>
+}
+<table>
+    <tbody>
+        @foreach (var exercise in Model.Exercises.Where(x => x.TypeOfMuscle.NameType == "Ноги"))
+        {
+            <tr>
+                <td><img width="200" class="imagecar" src="@Url.Content(exercise.PathImage1)" /></td>
+                <td>@Html.DisplayFor(item => exercise.NameExercise)</td>
+                <td>
+                    <form method="get" asp-action="Exercise" asp-route-id="@exercise.ID">
+                        <button>Посмотреть</button>
+                    </form>
+                </td>
+                @if (User.IsInRole("coach") | User.IsInRole("admin"))
+                {
+                    <td>
+                        <form method="get" asp-action="EditExercise" asp-route-id="@exercise.ID">
+                            <button>Изменить</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form method="get" asp-action="Delete" asp-route-id="@exercise.ID">
+                            <button>Удалить</button>
+                        </form>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<h2>Голень</h2>
+@if (Model.Exercises.Where(x => x.TypeOfMuscle.NameType == "Голень").Count() == 0)
+{
+    <p>Упражнений нет!</p>
+}
+<table>
+    <tbody>
+        @foreach (var exercise in Model.Exercises.Where(x => x.TypeOfMuscle.NameType == "Голень"))
+        {
+            <tr>
+                <td><img width="200" class="imagecar" src="@Url.Content(exercise.PathImage1)" /></td>
+                <td>@Html.DisplayFor(item => exercise.NameExercise)</td>
+                <td>
+                    <form method="get" asp-action="Exercise" asp-route-id="@exercise.ID">
+                        <button>Посмотреть</button>
+                    </form>
+                </td>
+                @if (User.IsInRole("coach") | User.IsInRole("admin"))
+                {
+                    <td>
+                        <form method="get" asp-action="EditExercise" asp-route-id="@exercise.ID">
+                            <button>Изменить</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form method="get" asp-action="Delete" asp-route-id="@exercise.ID">
+                            <button>Удалить</button>
+                        </form>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<h2>Спина</h2>
+@if (Model.Exercises.Where(x => x.TypeOfMuscle.NameType == "Спина").Count() == 0)
+{
+    <p>Упражнений нет!</p>
+}
+<table>
+    <tbody>
+        @foreach (var exercise in Model.Exercises.Where(x => x.TypeOfMuscle.NameType == "Спина"))
+        {
+            <tr>
+                <td><img width="200" class="imagecar" src="@Url.Content(exercise.PathImage1)" /></td>
+                <td>@Html.DisplayFor(item => exercise.NameExercise)</td>
+                <td>
+                    <form method="get" asp-action="Exercise" asp-route-id="@exercise.ID">
+                        <button>Посмотреть</button>
+                    </form>
+                </td>
+                @if (User.IsInRole("coach") | User.IsInRole("admin"))
+                {
+                    <td>
+                        <form method="get" asp-action="EditExercise" asp-route-id="@exercise.ID">
+                            <button>Изменить</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form method="get" asp-action="Delete" asp-route-id="@exercise.ID">
+                            <button>Удалить</button>
+                        </form>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<h2>Грудь</h2>
+@if (Model.Exercises.Where(x => x.TypeOfMuscle.NameType == "Грудь").Count() == 0)
+{
+    <p>Упражнений нет!</p>
+}
+<table>
+    <tbody>
+        @foreach (var exercise in Model.Exercises.Where(x => x.TypeOfMuscle.NameType == "Грудь"))
+        {
+            <tr>
+                <td><img width="200" class="imagecar" src="@Url.Content(exercise.PathImage1)" /></td>
+                <td>@Html.DisplayFor(item => exercise.NameExercise)</td>
+                <td>
+                    <form method="get" asp-action="Exercise" asp-route-id="@exercise.ID">
+                        <button>Посмотреть</button>
+                    </form>
+                </td>
+                @if (User.IsInRole("coach") | User.IsInRole("admin"))
+                {
+                    <td>
+                        <form method="get" asp-action="EditExercise" asp-route-id="@exercise.ID">
+                            <button>Изменить</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form method="get" asp-action="Delete" asp-route-id="@exercise.ID">
+                            <button>Удалить</button>
+                        </form>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+
+@if (User.IsInRole("coach") | User.IsInRole("admin"))
+{
+    <form method="get" asp-action="CreateExercise">
+        <button>Добавить</button>
+    </form>
+}

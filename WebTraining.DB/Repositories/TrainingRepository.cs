@@ -35,7 +35,7 @@ namespace WebTraining.DB.Repositories
 
         public IEnumerable<Training> GetAll()
         {
-            return db.Training.ToList();
+            return db.Training.Include(o=>o.User);
         }
 
         public void Update(Training item)

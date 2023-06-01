@@ -1,4 +1,5 @@
 ﻿using WebTraining.Core.DTO;
+using WebTraining.DB.Models;
 
 namespace WebTraining.Core.Interfaces
 {
@@ -6,8 +7,10 @@ namespace WebTraining.Core.Interfaces
     {
         TrainingDTO GetTraining(int id);
         void DeleteTraining(int id);
-        void AddTraing(TrainingDTO training);
+        void AddTraing(TrainingDTO training, string id);
         IEnumerable<TrainingDTO> GetTrainings();
+        IEnumerable<TrainingDTO> GetNeedTraining(User user);
+        IEnumerable<User> GetAllUsers();
         void UpdateTraining(TrainingDTO training);
         void Dispose();
     }

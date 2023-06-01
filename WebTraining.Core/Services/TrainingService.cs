@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 using WebTraining.Core.DTO;
 using WebTraining.Core.Interfaces;
@@ -11,18 +12,23 @@ namespace WebTraining.Core.Services
     public class TrainingService : ITrainingService
     {
         IUnitOfWork Database { get; set; }
+        private WebTrainingContext db;
 
-        public TrainingService(IUnitOfWork unit)
+
+        public TrainingService(IUnitOfWork unit, WebTrainingContext db)
         {
             Database = unit;
+            this.db = db;
         }
 
-        public void AddTraing(TrainingDTO trainingDTO)
+        public void AddTraing(TrainingDTO trainingDTO, string id)
         {
             Training training = new Training
             {
                 NameTraining = trainingDTO.NameTraining,
-                DateTraining = trainingDTO.DateTraining.ToUniversalTime()
+                DateTraining = trainingDTO.DateTraining.ToUniversalTime(),
+                UserId=id
+                
             };
             Database.Training.Create(training);
             Database.Save();
@@ -71,6 +77,13 @@ namespace WebTraining.Core.Services
             return mapper.Map<IEnumerable<Training>, List<TrainingDTO>>(Database.Training.GetAll());
         }
 
+        public IEnumerable<TrainingDTO> GetNeedTraining(User user)
+        {
+            IEnumerable<TrainingDTO> training = GetTrainings();
+            IEnumerable<TrainingDTO> needtraining = training.Where(x => x.UserId == user.Id);
+            return needtraining;
+        }
+
         public void UpdateTraining(TrainingDTO trainingDTO)
         {
             var training = Database.Training.Get(trainingDTO.ID);
@@ -80,6 +93,9 @@ namespace WebTraining.Core.Services
             Database.Save();
         }
 
-
+        public IEnumerable<User> GetAllUsers()
+        {
+            return db.Users.ToList();
+        }
     }
 }

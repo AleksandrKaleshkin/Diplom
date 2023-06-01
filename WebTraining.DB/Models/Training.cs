@@ -16,6 +16,10 @@ namespace WebTraining.DB.Models
 
         public List<TrainingExercise> TrainingExercisies { get; set; } = new();
 
+        public string UserId { get; set; }
+
+        public User User { get; set; }
+
 
     }
 }

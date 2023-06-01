@@ -7,7 +7,7 @@ using WebTraining.Models.Roles;
 
 namespace WebTraining.Controllers
 {
-    [Authorize]
+    [Authorize(Roles ="admin") ]
     public class RolesController : Controller
     {
         RoleManager<IdentityRole> roleManager;
@@ -18,10 +18,9 @@ namespace WebTraining.Controllers
             this.userManager = userManager;
         }
 
-
         public IActionResult Index()
         {
-            return View(roleManager.Roles.ToList());
+                return View(roleManager.Roles.ToList());
         }
 
         public IActionResult Create()

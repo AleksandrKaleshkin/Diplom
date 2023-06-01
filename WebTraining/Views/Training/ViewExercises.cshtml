@@ -28,22 +28,34 @@
                     @Html.DisplayFor(item=> exercise.Repetitions)
                 </td>
                 <td>
-                    <form method="get" asp-action="EditExercise" asp-route-id="@exercise.ID">
-                        <button>Изменить</button>
+                    <form method="get" asp-controller="Exercise" asp-action="Exercise" asp-route-id="@exercise.ExerciseId">
+                        <button>Посмотреть</button>
                     </form>
                 </td>
-                <td>
-                    <form method="delete" asp-action="DeleteExercise" asp-route-id="@exercise.ID">
+
+                @if (User.IsInRole("coach") | User.IsInRole("admin"))
+                {
+                    <td>
+                        <form method="get" asp-action="EditExercise" asp-route-id="@exercise.ID">
+                            <button>Изменить</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form method="delete" asp-action="DeleteExercise" asp-route-id="@exercise.ID">
                         <button>Удалить</button>
                     </form>
                 </td>
+                }
             </tr>
         }        
     </tbody>
 </table>
-<form asp-action="AddExercise" method="get" asp-route-id="@Model.TrainingId">
-    <button>Добавить</button>
-</form>
+@if (User.IsInRole("coach"))
+{
+    <form asp-action="AddExercise" method="get" asp-route-id="@Model.TrainingId">
+        <button>Добавить</button>
+    </form>
+}
 
 
 

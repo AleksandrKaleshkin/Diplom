@@ -1,18 +1,30 @@
-﻿@model WebTraining.Core.DTO.TrainingDTO
+﻿@model AddEditTrainingViewModel
 
 <h1>Добавить тренировки</h1>
 
 <form asp-action="CreateTraining" method="post">
     <div>
-        <label asp-for="NameTraining">Название тренировки</label>
-        <input asp-for="NameTraining" />
-        <span asp-validation-for="NameTraining"></span>
+        <label asp-for="TrainingDTO.NameTraining">Название тренировки</label>
+        <input asp-for="TrainingDTO.NameTraining" />
+        <span asp-validation-for="TrainingDTO.NameTraining"></span>
     </div>
     <div>
-        <label asp-for="DateTraining">Название тренировки</label>
-        <input asp-for="DateTraining" type="date" />
-        <span asp-validation-for="DateTraining"></span>
+        <label asp-for="TrainingDTO.DateTraining">Название тренировки</label>
+        <input asp-for="TrainingDTO.DateTraining" type="date" />
+        <span asp-validation-for="TrainingDTO.DateTraining"></span>
     </div>
+    <div hidden>
+        <label asp-for="TrainingDTO.UserId"></label>
+        <input asp-for="TrainingDTO.UserId"  />
+        <span asp-validation-for="TrainingDTO.UserId"></span>
+    </div>
+
+    <div>
+        <label asp-for="TrainingDTO.UserId">Спортсмен</label>
+        <select name="user" asp-for="TrainingDTO.UserId" asp-items="Model.Users.UsersList"></select>
+        <span asp-validation-for="TrainingDTO.UserId"></span>
+    </div>
+
 
     <div>
         <input type="submit" value="Добавить" />

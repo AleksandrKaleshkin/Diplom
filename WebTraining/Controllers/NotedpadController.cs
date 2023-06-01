@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WebTraining.Core.DTO;
 using WebTraining.Core.Interfaces;
 using WebTraining.Models;
 
 namespace WebTraining.Controllers
 {
+    [Authorize]
     public class NotedpadController : Controller
     {
         readonly INotepadService notepadService;

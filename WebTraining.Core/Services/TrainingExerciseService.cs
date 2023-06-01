@@ -16,14 +16,14 @@ namespace WebTraining.Core.Services
             Database = unit;
         }
 
-        public void AddExercise(TrainingExerciseDTO exercise)
+        public void AddExercise(TrainingExerciseDTO model)
         {
             TrainingExercise trainingExercise = new TrainingExercise
-            {
-                TrainingId = exercise.TrainingId,
-                ExerciseId = exercise.ExerciseId,
-                Sets = exercise.Sets,
-                Repetitions = exercise.Repetitions
+            {                
+                TrainingId = model.TrainingId,
+                ExerciseId = model.ExerciseId,
+                Sets = model.Sets,
+                Repetitions = model.Repetitions
             };
             Database.TrainingExercise.Create(trainingExercise);
             Database.Save();
@@ -95,6 +95,12 @@ namespace WebTraining.Core.Services
                 }
             }
             throw new ValidationException();
+        }
+
+        public IEnumerable<ExerciseDTO> GetExerciseList()
+        {
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Exercise, ExerciseDTO>()).CreateMapper();
+            return mapper.Map<IEnumerable<Exercise>, List<ExerciseDTO>>(Database.Exercises.GetAll());
         }
 
         public void Dispose()

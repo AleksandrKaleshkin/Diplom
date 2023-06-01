@@ -17,8 +17,8 @@
 
     <div>
         <label asp-for="ExerciseDTO.TypeOfMuscleID">Тип мышц</label>
-        <select name="type" asp-for="ExerciseDTO.TypeOfMuscleID" asp-items="Model.TypeOfMysc.MyscList"></select>
-        @*<input asp-for="TypeOfMuscleID" />*@
+        <select asp-for="ExerciseDTO.TypeOfMuscleID" asp-items="Model.TypeOfMysc.MyscList"></select>
+
         <span asp-validation-for="ExerciseDTO.TypeOfMuscleID"></span>
     </div>
 

@@ -20,7 +20,7 @@
         <p>
             @Html.LabelFor(m => m.ExerciseDTO.TypeOfMuscleID, "Тип мышц")
             <br />
-            <select name="type" asp-for="ExerciseDTO.TypeOfMuscleID" asp-items="Model.TypeOfMysc.MyscList"></select>
+            <select asp-for="ExerciseDTO.TypeOfMuscleID" asp-items="Model.TypeOfMysc.MyscList"></select>
         </p>
 
         <p>

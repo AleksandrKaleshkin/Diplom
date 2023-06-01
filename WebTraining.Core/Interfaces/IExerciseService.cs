@@ -7,7 +7,7 @@ namespace WebTraining.Core.Interfaces
     {
         ExerciseDTO GetExercise(int id);
         void DeleteExercise(int id);
-        void AddExercise(ExerciseDTO exercise, int type);
+        void AddExercise(ExerciseDTO exercise);
         IEnumerable<ExerciseDTO> GetExercises();
         void UpdateExercise(ExerciseDTO exercise, int type);
         IEnumerable<TypeOfMuscleDTO> GetTypeOfMuscles();

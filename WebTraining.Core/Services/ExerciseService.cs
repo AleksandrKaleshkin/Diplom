@@ -16,18 +16,14 @@ namespace WebTraining.Core.Services
             Database = unit;
         }
 
-        public void AddExercise(ExerciseDTO exerciseDTO, int type)
+        public void AddExercise(ExerciseDTO exerciseDTO)
         {
-            TypeOfMuscle typeMusc = Database.Type.Get(type);
-            exerciseDTO.TypeOfMuscleID = type;
-            exerciseDTO.TypeOfMuscle = typeMusc;
-
             Exercise exercise = new Exercise
             {
                 NameExercise = exerciseDTO.NameExercise,
                 Description = exerciseDTO.Description,
-                TypeOfMuscleID= typeMusc.ID,
-                TypeOfMuscle=typeMusc,
+                TypeOfMuscleID= exerciseDTO.TypeOfMuscleID,
+                TypeOfMuscle=Database.Type.Get(exerciseDTO.TypeOfMuscleID),
                 NameImage1 = exerciseDTO.NameImage1,
                 NameImage2 = exerciseDTO.NameImage2,
                 NameImage3 = exerciseDTO.NameImage3,
@@ -70,6 +66,7 @@ namespace WebTraining.Core.Services
             {
                 ID= exercise.ID,
                 Description = exercise.Description,
+                TypeOfMuscle= Database.Type.Get(exercise.TypeOfMuscleID),
                 TypeOfMuscleID= exercise.TypeOfMuscleID,
                 NameImage1 = exercise.NameImage1,
                 NameImage2 = exercise.NameImage2,

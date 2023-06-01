@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using WebTraining.DB.Models;
 
 namespace WebTraining.Core.DTO
 {
@@ -12,5 +13,8 @@ namespace WebTraining.Core.DTO
 
         [Required(ErrorMessage = "Укажите дату тренировки")]
         public DateTime DateTraining { get; set; }
+
+        public string? UserId { get; set; }
+        public User? User { get; set; }
     }
 }

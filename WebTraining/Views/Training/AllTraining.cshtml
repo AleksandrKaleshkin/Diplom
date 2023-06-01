@@ -1,0 +1,58 @@
+﻿@model TrainingViewModel
+@{
+    ViewData["Title"] = "Тренировки";
+}
+
+<h1>База данных</h1>
+<h3>@DateTime.Now.ToString("dd MMM yyyy")</h3>
+<div>
+    <table class="tabletraining">
+        <thead>
+            <tr>
+                <th>
+                    <a>Название</a>
+                </th>
+                <th>
+                    <a>Дата тренировки</a>
+                </th>
+            </tr>
+
+        </thead>
+        <tbody>
+            @foreach (var trainig in Model.Trainings)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(item => trainig.NameTraining)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(item => trainig.DateTraining.Day)
+                        @Html.DisplayFor(item => trainig.DateTraining.DayOfWeek)
+                        @Html.DisplayFor(item => trainig.DateTraining.Year)
+                    </td>
+
+                    <td>
+                        <form method="get" asp-action="ViewExercises" asp-route-id="@trainig.ID">
+                            <button>Посмотреть</button>
+                        </form>
+                    </td>
+
+                    <td>
+                        <form method="get" asp-action="DeleteTraining" asp-route-id="@trainig.ID">
+                            <button>Удалить</button>
+                        </form>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div>
+    <form method="get" asp-action="CreateTraining">
+        <button>Добавить</button>
+    </form>
+</div>
+

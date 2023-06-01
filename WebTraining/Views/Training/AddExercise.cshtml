@@ -1,27 +1,29 @@
-﻿@model WebTraining.Core.DTO.TrainingExerciseDTO
+﻿@model WebTraining.Models.AddEditTrainingExerciseViewModel
 
 <h2>Добавление упражнения</h2>
 <form method="post" asp-action="AddExercise" >
     <div>
-        <label asp-for="ExerciseId">Упражнения</label>
-        <input asp-for="ExerciseId" />
-        <span asp-validation-for="ExerciseId"></span>
+        <label asp-for="ExerciseList">Упражнение</label>
+        <select asp-for="TrainingExercises.ExerciseId"  asp-items="Model.ExerciseList.Exercises" ></select>
+        <span asp-validation-for="ExerciseList.Exercises"></span>
+
+        <select hidden asp-for="ExerciseList.Exercises" ></select>
     </div>
     <div>
-        <label asp-for="Sets">Сеты</label>
-        <input asp-for="Sets" type="number" />
-        <span asp-validation-for="Sets"></span>
+        <label asp-for="TrainingExercises.Sets">Сеты</label>
+        <input asp-for="TrainingExercises.Sets" type="number" />
+        <span asp-validation-for="TrainingExercises.Sets"></span>
     </div>
     <div>
-        <label asp-for="Repetitions">Повторения</label>
-        <input asp-for="Repetitions" type="number" />
-        <span asp-validation-for="Repetitions"></span>
+        <label asp-for="TrainingExercises.Repetitions">Повторения</label>
+        <input asp-for="TrainingExercises.Repetitions" type="number" />
+        <span asp-validation-for="TrainingExercises.Repetitions"></span>
     </div>
 
     <div hidden>
-        <label asp-for="TrainingId">Трненировка</label>
-        <input asp-for="TrainingId" type="number" />
-        <span asp-validation-for="TrainingId"></span>
+        <label asp-for="TrainingExercises.TrainingId">Трненировка</label>
+        <input asp-for="TrainingExercises.TrainingId" type="number" />
+        <span asp-validation-for="TrainingExercises.TrainingId"></span>
     </div>
 
     <div>

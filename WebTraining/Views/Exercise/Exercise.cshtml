@@ -1,0 +1,14 @@
+﻿@using WebTraining.Core.DTO;
+@model ExerciseDTO
+
+<h2>@Model.NameExercise</h2>
+
+<a>Основные мышцы: @Model.TypeOfMuscle.NameType </a>
+
+<p>@Model.Description</p>
+
+<img width="200" class="imagecar" src="@Url.Content(Model.PathImage1)" />
+<img width="200" class="imagecar" src="@Url.Content(Model.PathImage2)" />
+<img width="200" class="imagecar" src="@Url.Content(Model.PathImage3)" />
+
+

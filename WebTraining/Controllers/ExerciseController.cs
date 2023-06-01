@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WebTraining.Core.DTO;
 using WebTraining.Core.Interfaces;
 using WebTraining.Core.Models;
@@ -7,6 +8,7 @@ using WebTraining.Models;
 
 namespace WebTraining.Controllers
 {
+    [Authorize]
     public class ExerciseController : Controller
     {
         readonly IExerciseService exerciseService;
@@ -27,6 +29,12 @@ namespace WebTraining.Controllers
             return View(viewModel);
         }
 
+        public IActionResult Exercise(int id)
+        {
+            ExerciseDTO exercise = exerciseService.GetExercise(id);
+            return View(exercise);
+        }
+
         
         [HttpGet]
         public IActionResult CreateExercise()
@@ -41,12 +49,12 @@ namespace WebTraining.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateExercise(AddEditExerciseViewModel exercise, IFormFileCollection uploadedNameImage, int type)
+        public IActionResult CreateExercise(AddEditExerciseViewModel exercise, IFormFileCollection uploadedNameImage)
         {
-            if (uploadedNameImage != null )
+            if (uploadedNameImage.Count != 0 )
             {
                 AddEditPicture(exercise, uploadedNameImage);            
-                exerciseService.AddExercise(exercise.ExerciseDTO, type);
+                exerciseService.AddExercise(exercise.ExerciseDTO);
                 return RedirectToAction("Index");
             }
             else
