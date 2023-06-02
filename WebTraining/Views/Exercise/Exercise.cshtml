@@ -8,7 +8,10 @@
 <p>@Model.Description</p>
 
 <img width="200" class="imagecar" src="@Url.Content(Model.PathImage1)" />
-<img width="200" class="imagecar" src="@Url.Content(Model.PathImage2)" />
+@if (Model.PathImage2!=null)
+{
+    <img width="200" class="imagecar" src="@Url.Content(Model.PathImage2)" />
+}
 <img width="200" class="imagecar" src="@Url.Content(Model.PathImage3)" />
 
 

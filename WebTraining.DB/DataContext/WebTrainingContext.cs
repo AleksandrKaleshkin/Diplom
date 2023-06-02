@@ -21,7 +21,6 @@ namespace WebTraining.DB.DataContext
         public WebTrainingContext(DbContextOptions options) : base(options)        
         {
             Database.EnsureCreated();
-
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -29,6 +28,7 @@ namespace WebTraining.DB.DataContext
             WebTrainingInitializer initializer = new WebTrainingInitializer();
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<TypeOfMuscle>().HasData(initializer.InitilizerType());
+
 
         }
         

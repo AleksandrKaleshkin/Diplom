@@ -50,7 +50,7 @@
         }        
     </tbody>
 </table>
-@if (User.IsInRole("coach"))
+@if (User.IsInRole("coach") | User.IsInRole("admin"))
 {
     <form asp-action="AddExercise" method="get" asp-route-id="@Model.TrainingId">
         <button>Добавить</button>

@@ -21,8 +21,4 @@
     <ProjectReference Include="..\WebTraining.Core\WebTraining.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\files\image\ExerciseImage\" />
-  </ItemGroup>
-
 </Project>

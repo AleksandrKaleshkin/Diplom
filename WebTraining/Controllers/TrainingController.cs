@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using WebTraining.Core.DTO;
 using WebTraining.Core.Interfaces;
 using WebTraining.Core.Models;
@@ -45,7 +46,8 @@ namespace WebTraining.Controllers
         }
 
 
-        [HttpGet]              
+        [HttpGet]
+
         public IActionResult CreateTraining() 
         {
             AddEditTrainingViewModel model = new AddEditTrainingViewModel
@@ -60,7 +62,7 @@ namespace WebTraining.Controllers
         public async Task<IActionResult> CreateTrainingAsync(AddEditTrainingViewModel training, string user)
         {             
                 trainingService.AddTraing(training.TrainingDTO, user);
-                return RedirectToAction("Index");
+                return RedirectToAction("AllTraining");
 
         }
 
@@ -68,7 +70,7 @@ namespace WebTraining.Controllers
         public IActionResult DeleteTraining(int id) 
         {
             trainingService.DeleteTraining(id);
-            return RedirectToAction("Index"); 
+            return RedirectToAction("AllTraining"); 
         }
 
         [HttpGet]
@@ -91,6 +93,7 @@ namespace WebTraining.Controllers
         }
         [HttpGet]
         public IActionResult AddExercise(int id) 
+        
         {
             AddEditTrainingExerciseViewModel model = new AddEditTrainingExerciseViewModel
             {
@@ -105,7 +108,7 @@ namespace WebTraining.Controllers
         public IActionResult AddExercise(AddEditTrainingExerciseViewModel model) 
         {
                 trainingExerciseService.AddExercise(model.TrainingExercises);
-                return RedirectToAction("Index");
+                return RedirectToAction("AllTraining");
         }
 
         [HttpGet]
@@ -120,7 +123,7 @@ namespace WebTraining.Controllers
         public IActionResult EditExercise(TrainingExerciseDTO exercise)
         {
             trainingExerciseService.UpdateExercise(exercise);
-            return RedirectToAction("Index");
+            return RedirectToAction("AllTraining");
 
         }
 
@@ -128,7 +131,7 @@ namespace WebTraining.Controllers
         public IActionResult DeleteExercise(int id)
         {
             trainingExerciseService.DeleteExercise(id);
-            return RedirectToAction("Index");
+            return RedirectToAction("ViewExercises");
         }
 
         public async Task<User> GetUser ()

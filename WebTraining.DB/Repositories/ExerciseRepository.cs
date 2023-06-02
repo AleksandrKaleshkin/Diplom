@@ -2,6 +2,7 @@
 using WebTraining.DB.DataContext;
 using WebTraining.DB.Interfaces;
 using WebTraining.DB.Models;
+using WebTraining.DB.Models.InitializeData;
 
 namespace WebTraining.DB.Repositories
 {
@@ -40,6 +41,13 @@ namespace WebTraining.DB.Repositories
 
         public IEnumerable<Exercise> GetAll()
         {
+         
+            if (db.Exercises.Count()==0)
+            {
+                ExerciseInitializer initializer = new ExerciseInitializer(db);
+                initializer.Initialize();
+                db.SaveChanges();
+            }
             return db.Exercises.Include(o=>o.TypeOfMuscle);
         }
 

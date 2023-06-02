@@ -6,7 +6,7 @@ namespace WebTraining.DB.DataContext
     {
         public List<TypeOfMuscle> InitilizerType()
         {
-             List<TypeOfMuscle> muscles = new List<TypeOfMuscle>
+            List<TypeOfMuscle> muscles = new List<TypeOfMuscle>
         {
                 new TypeOfMuscle { ID = 1, NameType = "Битцепс" },
                 new TypeOfMuscle { ID = 2, NameType = "Пресс" },
@@ -18,10 +18,7 @@ namespace WebTraining.DB.DataContext
                 new TypeOfMuscle { ID = 8, NameType = "Спина" },
                 new TypeOfMuscle { ID = 9, NameType = "Грудь" }};
             return muscles;
-        }
-
-
-        
-
+        }   
     }
 }
+
