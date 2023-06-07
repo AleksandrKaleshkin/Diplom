@@ -1,0 +1,34 @@
+﻿@model WebTraining.Core.DTO.MeasurementsDTO.SingleMeasurementstDTO
+
+<h1>Добавить значение</h1>
+
+<form asp-action="Add" method="post">
+    <div class="div-crud-data">
+        <label class="label-crud-data" asp-for="Value">Значение</label>
+        <input class="input-crud-data-exercise" asp-for="Value" type="number" step="0.01" />
+        <span asp-validation-for="Value"></span>
+    </div>
+    <div hidden>
+        <label asp-for="Date"></label>
+        <input asp-for="Date" type="datetime" />
+        <span asp-validation-for="Date"></span>
+    </div>
+    <div hidden>
+        <label asp-for="UserId"></label>
+        <input asp-for="UserId" />
+        <span asp-validation-for="UserId"></span>
+    </div>
+    <div hidden>
+        <label asp-for="MuscleId"></label>
+        <input asp-for="MuscleId" />
+        <span asp-validation-for="MuscleId"></span>
+    </div>
+
+
+
+
+    <div>
+        <input class="btn-add" type="submit" value="Добавить" />
+    </div>
+
+</form>

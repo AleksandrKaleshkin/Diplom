@@ -1,6 +1,8 @@
 ﻿using WebTraining.DB.DataContext;
 using WebTraining.DB.Interfaces;
 using WebTraining.DB.Models;
+using WebTraining.DB.Models.Measurements;
+using WebTraining.DB.Repositories.MeasurementsRepository;
 
 namespace WebTraining.DB.Repositories
 {
@@ -12,6 +14,9 @@ namespace WebTraining.DB.Repositories
         private TypeOfMuscleRepository typeOfMuscleRepository;
         private TrainingExerciseRepository trainingExerciseRepository;
         private NotepadRepository notepadRepository;
+        private DoubleMeasurementsRepository doublemeasurementsRepository;
+        private SingleMeasurementsRepository singlemeasurementsRepository;
+        private MusclesMeasurementsRepository musclesMeasurementsRepository;
 
         public EFUnitOfWork(WebTrainingContext db)
         {
@@ -80,6 +85,41 @@ namespace WebTraining.DB.Repositories
             }
         }
 
+        IRepository<DoubleMeasurements> IUnitOfWork.DoubleMeasurements
+        {
+            get
+            {
+                if (doublemeasurementsRepository == null)
+                {
+                    doublemeasurementsRepository = new DoubleMeasurementsRepository(db);
+                }
+                return doublemeasurementsRepository;
+            }
+        }
+
+        IRepository<SingleMeasurements> IUnitOfWork.SingleMeasurements
+        {
+            get
+            {
+                if (singlemeasurementsRepository == null)
+                {
+                    singlemeasurementsRepository = new SingleMeasurementsRepository(db);
+                }
+                return singlemeasurementsRepository;
+            }
+        }
+
+        ITypeRepository<MusclesMeasurements> IUnitOfWork.Muscles
+        {
+            get
+            {
+                if (musclesMeasurementsRepository == null)
+                {
+                    musclesMeasurementsRepository = new MusclesMeasurementsRepository(db);
+                }
+                return (ITypeRepository<MusclesMeasurements>)musclesMeasurementsRepository;
+            }
+        }
 
 
         private bool disposed = false;

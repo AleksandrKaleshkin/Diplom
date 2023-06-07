@@ -1,0 +1,36 @@
+﻿@model AddEditTrainingViewModel
+
+<h1>Редактировать тренировки</h1>
+
+<form asp-action="EditTraining" method="post">
+
+    <div class="div-crud-data">
+        <label class="label-crud-data" asp-for="TrainingDTO.NameTraining">Название тренировки</label>
+        <input class="input-crud-data" asp-for="TrainingDTO.NameTraining" />
+        <span asp-validation-for="TrainingDTO.NameTraining"></span>
+    </div>
+
+    <div class="div-crud-data">
+        <label class="label-crud-data" asp-for="TrainingDTO.DateTraining">Название тренировки</label>
+        <input asp-for="TrainingDTO.DateTraining" type="date" />
+        <span asp-validation-for="TrainingDTO.DateTraining"></span>
+    </div>
+
+    <div hidden>
+        <label asp-for="TrainingDTO.ID"></label>
+        <input asp-for="TrainingDTO.ID"  />
+        <span asp-validation-for="TrainingDTO.ID"></span>
+    </div>
+
+    <div class="div-crud-data">
+        <label class="label-crud-data" asp-for="TrainingDTO.UserId">Спортсмен</label>
+        <select class="select-crud-data" asp-for="TrainingDTO.UserId" asp-items="Model.Users.UsersList"></select>
+        <span asp-validation-for="TrainingDTO.UserId"></span>
+    </div>
+
+
+    <div>
+        <input class="btn-crud-data" type="submit" value="Изменить" />
+    </div>
+
+</form>

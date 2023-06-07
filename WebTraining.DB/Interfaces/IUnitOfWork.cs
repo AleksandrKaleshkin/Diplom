@@ -1,4 +1,5 @@
 ﻿using WebTraining.DB.Models;
+using WebTraining.DB.Models.Measurements;
 
 namespace WebTraining.DB.Interfaces
 {
@@ -9,6 +10,10 @@ namespace WebTraining.DB.Interfaces
         ITypeRepository<TypeOfMuscle> Type { get; }
         IRepository<TrainingExercise> TrainingExercise { get; } 
         IRepository<Notepad> Notepads { get; }
+        IRepository<DoubleMeasurements> DoubleMeasurements { get; }
+        IRepository<SingleMeasurements> SingleMeasurements { get; }
+        ITypeRepository<MusclesMeasurements> Muscles { get; }
+
         void Save();
     }
 }

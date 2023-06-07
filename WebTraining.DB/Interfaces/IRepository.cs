@@ -1,8 +1,11 @@
-﻿namespace WebTraining.DB.Interfaces
+﻿using WebTraining.DB.Models.Measurements;
+
+namespace WebTraining.DB.Interfaces
 {
     public interface IRepository<T> where T : class
     {
-        IEnumerable<T> GetAll();
+        IEnumerable<T>GetAll();
+
         T Get(int id);
         void Create(T item);
         void Update(T item);

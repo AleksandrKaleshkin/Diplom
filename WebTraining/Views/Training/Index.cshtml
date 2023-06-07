@@ -3,16 +3,16 @@
     ViewData["Title"] = "Тренировки";
 }
 
-<h1>База данных</h1>
+<h1>Тренировки</h1>
 <h3>@DateTime.Now.ToString("dd MMM yyyy")</h3>
 <div>
-<table class="tabletraining">
+    <table class="tabletraining">
     <thead>
-        <tr>
-        <th>
+        <tr >
+        <th >
             <a>Название</a>
         </th>
-        <th>
+        <th >
             <a>Дата тренировки</a>
         </th>
         </tr>
@@ -26,15 +26,16 @@
                     @Html.DisplayFor(item => trainig.NameTraining)
                 </td>
 
-                <td>
-                        @Html.DisplayFor(item => trainig.DateTraining.Day)
-                        @Html.DisplayFor(item => trainig.DateTraining.DayOfWeek)
-                        @Html.DisplayFor(item => trainig.DateTraining.Year)
+                    <td>
+                    <a>
+                        @Html.DisplayFor(item => trainig.DateTraining.Date)
+
+                    </a>
                 </td>
 
                 <td>
-                    <form method="get" asp-action="ViewExercises" asp-route-id="@trainig.ID" >
-                        <button>Посмотреть</button>
+                        <form  method="get" asp-action="ViewExercises" asp-route-id="@trainig.ID">
+                            <button class="btn-add">Посмотреть</button>
                     </form>
                 </td>
 

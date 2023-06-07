@@ -9,5 +9,7 @@ namespace WebTraining.Core.DTO
         public DateTime DateNote { get; set; }
 
         public string? Description { get; set; }
+
+        public string UserId { get; set; }
     }
 }

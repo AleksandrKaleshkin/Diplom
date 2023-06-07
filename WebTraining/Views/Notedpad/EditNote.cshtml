@@ -3,18 +3,21 @@
 <h1>Редактировать заметки</h1>
 
 <form method="post" asp-action="EditNote">
-    <div>
-        <label asp-for="DateNote">Дата</label>
+    <div hidden>
         <input asp-for="DateNote" type="date" />
         <span asp-validation-for="DateNote"></span>
     </div>
-    <div>
-        <label asp-for="Description">Содержание</label>
-        <textarea asp-for="Description" rows="3" cols="40"></textarea>
+    <div class="div-crud-data">
+        <label class="label-crud-data" asp-for="Description"></label>
+        <textarea class="textarea-crud-data" asp-for="Description" rows="25" cols="100"></textarea>
         <span asp-validation-for="Description"></span>
+    </div>
+    <div hidden>
+        <input asp-for="UserId" />
+        <span asp-validation-for="UserId"></span>
     </div>
 
     <div>
-        <input type="submit" value="Изменить" />
+        <input class="btn-crud-data" type="submit" value="Изменить" />
     </div>
 </form>

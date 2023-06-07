@@ -6,6 +6,6 @@ namespace WebTraining.Models
     public class AddEditTrainingExerciseViewModel
     {
         public TrainingExerciseDTO TrainingExercises { get; set; }
-        public ExerciseList ExerciseList { get; set; }
+        public ExerciseList? ExerciseList { get; set; }
     }
 }

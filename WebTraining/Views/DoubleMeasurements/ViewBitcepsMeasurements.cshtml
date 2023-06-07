@@ -1,0 +1,79 @@
+﻿@using WebTraining.Models.Measurements;
+@model BitcepsMeasurementsViewModel
+@{
+    ViewData["Title"] = "Значения";
+}
+
+<h1>Замеры битцепса</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th><a>Дата</a></th>
+            <th><a>Значение левой руки</a></th>
+            <th><a>Значение правой руки</a></th>
+            <th><a>Изменение левой руки</a></th>
+            <th><a>Изменение левой руки</a></th>
+
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var meas in Model.Measurements.OrderBy(x => x.Date).Reverse())
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(item => meas.Date)
+                </td>
+                <td align="center">
+                    @Html.DisplayFor(item => meas.LeftValue) см
+                </td>
+                <td align="center">
+                    @Html.DisplayFor(item => meas.RightValue) см
+                </td>
+                <td align="center">
+                    @if (meas.LeftChange > 0)
+                    {
+                        <a>+</a>
+
+                        @Html.DisplayFor(item => meas.LeftChange)
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(item => meas.LeftChange)
+                    }
+                </td>
+                <td align="center">
+                    @if (meas.RightChange > 0)
+                    {
+                        <a>+</a>
+
+                        @Html.DisplayFor(item => meas.RightChange)
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(item => meas.RightChange)
+                    }
+
+                </td>
+
+
+                <td>
+                    <form method="get"  asp-action="Edit" asp-route-id="@meas.ID">
+                        <button class="btn-crud-data">Изменить</button>
+                    </form>
+                </td>
+                <td>
+                    <form method="get"  asp-action="Delete" asp-route-id="@meas.ID">
+                        <button class="btn-crud-data">Удалить</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<form method="get" asp-controller="DoubleMeasurements" asp-action="Add" asp-route-id="@Model.Muscles">
+    <button class="btn-crud-data" method="get" asp-controller="DoubleMeasurements" asp-action="Add" asp-route-id="@Model.Muscles">Добавить</button>
+</form>
+

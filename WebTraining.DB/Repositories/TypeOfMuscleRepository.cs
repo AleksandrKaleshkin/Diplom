@@ -17,6 +17,7 @@ namespace WebTraining.DB.Repositories
         {
             return db.TypeOfMuscles.Find(id);
         }
+
         public IEnumerable<TypeOfMuscle> GetTypes()
         {
             return db.TypeOfMuscles.ToList();

@@ -1,0 +1,35 @@
+﻿@model WebTraining.Core.DTO.MeasurementsDTO.DoubleMeasurementsDTO
+
+<h1>Редактировать заметки</h1>
+
+<form method="post" asp-action="Edit">
+    <div class="div-crud-data">
+        <label class="label-crud-data" asp-for="LeftValue">Левое значение</label>
+        <input class="input-crud-data-exercise" asp-for="LeftValue" type="number" step="0.01" />
+        <span asp-validation-for="LeftValue"></span>
+    </div>
+    <div class="div-crud-data">
+        <label class="label-crud-data" asp-for="RightValue">Правое значение</label>
+        <input class="input-crud-data-exercise" asp-for="RightValue" type="number" step="0.01" />
+        <span asp-validation-for="RightValue"></span>
+    </div>
+
+    <div hidden>
+        <label asp-for="Date"></label>
+        <input asp-for="Date" type="datetime" />
+        <span asp-validation-for="Date"></span>
+    </div>
+    <div hidden>
+        <label asp-for="UserId"></label>
+        <input asp-for="UserId" />
+        <span asp-validation-for="UserId"></span>
+    </div>
+    <div hidden>
+        <label asp-for="MuscleId"></label>
+        <input asp-for="MuscleId" />
+        <span asp-validation-for="MuscleId"></span>
+    </div>
+    <div>
+        <input class="btn-add" type="submit" value="Изменить" />
+    </div>
+</form>

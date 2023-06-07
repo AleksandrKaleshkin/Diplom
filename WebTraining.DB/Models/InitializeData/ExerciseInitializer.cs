@@ -54,7 +54,7 @@ namespace WebTraining.DB.Models.InitializeData
                         TypeOfMuscle = db.TypeOfMuscles.FirstOrDefault(x => x.ID == 1),
                         PathImage1 = "/files/image/ExerciseImage/BaseExercise/Bitceps/2/молоток1.jpg",
                         PathImage2 = "/files/image/ExerciseImage/BaseExercise/Bitceps/2/молоток2.jpg",
-                        PathImage3 = "/files/image/ExerciseImage/BaseExercise/Muscles/bitceps.png",
+                        PathImage3 = "/files/image/ExerciseImage/BaseExercise/Muscle/bitceps.png",
                         NameImage1 = "молоток1.jpg",
                         NameImage2 = "молоток2.jpg",
                         NameImage3 = "bitceps.png"
@@ -74,7 +74,7 @@ namespace WebTraining.DB.Models.InitializeData
                         TypeOfMuscle = db.TypeOfMuscles.FirstOrDefault(x => x.ID == 1),
                         PathImage1 = "/files/image/ExerciseImage/BaseExercise/Bitceps/3/подъем1.jpg",
                         PathImage2 = "/files/image/ExerciseImage/BaseExercise/Bitceps/3/подъем2.jpg",
-                        PathImage3 = "/files/image/ExerciseImage/BaseExercise/Muscles/bitceps.png",
+                        PathImage3 = "/files/image/ExerciseImage/BaseExercise/Muscle/bitceps.png",
                         NameImage1 = "подъем1.jpg",
                         NameImage2 = "подъем2.jpg",
                         NameImage3 = "bitceps.png"

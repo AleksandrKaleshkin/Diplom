@@ -1,6 +1,6 @@
 ﻿@model TrainingExerciseViewModel
 
-<table>
+<table class="tabletraining">
     <thead>
     <tr>
         <th>
@@ -29,20 +29,20 @@
                 </td>
                 <td>
                     <form method="get" asp-controller="Exercise" asp-action="Exercise" asp-route-id="@exercise.ExerciseId">
-                        <button>Посмотреть</button>
+                        <button class="button">Посмотреть</button>
                     </form>
                 </td>
 
                 @if (User.IsInRole("coach") | User.IsInRole("admin"))
                 {
                     <td>
-                        <form method="get" asp-action="EditExercise" asp-route-id="@exercise.ID">
-                            <button>Изменить</button>
+                        <form method="get"  asp-action="EditExercise" asp-route-id="@exercise.ID">
+                            <button class="button">Изменить</button>
                         </form>
                     </td>
                     <td>
-                        <form method="delete" asp-action="DeleteExercise" asp-route-id="@exercise.ID">
-                        <button>Удалить</button>
+                        <form method="delete" asp-action="DeleteExercise" asp-route-age="@exercise.TrainingId" asp-route-id="@exercise.ID">
+                            <button class="button">Удалить</button>
                     </form>
                 </td>
                 }
@@ -53,7 +53,7 @@
 @if (User.IsInRole("coach") | User.IsInRole("admin"))
 {
     <form asp-action="AddExercise" method="get" asp-route-id="@Model.TrainingId">
-        <button>Добавить</button>
+        <button class="btn-add">Добавить</button>
     </form>
 }
 

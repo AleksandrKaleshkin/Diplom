@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Data;
 using WebTraining.Core.DTO;
 using WebTraining.Core.Interfaces;
 using WebTraining.Core.Models;
@@ -54,17 +53,54 @@ namespace WebTraining.Controllers
             {
                 TrainingDTO = new TrainingDTO{DateTraining= DateTime.Now},
                 Users = new UserList(trainingService.GetAllUsers().ToList())
+                
             };
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateTrainingAsync(AddEditTrainingViewModel training, string user)
-        {             
-                trainingService.AddTraing(training.TrainingDTO, user);
+        public async Task<IActionResult> CreateTraining(AddEditTrainingViewModel training)
+        {
+            if (ModelState.IsValid)
+            {
+                trainingService.AddTraing(training.TrainingDTO);
                 return RedirectToAction("AllTraining");
+            }
+            else
+            {
+                training.Users = new UserList(trainingService.GetAllUsers().ToList());
+                return View(training);
+            }
 
         }
+        [HttpGet]
+        public IActionResult EditTraining(int id)
+        {
+            AddEditTrainingViewModel model = new AddEditTrainingViewModel
+            {
+                TrainingDTO = trainingService.GetTraining(id),
+                Users = new UserList(trainingService.GetAllUsers().ToList())
+               
+
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult EditTraining(AddEditTrainingViewModel training)
+        {
+            if (ModelState.IsValid)
+            {
+                trainingService.UpdateTraining(training.TrainingDTO);
+                return RedirectToAction("AllTraining");
+            }
+            else
+            {
+                training.Users = new UserList(trainingService.GetAllUsers().ToList());
+                return View(training);
+            }
+        }
+
 
         [HttpGet]
         public IActionResult DeleteTraining(int id) 
@@ -99,7 +135,7 @@ namespace WebTraining.Controllers
             {
                 TrainingExercises = trainingExerciseService.GetExercise(id),
                 ExerciseList = new ExerciseList(trainingExerciseService.GetExerciseList().ToList())
-        };
+            };
             
             return View(model); 
         }
@@ -107,31 +143,52 @@ namespace WebTraining.Controllers
         [HttpPost]
         public IActionResult AddExercise(AddEditTrainingExerciseViewModel model) 
         {
+            if (ModelState.IsValid)
+            {
                 trainingExerciseService.AddExercise(model.TrainingExercises);
-                return RedirectToAction("AllTraining");
+                return RedirectToAction("ViewExercises", new { id = model.TrainingExercises.TrainingId });
+            }
+            else
+            {
+                model.ExerciseList = new ExerciseList(trainingExerciseService.GetExerciseList().ToList());
+                return View(model);
+            };
+
         }
 
         [HttpGet]
         public IActionResult EditExercise(int id)
         {
-            TrainingExerciseDTO exercise = trainingExerciseService.GetNeedExercise(id);
-            return View(exercise);  
+            AddEditTrainingExerciseViewModel model = new AddEditTrainingExerciseViewModel
+            {
+                TrainingExercises = trainingExerciseService.GetNeedExercise(id),
+                ExerciseList = new ExerciseList(trainingExerciseService.GetExerciseList().ToList())
+            };
+            return View(model);  
 
         }
 
         [HttpPost]
-        public IActionResult EditExercise(TrainingExerciseDTO exercise)
+        public IActionResult EditExercise(AddEditTrainingExerciseViewModel model)
         {
-            trainingExerciseService.UpdateExercise(exercise);
-            return RedirectToAction("AllTraining");
+            if (ModelState.IsValid)
+            {
+                trainingExerciseService.UpdateExercise(model.TrainingExercises);
+                return RedirectToAction("ViewExercises", new { id = model.TrainingExercises.TrainingId });
+            }
+            else
+            {
+                model.ExerciseList = new ExerciseList(trainingExerciseService.GetExerciseList().ToList());
+                return View(model);
+            }
 
         }
 
-        [HttpGet]
-        public IActionResult DeleteExercise(int id)
+
+        public IActionResult DeleteExercise(int id, int age)
         {
             trainingExerciseService.DeleteExercise(id);
-            return RedirectToAction("ViewExercises");
+            return RedirectToAction("ViewExercises", new { id = age });
         }
 
         public async Task<User> GetUser ()

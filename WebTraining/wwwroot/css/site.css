@@ -5,14 +5,176 @@ html {
 @media (min-width: 768px) {
   html {
     font-size: 16px;
+    
   }
 }
 
 html {
   position: relative;
   min-height: 100%;
+
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 0px;
+    background-color: #F5DEB3
+}
+
+
+
+.site-header {
+    background-color: #F4A460;
+    height: 100%;
+}
+
+.main-text {
+    text-align: center;
+    font-family:Airfool;
+    font-size: 100px;
+
+}
+
+.exerciseimage {
+    border-radius: 50px;
+    margin: 10px;
+    width: 200px;
+}
+
+.nameexercise{
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 25px;
+    align-content:center    
+}
+
+.header-text{
+    font-weight:bold;
+    font-size:20px;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.button {
+    margin-left: 20px;
+    background-color: #D2691E;
+    border: none;
+    color: white;
+    text-align: center;
+    font-size: 25px;
+    border-radius: 10px;
+}
+
+
+.htext-exercise{
+    font-family:'Cascadia Code';
+    font-size:50px;
+    text-align-last:center;
+}
+
+.btn-add {
+    background-color: #D2691E;
+    border: none;
+    color: white;
+    text-align: center;
+    font-size: 25px;
+    border-radius: 10px;
+}
+
+.btn-crud-data {
+    padding-left: 40px;
+    padding-right: 40px;
+    background-color: #D2691E;
+    border: none;
+    color: white;
+    text-align: center;
+    font-size: 25px;
+    border-radius: 10px;
+}
+
+.div-crud-data{
+    margin-bottom:20px;
+    margin-top:20px;
+}
+
+.label-crud-data{
+    font-size: 20px;
+    font-family:Arial;
+    font-style:italic;
+    font-weight:bold;
+    align-content:center;
+    align-items:center;
+    text-align-last:center;
+}
+
+.input-crud-data{
+    margin-left:20px;
+    width:350px;
+    height:30px;
+    border: none;
+    border-radius:10px
+}
+
+.textarea-crud-data {
+    border: none;
+    row-gap: initial;
+    margin-left: 10px;
+}
+
+.select-crud-data {
+    margin-left: 10px;
+    font-family: Arial;
+    text-align-last:center;
+    width: 200px;
+    height: 30px;
+    border: none;
+    border-radius: 10px;
+    appearance:none;
+}
+
+.file-crud-data{
+    font-size:15px;
+    font-family:Arial;
+}
+
+.label-view-exercise{
+    font-weight:bold;
+    font-size:20px;
+    font-family:Arial;
+}
+.p-view-exercise {
+    font-family: Arial;
+    font-size: 20px;
+}
+
+.exerciseimageview{
+    width:400px;
+    position:center;
+    margin:5px;     
+}
+
+.tabletraining{
+    font-size:25px;
+    margin: 10px;
+    width:100%;
+    
+}
+
+th td{
+    padding: 40px;
+}
+
+.input-crud-data-exercise {
+    margin-left: 20px;
+    width: 150px;
+    height: 30px;
+    border: none;
+    border-radius: 10px
+}
+.select-crud-data-exercise {
+    margin-left: 10px;
+    font-family: Arial;
+    text-align-last: center;
+    width: 500px;
+    height: 30px;
+    border: none;
+    border-radius: 10px;
+    appearance: none;
 }

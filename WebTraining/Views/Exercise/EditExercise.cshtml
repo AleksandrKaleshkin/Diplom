@@ -2,48 +2,45 @@
 
 <h1>Редактировать упражнения</h1>
 
-@using (Html.BeginForm("EditExercise", "Exercise", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    <fieldset>
-        @Html.HiddenFor(m => m.ExerciseDTO.ID)
-        <p>
-            @Html.LabelFor(m => m.ExerciseDTO.NameExercise, "Название упражнения")
-            <br />
-            @Html.EditorFor(m => m.ExerciseDTO.NameExercise)
-        </p>
-        <p>
-            @Html.LabelFor(m => m.ExerciseDTO.Description, "Описание")
-            <br />
-            @Html.TextAreaFor(m => m.ExerciseDTO.Description)
-        </p>
+<form method="post" asp-action="EditExercise" enctype="multipart/form-data">
+    <div>
+        <div class="div-crud-data">
+            <label class="label-crud-data" asp-for="ExerciseDTO.NameExercise">Название упражнения</label>
+            <input class="input-crud-data" placeholder="Введите название упражнения..." asp-for="ExerciseDTO.NameExercise" />
+            <span asp-validation-for="ExerciseDTO.NameExercise"></span>
+        </div>
 
-        <p>
-            @Html.LabelFor(m => m.ExerciseDTO.TypeOfMuscleID, "Тип мышц")
-            <br />
-            <select asp-for="ExerciseDTO.TypeOfMuscleID" asp-items="Model.TypeOfMysc.MyscList"></select>
-        </p>
+        <div class="div-crud-data">
+            <label class="label-crud-data" asp-for="ExerciseDTO.Description">Описание</label>
+            <textarea class="textarea-crud-data" placeholder="Опишите упражнение..." asp-for="ExerciseDTO.Description" rows="10" cols="70"></textarea>
+            <span asp-validation-for="ExerciseDTO.Description"></span>
+        </div>
 
-        <p>
-            @Html.LabelFor(m => m.ExerciseDTO.PathImage1, "Фото начала упражнения")
-            <br />
-            <input type="file" name="uploadedNameImage" />
-        </p>
-
-        <p>
-            @Html.LabelFor(m => m.ExerciseDTO.PathImage2, "Фото конца упражнения")
-            <br />
-            <input type="file" name="uploadedNameImage" />
-        </p>
-
-        <p>
-            @Html.LabelFor(m => m.ExerciseDTO.PathImage3, "Фото задействующих мышц")
-            <br />
-            <input type="file" name="uploadedNameImage" />
-        </p>
-
-        
+        <div class="div-crud-data">
+            <label class="label-crud-data" asp-for="ExerciseDTO.TypeOfMuscleID">Тип мышц</label>
+            <select class="select-crud-data" asp-for="ExerciseDTO.TypeOfMuscleID" asp-items="Model.TypeOfMysc.MyscList"></select>
+            <span asp-validation-for="ExerciseDTO.TypeOfMuscleID"></span>
+        </div>
 
 
-        <p><input type="submit" value="Изменить" /></p>
-    </fieldset>
-}
+        <div class="div-crud-data">
+            <label class="label-crud-data" asp-for="ExerciseDTO.NameImage1">Фото 1</label>
+            <input class="file-crud-data" type="file" name="uploadedNameImage" accept=".jpg,.png,.webm" />
+        </div>
+
+        <div class="div-crud-data">
+            <label class="label-crud-data" asp-for="ExerciseDTO.NameImage2">Фото 2</label>
+            <input class="file-crud-data"   type="file" name="uploadedNameImage" />
+        </div>
+
+        <div class="div-crud-data">
+            <label class="label-crud-data" asp-for="ExerciseDTO.NameImage3">Фото 3</label>
+            <input class="file-crud-data" type="file" name="uploadedNameImage" />
+        </div>
+
+
+
+        <input class="btn-crud-data" type="submit" value="Изменить" />
+
+    </div>
+</form>

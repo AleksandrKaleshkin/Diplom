@@ -21,13 +21,15 @@ namespace WebTraining.Core.Services
             this.db = db;
         }
 
-        public void AddTraing(TrainingDTO trainingDTO, string id)
+        public void AddTraing(TrainingDTO trainingDTO)
         {
             Training training = new Training
             {
                 NameTraining = trainingDTO.NameTraining,
                 DateTraining = trainingDTO.DateTraining.ToUniversalTime(),
-                UserId=id
+                UserId=trainingDTO.UserId,
+                User= GetUser(trainingDTO.UserId)
+                
                 
             };
             Database.Training.Create(training);
@@ -67,6 +69,7 @@ namespace WebTraining.Core.Services
                 throw new ValidationException();
             }
             return new TrainingDTO { 
+                ID= training.ID,
                 NameTraining = training.NameTraining,
                 DateTraining = training.DateTraining };
         }
@@ -88,7 +91,8 @@ namespace WebTraining.Core.Services
         {
             var training = Database.Training.Get(trainingDTO.ID);
             training.NameTraining = trainingDTO.NameTraining;
-            training.DateTraining = trainingDTO.DateTraining;
+            training.DateTraining = trainingDTO.DateTraining.ToUniversalTime();
+            training.UserId = trainingDTO.UserId;
             Database.Training.Update(training);
             Database.Save();
         }
@@ -96,6 +100,11 @@ namespace WebTraining.Core.Services
         public IEnumerable<User> GetAllUsers()
         {
             return db.Users.ToList();
+        }
+
+        private User GetUser(string id)
+        {
+            return db.Users.Find(id);
         }
     }
 }

@@ -40,7 +40,7 @@ namespace WebTraining.Controllers
             {
                 User user = new User { Email = model.Email, UserName = model.Email, Name = model.Name };
                 var result = await userManager.CreateAsync(user,model.Password);
-                userManager.AddToRoleAsync(user, "athlete");
+                await userManager.AddToRoleAsync(user, "athlete");
                 if (result.Succeeded)
                 {
                     await signInManager.SignInAsync(user, true);
@@ -58,7 +58,7 @@ namespace WebTraining.Controllers
         }
 
         [HttpGet]
-        public IActionResult Login(string returnUrl = null)            
+        public IActionResult Login(string? returnUrl = null)            
         {
 
             return View(new LoginViewModel { ReturnUrl= returnUrl});
@@ -129,7 +129,7 @@ namespace WebTraining.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize]
         public async Task<IActionResult> Edit(string id)
         {
             User user = await userManager.FindByIdAsync(id);
@@ -142,7 +142,7 @@ namespace WebTraining.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "admin")]
+        [Authorize]
         public async Task<IActionResult> Edit(EditUserViewModel model)
         {
             if (ModelState.IsValid)
@@ -157,7 +157,15 @@ namespace WebTraining.Controllers
                     var result = await userManager.UpdateAsync(user);
                     if (result.Succeeded)
                     {
-                        return RedirectToAction("ListUsers");
+                        if (User.IsInRole("admin"))
+                        {
+                            return RedirectToAction("ListUsers");
+                        }
+                        else
+                        {
+                            return RedirectToAction("Index");
+                        }
+                        
                     }
                     else
                     {
@@ -183,7 +191,7 @@ namespace WebTraining.Controllers
             return RedirectToAction("ListUsers");
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize]
         public async Task<IActionResult> ChangePassword(string id)
         {
             User user = await userManager.FindByIdAsync(id);
@@ -196,7 +204,7 @@ namespace WebTraining.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "admin")]
+        [Authorize]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {
             if (ModelState.IsValid)

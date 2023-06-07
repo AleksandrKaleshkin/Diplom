@@ -1,17 +1,18 @@
 ﻿@using WebTraining.Core.DTO;
 @model ExerciseDTO
 
-<h2>@Model.NameExercise</h2>
+<h2> @Model.NameExercise</h2>
 
-<a>Основные мышцы: @Model.TypeOfMuscle.NameType </a>
+<label class="label-view-exercise">Основные мышцы:</label>
+<p class="p-view-exercise">@Model.TypeOfMuscle.NameType </p>
+<label class="label-view-exercise">Описание:</label>
+<p class="p-view-exercise">@Model.Description</p>
 
-<p>@Model.Description</p>
-
-<img width="200" class="imagecar" src="@Url.Content(Model.PathImage1)" />
+<img width="200" class="exerciseimageview" src="@Url.Content(Model.PathImage1)" />
 @if (Model.PathImage2!=null)
 {
-    <img width="200" class="imagecar" src="@Url.Content(Model.PathImage2)" />
+    <img  class="exerciseimageview" src="@Url.Content(Model.PathImage2)" />
 }
-<img width="200" class="imagecar" src="@Url.Content(Model.PathImage3)" />
+<img  class="exerciseimageview" src="@Url.Content(Model.PathImage3)" />
 
 

@@ -1,0 +1,61 @@
+﻿@using WebTraining.Models.Measurements;
+@model WaistMeasViewModel
+@{
+    ViewData["Title"] = "Значения";
+}
+
+<h1>Замеры талии</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th><a>Дата</a></th>
+            <th><a>Значение</a></th>
+            <th><a>Изменение</a></th>
+
+
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var meas in Model.Measurements.OrderBy(x => x.Date).Reverse())
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(item => meas.Date)
+                </td>
+                <td align="center">
+                    @Html.DisplayFor(item => meas.Value) см
+                </td>
+                <td align="center">
+                    @if (meas.Change > 0)
+                    {
+                        <a>+</a>
+
+                        @Html.DisplayFor(item => meas.Change)
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(item => meas.Change)
+                    }
+                </td>
+
+
+                <td>
+                    <form method="get" asp-action="Edit" asp-route-id="@meas.ID">
+                        <button class="btn-crud-data">Изменить</button>
+                    </form>
+                </td>
+                <td>
+                    <form method="get" asp-action="Delete" asp-route-id="@meas.ID">
+                        <button class="btn-crud-data">Удалить</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<form method="get" asp-controller="SingleMeasurements" asp-action="Add" asp-route-id="@Model.Muscles">
+    <button class="btn-crud-data" method="get" asp-controller="SingleMeasurements" asp-action="Add" asp-route-id="@Model.Muscles">Добавить</button>
+</form>

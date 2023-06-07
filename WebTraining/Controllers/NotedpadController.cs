@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebTraining.Core.DTO;
 using WebTraining.Core.Interfaces;
+using WebTraining.DB.Models;
 using WebTraining.Models;
 
 namespace WebTraining.Controllers
@@ -10,14 +12,17 @@ namespace WebTraining.Controllers
     public class NotedpadController : Controller
     {
         readonly INotepadService notepadService;
+        readonly UserManager<User> userManager;
 
-        public NotedpadController(INotepadService serv)
+        public NotedpadController(INotepadService serv, UserManager<User> userManager)
         {
             notepadService = serv;
+            this.userManager = userManager;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            IEnumerable<NotepadDTO> notes=notepadService.GetNotes().ToList();
+            User user = await GetUser();
+            IEnumerable<NotepadDTO> notes=notepadService.GetNeedNotes(user).ToList();
             NoteViewModel noteView = new NoteViewModel()
             {
                 Exercises = notes
@@ -33,15 +38,21 @@ namespace WebTraining.Controllers
         }
 
         [HttpGet]
-        public IActionResult CreateNote()
+        public async Task<IActionResult> CreateNote()
         {
-            return View();
+            User user = await GetUser();
+            NotepadDTO note = new NotepadDTO
+            {
+                DateNote = TimeZoneInfo.ConvertTimeToUtc(DateTime.Now),
+                UserId = user.Id,
+            };
+            return View(note);
         }
 
         [HttpPost]
         public IActionResult CreateNote(NotepadDTO note)
         {
-            if (ModelState.IsValid != false)
+            if (ModelState.IsValid)
             {
 
                 notepadService.AddNote(note);
@@ -69,6 +80,11 @@ namespace WebTraining.Controllers
         {
             notepadService.UpdateNote(note);
             return RedirectToAction("Index");
+        }
+
+        private async Task<User> GetUser()
+        {
+            return await userManager.FindByNameAsync(User.Identity.Name);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using System.ComponentModel.DataAnnotations;
 using WebTraining.Core.DTO;
+using WebTraining.Core.DTO.MeasurementsDTO;
 using WebTraining.Core.Interfaces;
 using WebTraining.DB.Interfaces;
 using WebTraining.DB.Models;
@@ -22,6 +23,7 @@ namespace WebTraining.Core.Services
             {
                 DateNote = note.DateNote.ToUniversalTime(),
                 Description = note.Description,
+                UserId = note.UserId,
             };
             Database.Notepads.Create(notepad);
             Database.Save();
@@ -65,10 +67,16 @@ namespace WebTraining.Core.Services
             return mapper.Map<IEnumerable<Notepad>, List<NotepadDTO>>(Database.Notepads.GetAll());
         }
 
+        public IEnumerable<NotepadDTO> GetNeedNotes(User user)
+        {
+            IEnumerable<NotepadDTO> neednotes = GetNotes().Where(x => x.UserId == user.Id);
+            return neednotes;
+        }
+
         public void UpdateNote(NotepadDTO noteDTO)
         {
             var note = Database.Notepads.Get(noteDTO.ID);
-            note.DateNote = noteDTO.DateNote.ToUniversalTime();
+            note.DateNote = TimeZoneInfo.ConvertTimeToUtc(DateTime.Now);
             note.Description = noteDTO.Description;
             Database.Notepads.Update(note);
             Database.Save();

@@ -14,8 +14,12 @@ namespace WebTraining.Core.DTO
         public int TrainingId { get; set; }
         public Training? Training { get; set; }
 
+        [Required(ErrorMessage = "Укажите количество повторений")]
+        [Range(1, 200, ErrorMessage = "Недопустимое количество повторений")]
         public int Repetitions { get; set; }
 
+        [Required(ErrorMessage = "Укажите количество сетов")]
+        [Range(1, 30, ErrorMessage = "Недопустимое количество сетов")]
         public int Sets { get; set; }
     }
 }

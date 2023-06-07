@@ -26,7 +26,5 @@ namespace WebTraining.DB.Models
         public List<Training> Trainings { get; set; } = new();
 
         public List<TrainingExercise> TrainingExercise { get; set; } = new();
-
-
     }
 }

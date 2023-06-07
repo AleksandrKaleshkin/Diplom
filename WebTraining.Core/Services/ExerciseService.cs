@@ -18,8 +18,10 @@ namespace WebTraining.Core.Services
 
         public void AddExercise(ExerciseDTO exerciseDTO)
         {
+            var exercises = GetExercises();
             Exercise exercise = new Exercise
             {
+                ID= exercises.Last().ID+1,
                 NameExercise = exerciseDTO.NameExercise,
                 Description = exerciseDTO.Description,
                 TypeOfMuscleID= exerciseDTO.TypeOfMuscleID,
@@ -86,7 +88,7 @@ namespace WebTraining.Core.Services
 
         public void UpdateExercise(ExerciseDTO exerciseDTO, int type)
         {
-            TypeOfMuscle typeMusc = Database.Type.Get(type);
+            TypeOfMuscle typeMusc = Database.Type.Get(exerciseDTO.TypeOfMuscleID);
             exerciseDTO.TypeOfMuscleID = type;
             exerciseDTO.TypeOfMuscle = typeMusc;
             var exercise = Database.Exercises.Get(exerciseDTO.ID);

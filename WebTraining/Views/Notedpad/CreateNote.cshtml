@@ -3,20 +3,24 @@
 <h1>Добавить запись в блокнот</h1>
 
 <form asp-action="CreateNote" method="post">
-    <div>
-        <label asp-for="DateNote">Дата</label>
-        <input asp-for="DateNote" type="date" />
-        <span asp-validation-for="DateNote"></span>
-    </div>
-    <div>
-        <label asp-for="Description">Содержание</label>
-        <textarea asp-for="Description" rows="3" cols="40"></textarea>
+    <div class="div-crud-data">
+        <label class="label-crud-data" asp-for="Description"></label>
+        <textarea class="textarea-crud-data" asp-for="Description" rows="25" cols="100"></textarea>
         <span asp-validation-for="Description"></span>
     </div>
-
+    <div hidden>
+        <label asp-for="DateNote"></label>
+        <input asp-for="DateNote" type="datetime" />
+        <span asp-validation-for="DateNote"></span>
+    </div>
+    <div hidden>
+        <label asp-for="UserId">Содержание</label>
+        <input asp-for="UserId" />
+        <span asp-validation-for="UserId"></span>
+    </div>
 
     <div>
-        <input type="submit" value="Добавить" />
+        <input class="btn-crud-data" type="submit" value="Добавить" />
     </div>
 
 </form>

@@ -3,7 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WebTraining.Core.Interfaces;
+using WebTraining.Core.Interfaces.IMeasurements;
 using WebTraining.Core.Services;
+using WebTraining.Core.Services.MeasurementsService;
 using WebTraining.DB.DataContext;
 using WebTraining.DB.Interfaces;
 using WebTraining.DB.Models;
@@ -21,6 +23,8 @@ internal class Program
         builder.Services.AddTransient<ITrainingService, TrainingService>();
         builder.Services.AddTransient<ITrainingExerciseService,TrainingExerciseService>();
         builder.Services.AddTransient<INotepadService, NotepadService>();
+        builder.Services.AddTransient<IDoubleMeasurementsService, DoubleMeasurementsService>();
+        builder.Services.AddTransient<ISingleMeasurementstService, SingleMeasurementsService>();
         builder.Services.AddTransient<IUnitOfWork, EFUnitOfWork>();
         builder.Services.AddDbContext<WebTrainingContext>(options => options.UseNpgsql(connection));
 

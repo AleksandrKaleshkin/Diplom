@@ -9,6 +9,7 @@ namespace WebTraining.Core.Interfaces
         void DeleteNote(int id);
         void AddNote(NotepadDTO note);
         IEnumerable<NotepadDTO> GetNotes();
+        IEnumerable<NotepadDTO> GetNeedNotes(User user);
         void UpdateNote(NotepadDTO note);
         void Dispose();
     }

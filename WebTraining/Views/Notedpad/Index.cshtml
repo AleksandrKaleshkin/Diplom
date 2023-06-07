@@ -21,25 +21,24 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(item => note.DateNote.Day)
-                    @Html.DisplayFor(item => note.DateNote.Month)
-                    @Html.DisplayFor(item => note.DateNote.Year)
+                    @Html.DisplayFor(item => note.DateNote)
                 </td>
-                <td>
+                <td width="20%">
 
-
-                    @Html.DisplayFor(item => note.Description)
+                    <p width="20%">
+                        @Html.DisplayFor(item => note.Description)
+                    </p>    
                     </td>
 
 
                 <td>
                     <form method="get" asp-action="EditNote" asp-route-id="@note.ID">
-                        <button>Изменить</button>
+                        <button class="btn-crud-data">Изменить</button>
                     </form>
                 </td>
                 <td>
                     <form method="get" asp-action="DeleteNote" asp-route-id="@note.ID">
-                        <button>Удалить</button>
+                        <button class="btn-crud-data">Удалить</button>
                     </form>
                 </td>
             </tr>
@@ -48,5 +47,5 @@
 </table>
 
 <form method="get" asp-action="CreateNote">
-    <button>Добавить</button>
+    <button class="btn-crud-data">Добавить</button>
 </form>

@@ -87,6 +87,7 @@ namespace WebTraining.Core.Services
                 {
                     return new TrainingExerciseDTO
                     {
+                        ID= exercise.ID,                        
                         ExerciseId = exercise.ExerciseId,
                         TrainingId = exercise.TrainingId,
                         Repetitions = exercise.Repetitions,

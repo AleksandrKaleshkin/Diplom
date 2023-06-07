@@ -3,7 +3,7 @@
     ViewData["Title"] = "Тренировки";
 }
 
-<h1>База данных</h1>
+<h1>Все тренировки</h1>
 <h3>@DateTime.Now.ToString("dd MMM yyyy")</h3>
 <div>
     <table class="tabletraining">
@@ -14,6 +14,9 @@
                 </th>
                 <th>
                     <a>Дата тренировки</a>
+                </th>
+                <th>
+                    <a>Спортсмен</a>
                 </th>
             </tr>
 
@@ -27,20 +30,26 @@
                     </td>
 
                     <td>
-                        @Html.DisplayFor(item => trainig.DateTraining.Day)
-                        @Html.DisplayFor(item => trainig.DateTraining.DayOfWeek)
-                        @Html.DisplayFor(item => trainig.DateTraining.Year)
+                        <p>@Html.DisplayFor(item => trainig.DateTraining.Day).@Html.DisplayFor(item => trainig.DateTraining.Month).@Html.DisplayFor(item => trainig.DateTraining.Year)</p>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(item => trainig.User.Name)
                     </td>
 
                     <td>
-                        <form method="get" asp-action="ViewExercises" asp-route-id="@trainig.ID">
-                            <button>Посмотреть</button>
+                        <form method="get"  asp-action="ViewExercises" asp-route-id="@trainig.ID">
+                            <button class="button">Посмотреть</button>
+                        </form>
+                    </td>
+                     <td>
+                        <form method="get" asp-action="EditTraining" asp-route-id="@trainig.ID">
+                            <button class="button">Изменить</button>
                         </form>
                     </td>
 
                     <td>
                         <form method="get" asp-action="DeleteTraining" asp-route-id="@trainig.ID">
-                            <button>Удалить</button>
+                            <button class="button">Удалить</button>
                         </form>
                     </td>
 
@@ -52,7 +61,7 @@
 
 <div>
     <form method="get" asp-action="CreateTraining">
-        <button>Добавить</button>
+        <button class="btn-add">Добавить</button>
     </form>
 </div>
 

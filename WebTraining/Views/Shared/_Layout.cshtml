@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - WebTraining</title>
+    <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/WebTraining.styles.css" asp-append-version="true" />
@@ -11,9 +11,9 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <img src="~/files/image/siteimage/training.png" height="60px" alt="training.png" />
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">WebTraining</a>
+            <div class="container-fluid site-header">                
+                <a class="navbar-brand " asp-area="" asp-controller="Home" asp-action="Index" >
+                    <img src="~/files/image/siteimage/training.png" height="60px" alt="training.png"/> WebTraining</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -23,20 +23,21 @@
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Exercise" asp-action="Index">Упаражнения</a>
+                                <a class="nav-link text-dark header-text" asp-area="" asp-controller="Exercise" asp-action="Index">Упражнения</a>
                             </li>
                             @if (User.IsInRole("coach") | User.IsInRole("admin"))
                             {
                             <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-controller="Training" asp-action="AllTraining">Тренировки</a>
+                                    <a class="nav-link text-dark header-text" asp-controller="Training" asp-action="AllTraining">Тренировки</a>
                             </li>
                             }
                             else
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-controller="Training" asp-action="Index">Тренировки</a>
+                                    <a class="nav-link text-dark header-text" asp-controller="Training" asp-action="Index">Тренировки</a>
                                 </li>
                             }
+                            <a class="nav-link text-dark header-text" asp-area="" asp-controller="Notedpad" asp-action="Index">Блокнот</a>
                         }              
                     </ul>
                         @if (User.Identity.IsAuthenticated)
@@ -52,13 +53,13 @@
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div style="margin-bottom: 50px" class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer  class="border-top footer text-muted">
         <div class="container">
             &copy; 2023 - WebTraining
         </div>

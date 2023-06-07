@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using WebTraining.DB.Models;
+using WebTraining.DB.Models.Measurements;
 
 namespace WebTraining.DB.DataContext
 {
@@ -14,12 +15,20 @@ namespace WebTraining.DB.DataContext
 
         public DbSet<TypeOfMuscle> TypeOfMuscles { get; set; }
 
+        public DbSet<MusclesMeasurements> MusclesMeasurements { get; set; }
+
         public DbSet<Notepad> Notepads { get; set; }   
+
+        public DbSet<DoubleMeasurements> DoubleMeasurements { get; set; }
+
+        public DbSet<SingleMeasurements> SingleMeasurements { get; set; }
+
 
 
 
         public WebTrainingContext(DbContextOptions options) : base(options)        
         {
+
             Database.EnsureCreated();
         }
 
@@ -28,7 +37,7 @@ namespace WebTraining.DB.DataContext
             WebTrainingInitializer initializer = new WebTrainingInitializer();
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<TypeOfMuscle>().HasData(initializer.InitilizerType());
-
+            modelBuilder.Entity<MusclesMeasurements>().HasData(initializer.InitilizerMusclesMeasurements());
 
         }
         
