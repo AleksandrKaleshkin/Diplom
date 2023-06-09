@@ -74,13 +74,13 @@ namespace WebTraining.DB.Repositories
 
         public IEnumerable<ImageExercise> GetImages()
         {
-            if (db.ImageExercises.AsNoTracking().Count() == 0)
+            if (db.ImageExercises.Count() == 0)
             {
                 ExerciseInitializer initializer = new ExerciseInitializer(db);
                 initializer.InitializeImage();
                 db.SaveChanges();
             }
-            return db.ImageExercises.AsNoTracking().ToList();
+            return db.ImageExercises.ToList();
         }
 
         public void AddPicture(ImageExercise image)
