@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
-using WebTraining.Core.DTO;
 using WebTraining.Core.DTO.MeasurementsDTO;
 using WebTraining.Core.Interfaces.IMeasurements;
 using WebTraining.DB.Interfaces;
@@ -13,11 +11,11 @@ namespace WebTraining.Core.Services.MeasurementsService
 {
     public class DoubleMeasurementsService : IDoubleMeasurementsService
     {
-        IUnitOfWork DataBase { get; set; }
+        private readonly IDoubleMeasRepository<DoubleMeasurements> service;
 
-        public DoubleMeasurementsService(IUnitOfWork DataBase)
+        public DoubleMeasurementsService(IDoubleMeasRepository<DoubleMeasurements> service)
         {
-            this.DataBase = DataBase;
+            this.service = service;
         }
 
         public void AddMeasurement(DoubleMeasurementsDTO measDTO, User user)
@@ -26,25 +24,21 @@ namespace WebTraining.Core.Services.MeasurementsService
             if (meass.Count()>0)
             {
                 var premeas = GetPreMeasurement(meass.Last());
-                var LeftValue = (float)Decimal.Parse(measDTO.LeftValue, CultureInfo.InvariantCulture);
-                var RightValue = (float)Decimal.Parse(measDTO.RightValue, CultureInfo.InvariantCulture);
-                var PreLeftValue = (float)Decimal.Parse(premeas.LeftValue);
-                var PreRightValue = (float)Decimal.Parse(premeas.RightValue);
                 if (premeas != null)
                 {
                     DoubleMeasurements meas = new DoubleMeasurements
                     {
                         Date = measDTO.Date.ToUniversalTime(),
-                        LeftValue = (float)LeftValue,
-                        RightValue = (float)RightValue,
-                        LeftChange = (float)Math.Round((LeftValue - PreLeftValue), 4),
-                        RightChange = (float)Math.Round((RightValue - PreRightValue),4),
+                        LeftValue = measDTO.LeftValue,
+                        RightValue = measDTO.RightValue,
+                        LeftChange = (float)Math.Round((measDTO.LeftValue - premeas.LeftValue), 3),
+                        RightChange = (float)Math.Round((measDTO.RightValue - premeas.RightValue),3),
                         UserId = measDTO.UserId,
                         MuscleId=measDTO.MuscleId,
-                        TypeOfMuscle=DataBase.Muscles.Get(measDTO.MuscleId)
+                        TypeOfMuscle=service.GetMuscles(measDTO.MuscleId)
                     };
-                    DataBase.DoubleMeasurements.Create(meas);
-                    DataBase.Save();
+                    service.Create(meas);
+                    service.Save();
                 }
             }
             else
@@ -52,15 +46,15 @@ namespace WebTraining.Core.Services.MeasurementsService
                     DoubleMeasurements meas = new DoubleMeasurements
                     {
                         Date = measDTO.Date.ToUniversalTime(),
-                        LeftValue = (float)Decimal.Parse(measDTO.LeftValue, CultureInfo.InvariantCulture.NumberFormat),
-                        RightValue = (float)Decimal.Parse(measDTO.RightValue, CultureInfo.InvariantCulture.NumberFormat),
+                        LeftValue = measDTO.LeftValue,
+                        RightValue = measDTO.RightValue,
                         LeftChange = 0,
                         RightChange = 0,
                         UserId = measDTO.UserId,
                         MuscleId=measDTO.MuscleId
                     };
-                    DataBase.DoubleMeasurements.Create(meas);
-                    DataBase.Save();            
+                    service.Create(meas);
+                    service.Save();            
             }
         }
 
@@ -68,8 +62,8 @@ namespace WebTraining.Core.Services.MeasurementsService
         {
             if (id != 0)
             {
-                DataBase.DoubleMeasurements.Delete(id);
-                DataBase.Save();
+                service.Delete(id);
+                service.Save();
             }
             else
             {
@@ -77,31 +71,24 @@ namespace WebTraining.Core.Services.MeasurementsService
             }
         }
 
-        public void Dispose()
-        {
-            DataBase.Dispose();
-        }
-
         public DoubleMeasurementsDTO GetMeasurement(int id)
         {
             if (id!= 0)
             {
-                var meas = DataBase.DoubleMeasurements.Get(id);
+                var meas = service.Get(id);
                     if (meas!=null)
                     {
-                    var LeftValue = meas.LeftValue.ToString();
                     return new DoubleMeasurementsDTO
                     {
                         Date = meas.Date,
-                        LeftValue = LeftValue,
-                        RightValue = meas.RightValue.ToString(),
+                        LeftValue = meas.LeftValue,
+                        RightValue = meas.RightValue,
                         LeftChange = meas.LeftChange,
                         RightChange = meas.RightChange,
                         UserId = meas.UserId,
                         MuscleId =meas.MuscleId
                     };
                     }
-                throw new ValidationException("Измерение не найдено");
             }
             throw new ValidationException("Измерение не найдено");
         }
@@ -109,47 +96,49 @@ namespace WebTraining.Core.Services.MeasurementsService
         public IEnumerable<DoubleMeasurementsDTO> GetMeasurements()
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<DoubleMeasurements, DoubleMeasurementsDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<DoubleMeasurements>, List<DoubleMeasurementsDTO>>(DataBase.DoubleMeasurements.GetAll());
+            return mapper.Map<IEnumerable<DoubleMeasurements>, List<DoubleMeasurementsDTO>>(service.GetAll());
         }
 
         public IEnumerable<DoubleMeasurementsDTO> GetNeedMeasurements(User user, int type)
         {
-            IEnumerable<DoubleMeasurementsDTO> needmeas = GetMeasurements().Where(x => x.UserId == user.Id).Where(y=>y.MuscleId ==type);
+            IEnumerable<DoubleMeasurementsDTO> needmeas = GetMeasurements().Where(x => x.UserId == user.Id).Where(y => y.MuscleId == type);
+            foreach (var item in needmeas)
+            {
+                item.Date = item.Date.ToLocalTime();
+            }
             return needmeas;
         }
 
+
         public void UpdateMeasurement(DoubleMeasurementsDTO measDTO, User user)
         {
-            var meas = DataBase.DoubleMeasurements.Get(measDTO.ID);
+            var meas = service.Get(measDTO.ID);
             var meass = GetNeedMeasurements(user, measDTO.MuscleId);
             if (meas != null)
             {
                 if (meass.Count()!=1)
                 {
                     DoubleMeasurementsDTO premeas = GetPreMeasurement(meass.Reverse().Skip(1).FirstOrDefault());
-                    var LeftValue = (float)Decimal.Parse(measDTO.LeftValue, CultureInfo.InvariantCulture);
-                    var RightValue = (float)Decimal.Parse(measDTO.RightValue, CultureInfo.InvariantCulture);
-                    var PreLeftValue = (float)Decimal.Parse(premeas.LeftValue);
-                    var PreRightValue = (float)Decimal.Parse(premeas.RightValue);
+
                     meas.Date = measDTO.Date.ToUniversalTime();
-                    meas.LeftValue = LeftValue;
-                    meas.RightValue = RightValue;
+                    meas.LeftValue = measDTO.LeftValue;
+                    meas.RightValue = measDTO.RightValue;
                     meas.MuscleId= measDTO.MuscleId;
-                    meas.LeftChange = (float)Math.Round((LeftValue - PreLeftValue),4);
-                    meas.RightChange = (float)Math.Round((RightValue - PreRightValue),4);
-                    DataBase.DoubleMeasurements.Update(meas);
-                    DataBase.Save();
+                    meas.LeftChange = (float)Math.Round((measDTO.LeftValue - premeas.LeftValue),3);
+                    meas.RightChange = (float)Math.Round((measDTO.RightValue - premeas.RightValue),3);
+                    service.Update(meas);
+                    service.Save();
                 }
                 else
                 {
                     meas.Date = measDTO.Date.ToUniversalTime();
                     meas.MuscleId = measDTO.MuscleId;
-                    meas.LeftValue = (float)Decimal.Parse(measDTO.LeftValue, CultureInfo.GetCultureInfo("en-US"));
-                    meas.RightValue = (float)Decimal.Parse(measDTO.RightValue, CultureInfo.GetCultureInfo("en-US"));
+                    meas.LeftValue = measDTO.LeftValue;
+                    meas.RightValue = measDTO.RightValue;
                     meas.LeftChange = 0;
                     meas.RightChange = 0;
-                    DataBase.DoubleMeasurements.Update(meas);
-                    DataBase.Save();
+                    service.Update(meas);
+                    service.Save();
                 }
             }
         }
@@ -160,8 +149,8 @@ namespace WebTraining.Core.Services.MeasurementsService
             {
                 ID = premeas.ID,
                 Date = premeas.Date,
-                LeftValue = premeas.LeftValue.ToString(),
-                RightValue = premeas.RightValue.ToString(),
+                LeftValue = premeas.LeftValue,
+                RightValue = premeas.RightValue,
                 LeftChange = premeas.LeftChange,
                 RightChange = premeas.RightChange,
                 UserId = premeas.UserId,
@@ -173,13 +162,12 @@ namespace WebTraining.Core.Services.MeasurementsService
         private IEnumerable<MusclesMeasurementsDTO> GetTypeOfMuscles()
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<MusclesMeasurements, MusclesMeasurementsDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<MusclesMeasurements>, List<MusclesMeasurementsDTO>>(DataBase.Muscles.GetTypes());
+            return mapper.Map<IEnumerable<MusclesMeasurements>, List<MusclesMeasurementsDTO>>(service.GetTypes());
         }
 
         public MusclesMeasurementsDTO GetTypeOfMuscle(string type)
         {
-            IEnumerable <MusclesMeasurementsDTO > muscles = GetTypeOfMuscles();
-            return muscles.FirstOrDefault(x => x.Name == type);
+            return GetTypeOfMuscles().FirstOrDefault(x => x.Name == type);
         }
     }
 }

@@ -8,7 +8,7 @@ namespace WebTraining.DB.Models.InitializeData
         {
             //Почитать как поместить в конфигурацию и затем передать в метод
             string adminEmail = "admin@mail.ru";
-            string adminPassword = "admin@12345";
+            string adminPassword = "Admin@!12345";
             if (await roleManager.FindByNameAsync("admin") == null)
             {
                 await roleManager.CreateAsync(new IdentityRole("admin"));

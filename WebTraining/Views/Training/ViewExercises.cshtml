@@ -1,5 +1,7 @@
 ﻿@model TrainingExerciseViewModel
-
+@{
+    ViewData["Title"] = "Тренировки";
+}
 <table class="tabletraining">
     <thead>
     <tr>
@@ -41,7 +43,7 @@
                         </form>
                     </td>
                     <td>
-                        <form method="delete" asp-action="DeleteExercise" asp-route-age="@exercise.TrainingId" asp-route-id="@exercise.ID">
+                        <form method="delete" asp-action="DeleteExercise" asp-route-id="@exercise.ID">
                             <button class="button">Удалить</button>
                     </form>
                 </td>

@@ -43,7 +43,6 @@ namespace WebTraining.Controllers
             User user = await GetUser();
             NotepadDTO note = new NotepadDTO
             {
-                DateNote = TimeZoneInfo.ConvertTimeToUtc(DateTime.Now),
                 UserId = user.Id,
             };
             return View(note);
@@ -54,7 +53,6 @@ namespace WebTraining.Controllers
         {
             if (ModelState.IsValid)
             {
-
                 notepadService.AddNote(note);
                 return RedirectToAction("Index");
             }

@@ -2,9 +2,9 @@
 
 namespace WebTraining.Models
 {
-    public class ExerciseViewModel
+    public class ExerciseEViewModel
     {
-        public IEnumerable<ExerciseDTO> Exercises { get; set; }
+        public ExerciseDTO Exercise { get; set; }
         public IEnumerable<ImageExerciseDTO> Image { get; set; }
     }
 }

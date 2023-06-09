@@ -1,24 +1,27 @@
 ﻿@model WebTraining.Models.User.LoginViewModel
+@{
+    ViewData["Title"] = "Вход";
+}
 
-<h2>Вход в приложение</h2>
+<h2>Вход</h2>
 <form method="post" asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Model.ReturnUrl">
     <div asp-validation-summary="ModelOnly"></div>
         <div>
-            <label asp-for="Email"></label><br />
-            <input asp-for="Email" />
+            <label class="label-crud-data" asp-for="Email"></label><br />
+        <input class="input-crud-in" asp-for="Email" />
             <span asp-validation-for="Email"></span>
         </div>
         <div>
-            <label asp-for="Password"></label><br />
-            <input asp-for="Password" />
+            <label class="label-crud-data" asp-for="Password"></label><br />
+        <input class="input-crud-in" asp-for="Password" type="password" />
             <span asp-validation-for="Password"></span>
         </div>
         <div>
-            <label asp-for="RememberMe"></label><br />
-            <input asp-for="RememberMe" />
+            <label class="label-crud-data" asp-for="RememberMe"></label><br />
+            <input style="height: 20px" asp-for="RememberMe" />
         </div>
         <div>
-            <input type="submit" value="Войти" />
+        <input class="btn-add" type="submit" value="Войти" />
         </div>   
 
 </form>

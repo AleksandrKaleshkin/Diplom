@@ -1,4 +1,6 @@
-﻿using WebTraining.Core.DTO;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
+using WebTraining.Core.DTO;
 using WebTraining.DB.Models;
 
 namespace WebTraining.Core.Interfaces
@@ -9,8 +11,13 @@ namespace WebTraining.Core.Interfaces
         void DeleteExercise(int id);
         void AddExercise(ExerciseDTO exercise);
         IEnumerable<ExerciseDTO> GetExercises();
-        void UpdateExercise(ExerciseDTO exercise, int type);
+        void UpdateExercise(ExerciseDTO exercise);
+        void DeleteImage(int id);
+
+        void AddPicture(ImageExerciseDTO image);
+        IEnumerable<ImageExerciseDTO> GetImageExercises(ExerciseDTO exercise);
+        IEnumerable<ImageExerciseDTO> GetImages();
+
         IEnumerable<TypeOfMuscleDTO> GetTypeOfMuscles();
-        void Dispose();
     }
 }

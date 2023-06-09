@@ -1,31 +1,29 @@
-﻿@model WebTraining.Core.DTO.MeasurementsDTO.SingleMeasurementstDTO
+﻿@using WebTraining.Models.Measurements;
+@model AddSingleMeasViewModel;
 
 <h1>Добавить значение</h1>
 
 <form asp-action="Add" method="post">
     <div class="div-crud-data">
-        <label class="label-crud-data" asp-for="Value">Значение</label>
-        <input class="input-crud-data-exercise" asp-for="Value" type="number" step="0.01" />
-        <span asp-validation-for="Value"></span>
+        <label class="label-crud-data" asp-for="Measurementst.Value">Значение</label>
+        <input class="input-crud-data-exercise" asp-for="Measurementst.Value" type="text" maxlength="6" />
+        <span asp-validation-for="Measurementst.Value"></span>
     </div>
     <div hidden>
-        <label asp-for="Date"></label>
-        <input asp-for="Date" type="datetime" />
-        <span asp-validation-for="Date"></span>
+        <label asp-for="Measurementst.Date"></label>
+        <input asp-for="Measurementst.Date" type="datetime" />
+        <span asp-validation-for="Measurementst.Date"></span>
     </div>
     <div hidden>
-        <label asp-for="UserId"></label>
-        <input asp-for="UserId" />
-        <span asp-validation-for="UserId"></span>
+        <label asp-for="Measurementst.UserId"></label>
+        <input asp-for="Measurementst.UserId" />
+        <span asp-validation-for="Measurementst.UserId"></span>
     </div>
     <div hidden>
-        <label asp-for="MuscleId"></label>
-        <input asp-for="MuscleId" />
-        <span asp-validation-for="MuscleId"></span>
+        <label asp-for="Measurementst.MuscleId"></label>
+        <input asp-for="Measurementst.MuscleId" />
+        <span asp-validation-for="Measurementst.MuscleId"></span>
     </div>
-
-
-
 
     <div>
         <input class="btn-add" type="submit" value="Добавить" />

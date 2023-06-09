@@ -12,6 +12,5 @@ namespace WebTraining.Core.Interfaces.IMeasurements
         void UpdateMeasurement(DoubleMeasurementsDTO measDTO, User user);
         IEnumerable<DoubleMeasurementsDTO> GetNeedMeasurements(User user, int type);
         MusclesMeasurementsDTO GetTypeOfMuscle(string type);
-        void Dispose();
     }
 }

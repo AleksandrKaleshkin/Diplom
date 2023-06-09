@@ -68,22 +68,25 @@ namespace WebTraining.Controllers.MeasurementsController
         public async Task<IActionResult> Add(string id)
         {
             User user = await GetUser();
-            DoubleMeasurementsDTO meas = new DoubleMeasurementsDTO
+            AddDoubleMeasViewModel meas = new AddDoubleMeasViewModel
             {
-                Date = TimeZoneInfo.ConvertTimeToUtc(DateTime.Now),
-                UserId = user.Id,
-                MuscleId = doubleMeasurementsService.GetTypeOfMuscle(id).ID
+                Measurementst= new DoubleMeasurementsDTO() 
+                {
+                    Date = DateTime.Now,
+                    UserId = user.Id,
+                    MuscleId = doubleMeasurementsService.GetTypeOfMuscle(id).ID
+                }
             };
             return View(meas);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(DoubleMeasurementsDTO meas)
+        public async Task<IActionResult> Add(AddDoubleMeasViewModel meas)
         {
             User user = await GetUser();
-            if (meas.LeftValue!= null & meas.RightValue!=null)
+            if (ModelState.IsValid)
             {
-                doubleMeasurementsService.AddMeasurement(meas, user);
+                doubleMeasurementsService.AddMeasurement(meas.Measurementst, user);
                 return RedirectToAction("Index", "Account");
             }
             else

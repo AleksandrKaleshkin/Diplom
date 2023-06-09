@@ -1,19 +1,23 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
 using System.ComponentModel.DataAnnotations;
 using WebTraining.Core.DTO;
 using WebTraining.Core.Interfaces;
 using WebTraining.DB.Interfaces;
 using WebTraining.DB.Models;
+using WebTraining.DB.Models.InitializeData;
 
 namespace WebTraining.Core.Services
 {
     public class ExerciseService : IExerciseService
     {
-        IUnitOfWork Database { get; set; }
+        IExerciseRepository<Exercise> service { get; set; }
 
-        public ExerciseService(IUnitOfWork unit)
+
+        public ExerciseService(IExerciseRepository<Exercise> service)
         {
-            Database = unit;
+            this.service = service;
         }
 
         public void AddExercise(ExerciseDTO exerciseDTO)
@@ -21,21 +25,15 @@ namespace WebTraining.Core.Services
             var exercises = GetExercises();
             Exercise exercise = new Exercise
             {
-                ID= exercises.Last().ID+1,
                 NameExercise = exerciseDTO.NameExercise,
                 Description = exerciseDTO.Description,
                 TypeOfMuscleID= exerciseDTO.TypeOfMuscleID,
-                TypeOfMuscle=Database.Type.Get(exerciseDTO.TypeOfMuscleID),
-                NameImage1 = exerciseDTO.NameImage1,
-                NameImage2 = exerciseDTO.NameImage2,
-                NameImage3 = exerciseDTO.NameImage3,
-                PathImage1 = exerciseDTO.PathImage1,
-                PathImage2 = exerciseDTO.PathImage2,
-                PathImage3 = exerciseDTO.PathImage3
+                TypeOfMuscle=service.GetType(exerciseDTO.TypeOfMuscleID)
             };
-            Database.Exercises.Create(exercise);
-            Database.Save();
+            service.Create(exercise);
+            service.Save();
         }
+
 
         public void DeleteExercise(int id)
         {
@@ -43,15 +41,12 @@ namespace WebTraining.Core.Services
             {
                 throw new ValidationException("Упражнение не найден");
             }
-            ExerciseDTO exercise= GetExercise(id);          
-            Database.Exercises.Delete(id);
-            Database.Save();
+            ExerciseDTO exercise= GetExercise(id);
+            service.Delete(id);
+            service.Save();
         }
 
-        public void Dispose()
-        {
-            Database.Dispose();
-        }
+
 
         public ExerciseDTO GetExercise(int id)
         {
@@ -59,7 +54,7 @@ namespace WebTraining.Core.Services
             {
                 throw new ValidationException();
             }
-            var exercise = Database.Exercises.Get(id);
+            var exercise = service.Get(id);
             if (exercise==null)
             {
                 throw new ValidationException();
@@ -68,14 +63,8 @@ namespace WebTraining.Core.Services
             {
                 ID= exercise.ID,
                 Description = exercise.Description,
-                TypeOfMuscle= Database.Type.Get(exercise.TypeOfMuscleID),
+                TypeOfMuscle= service.GetType(exercise.TypeOfMuscleID),
                 TypeOfMuscleID= exercise.TypeOfMuscleID,
-                NameImage1 = exercise.NameImage1,
-                NameImage2 = exercise.NameImage2,
-                NameImage3 = exercise.NameImage3,
-                PathImage1 = exercise.PathImage1,
-                PathImage2 = exercise.PathImage2,
-                PathImage3 = exercise.PathImage3,
                 NameExercise = exercise.NameExercise
             };
         }
@@ -83,33 +72,54 @@ namespace WebTraining.Core.Services
         public IEnumerable<ExerciseDTO> GetExercises()
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Exercise, ExerciseDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<Exercise>, List<ExerciseDTO>>(Database.Exercises.GetAll());
+            return mapper.Map<IEnumerable<Exercise>, List<ExerciseDTO>>(service.GetAll());
         }
 
-        public void UpdateExercise(ExerciseDTO exerciseDTO, int type)
+        public void UpdateExercise(ExerciseDTO exerciseDTO)
         {
-            TypeOfMuscle typeMusc = Database.Type.Get(exerciseDTO.TypeOfMuscleID);
-            exerciseDTO.TypeOfMuscleID = type;
-            exerciseDTO.TypeOfMuscle = typeMusc;
-            var exercise = Database.Exercises.Get(exerciseDTO.ID);
+            exerciseDTO.TypeOfMuscle = service.GetType(exerciseDTO.TypeOfMuscleID);
+            var exercise = service.Get(exerciseDTO.ID);
             exercise.NameExercise = exerciseDTO.NameExercise;
             exercise.Description= exerciseDTO.Description;
-            exercise.TypeOfMuscleID = typeMusc.ID;
-            exercise.TypeOfMuscle = typeMusc;
-            exercise.NameImage1 = exerciseDTO.NameImage1;
-            exercise.NameImage2 = exerciseDTO.NameImage2;
-            exercise.NameImage3 = exerciseDTO.NameImage3;
-            exercise.PathImage1= exerciseDTO.PathImage1;
-            exercise.PathImage2 = exerciseDTO.PathImage2;
-            exercise.PathImage3 = exerciseDTO.PathImage3;
-            Database.Exercises.Update(exercise);
-            Database.Save();
+            exercise.TypeOfMuscleID = exerciseDTO.TypeOfMuscleID;
+            exercise.TypeOfMuscle = exercise.TypeOfMuscle;
+            service.Update(exercise);
+            service.Save();
         }
 
         public IEnumerable<TypeOfMuscleDTO> GetTypeOfMuscles()
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<TypeOfMuscle, TypeOfMuscleDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<TypeOfMuscle>, List<TypeOfMuscleDTO>>(Database.Type.GetTypes());            
+            return mapper.Map<IEnumerable<TypeOfMuscle>, List<TypeOfMuscleDTO>>(service.GetTypes());            
+        }
+
+        public void AddPicture(ImageExerciseDTO image)
+        {
+            ImageExercise imageExercise = new ImageExercise
+            {
+                NameImage = image.NameImage,
+                PathImage = image.PathImage,
+                ExerciseID = image.ExerciseID,
+                Exercise = service.Get(image.ExerciseID)
+            };
+            service.AddPicture(imageExercise);
+        }
+
+        public IEnumerable<ImageExerciseDTO> GetImageExercises(ExerciseDTO exercise)
+        {
+            var exercisedb = service.Get(exercise.ID);
+            return GetImages().Where(x=>x.ExerciseID==exercisedb.ID);
+        }
+
+        public void DeleteImage(int id)
+        {
+            service.DeleteImage(id);
+        }
+
+        public IEnumerable<ImageExerciseDTO> GetImages()
+        {
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<ImageExercise, ImageExerciseDTO>()).CreateMapper();
+            return mapper.Map<IEnumerable<ImageExercise>, List<ImageExerciseDTO>>(service.GetImages());
         }
     }
 }

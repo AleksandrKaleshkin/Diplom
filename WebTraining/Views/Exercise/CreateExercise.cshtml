@@ -1,4 +1,7 @@
 ﻿@model AddEditExerciseViewModel
+@{
+    ViewData["Title"] = "Упражнения";
+}
 
 <h1>Добавить упражнение</h1>
 
@@ -24,18 +27,18 @@
 
 
     <div class="div-crud-data">
-            <label class="label-crud-data" asp-for="ExerciseDTO.NameImage1">Фото 1</label>
-        <input asp-for="ExerciseDTO.NameImage1" class="file-crud-data" type="file" name="uploadedNameImage" />
+            <label class="label-crud-data" >Фото 1</label>
+        <input class="file-crud-data" type="file" name="uploadedNameImage" />
     </div>
 
     <div class="div-crud-data">
-        <label class="label-crud-data" asp-for="ExerciseDTO.NameImage1">Фото 2</label>
-            <input asp-for="ExerciseDTO.NameImage2" class="file-crud-data" border="none" type="file" name="uploadedNameImage" />
+        <label class="label-crud-data" >Фото 2</label>
+            <input  class="file-crud-data" border="none" type="file" name="uploadedNameImage" />
     </div>
 
     <div class="div-crud-data">
-        <label class="label-crud-data" asp-for="ExerciseDTO.NameImage1">Фото 3</label>
-            <input asp-for="ExerciseDTO.NameImage3" class="file-crud-data" type="file" name="uploadedNameImage" />
+        <label class="label-crud-data" >Фото 3</label>
+            <input  class="file-crud-data" type="file" name="uploadedNameImage" />
     </div>
 
 

@@ -11,14 +11,11 @@ namespace WebTraining.Core.Services
 {
     public class TrainingService : ITrainingService
     {
-        IUnitOfWork Database { get; set; }
-        private WebTrainingContext db;
+        ITrainingRepository<Training> service { get; set; }
 
-
-        public TrainingService(IUnitOfWork unit, WebTrainingContext db)
+        public TrainingService(ITrainingRepository<Training> service)
         {
-            Database = unit;
-            this.db = db;
+            this.service = service;
         }
 
         public void AddTraing(TrainingDTO trainingDTO)
@@ -28,33 +25,21 @@ namespace WebTraining.Core.Services
                 NameTraining = trainingDTO.NameTraining,
                 DateTraining = trainingDTO.DateTraining.ToUniversalTime(),
                 UserId=trainingDTO.UserId,
-                User= GetUser(trainingDTO.UserId)
-                
-                
+                User= service.GetUser(trainingDTO.UserId)              
             };
-            Database.Training.Create(training);
-            Database.Save();
-
-
+            service.Create(training);
         }
 
         public void DeleteTraining(int id)
         {
             if (id!= 0)
-            {
-               
-                Database.Training.Delete(id);
-                Database.Save();
+            {               
+                service.Delete(id);
             }
             else
             {
                 throw new ValidationException("Тренировка не найдена");
             }
-        }
-
-        public void Dispose()
-        {
-            Database.Dispose();
         }
 
         public TrainingDTO GetTraining(int id)
@@ -63,7 +48,7 @@ namespace WebTraining.Core.Services
             {
                 throw new ValidationException();
             }
-            var training = Database.Training.Get(id);
+            var training = service.Get(id);
             if (training==null)
             {
                 throw new ValidationException();
@@ -74,11 +59,22 @@ namespace WebTraining.Core.Services
                 DateTraining = training.DateTraining };
         }
 
-        public IEnumerable<TrainingDTO> GetTrainings()
+        public IEnumerable<TrainingDTO> GetTrainingss()
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Training, TrainingDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<Training>, List<TrainingDTO>>(Database.Training.GetAll());
+            return mapper.Map<IEnumerable<Training>, List<TrainingDTO>>(service.GetAll());
         }
+
+        public IEnumerable<TrainingDTO> GetTrainings()
+        {
+            IEnumerable<TrainingDTO> training = GetTrainingss();
+            foreach (var item in training)
+            {
+                item.DateTraining = item.DateTraining.ToLocalTime();
+            }
+            return training;
+        }
+
 
         public IEnumerable<TrainingDTO> GetNeedTraining(User user)
         {
@@ -89,22 +85,16 @@ namespace WebTraining.Core.Services
 
         public void UpdateTraining(TrainingDTO trainingDTO)
         {
-            var training = Database.Training.Get(trainingDTO.ID);
+            var training = service.Get(trainingDTO.ID);
             training.NameTraining = trainingDTO.NameTraining;
             training.DateTraining = trainingDTO.DateTraining.ToUniversalTime();
             training.UserId = trainingDTO.UserId;
-            Database.Training.Update(training);
-            Database.Save();
+            service.Update(training);
         }
 
         public IEnumerable<User> GetAllUsers()
         {
-            return db.Users.ToList();
-        }
-
-        private User GetUser(string id)
-        {
-            return db.Users.Find(id);
+            return service.GetAllUsers();
         }
     }
 }

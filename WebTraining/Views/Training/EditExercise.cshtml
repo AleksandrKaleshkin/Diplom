@@ -1,5 +1,7 @@
 ﻿@model WebTraining.Models.AddEditTrainingExerciseViewModel
-
+@{
+    ViewData["Title"] = "Тренировки";
+}
 <h1>Редактировать упражнения</h1>
 
 <form method="post" asp-action="EditExercise">
@@ -12,12 +14,12 @@
     </div>
     <div class="div-crud-data">
         <label class="label-crud-data" asp-for="TrainingExercises.Sets">Сеты</label>
-        <input class="input-crud-data-exercise" asp-for="TrainingExercises.Sets" type="number" />
+        <input class="input-crud-data-exercise" asp-for="TrainingExercises.Sets" type="number" max="30" />
         <span asp-validation-for="TrainingExercises.Sets"></span>
     </div>
     <div class="div-crud-data">
         <label class="label-crud-data"asp-for="TrainingExercises.Repetitions">Повторения</label>
-        <input class="input-crud-data-exercise" asp-for="TrainingExercises.Repetitions" type="number" />
+        <input class="input-crud-data-exercise" asp-for="TrainingExercises.Repetitions" type="number" max="300" />
         <span asp-validation-for="TrainingExercises.Repetitions"></span>
     </div>
 

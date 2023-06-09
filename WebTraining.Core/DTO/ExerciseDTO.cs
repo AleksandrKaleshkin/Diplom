@@ -7,21 +7,14 @@ namespace WebTraining.Core.DTO
     {
         public int ID { get; set; }
         [Required(ErrorMessage = "Укажите название упражнения")]
+        [StringLength(200, MinimumLength = 2, ErrorMessage = "Длина строки должна быть от 2 до 200 символов")]
         public string NameExercise { get; set; }
 
         public int TypeOfMuscleID { get; set; }
         public TypeOfMuscle? TypeOfMuscle { get; set; }
 
         [Required(ErrorMessage = "Укажите описание упражнения")]
+        [StringLength(10000, MinimumLength = 1, ErrorMessage = "Длина строки должна быть от 1 до 10000 символов")]
         public string Description { get; set; }
-
-        public string? NameImage1 { get; set; }
-        public string? PathImage1 { get; set; }
-
-        public string? NameImage2 { get; set; }
-        public string? PathImage2 { get; set; }
-
-        public string? NameImage3 { get; set; }
-        public string? PathImage3 { get; set; }
     }
 }

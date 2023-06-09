@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebTraining.DB.Models;
+using WebTraining.DB.Models.InitializeData;
 using WebTraining.Models.User;
 
 namespace WebTraining.Controllers
@@ -163,9 +164,10 @@ namespace WebTraining.Controllers
                         }
                         else
                         {
-                            return RedirectToAction("Index");
+                            await signInManager.SignOutAsync();
+                            return RedirectToAction("Index", "Home");
                         }
-                        
+
                     }
                     else
                     {
@@ -215,7 +217,15 @@ namespace WebTraining.Controllers
                     IdentityResult result = await userManager.ChangePasswordAsync(user,model.OldPassword, model.NewPassword);
                     if (result.Succeeded)
                     {
-                        return RedirectToAction("ListUsers");
+                        if (User.IsInRole("admin"))
+                        {
+                            return RedirectToAction("ListUsers");
+                        }
+                        else
+                        {
+                            await signInManager.SignOutAsync();
+                            return RedirectToAction("Index", "Home");
+                        }
                     }
                     else
                     {

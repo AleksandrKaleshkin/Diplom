@@ -5,7 +5,7 @@ using WebTraining.DB.Models;
 
 namespace WebTraining.DB.Repositories
 {
-    public class TrainingRepository : IRepository<Training>
+    public class TrainingRepository : ITrainingRepository<Training>
     {
         private WebTrainingContext db;
 
@@ -17,6 +17,7 @@ namespace WebTraining.DB.Repositories
         public void Create(Training item)
         {
             db.Training.Add(item);
+            Save();
         }
 
         public void Delete(int id)
@@ -25,6 +26,7 @@ namespace WebTraining.DB.Repositories
             if (training != null)
             {
                 db.Training.Remove(training);
+                Save();
             }
         }
 
@@ -38,9 +40,25 @@ namespace WebTraining.DB.Repositories
             return db.Training.Include(o=>o.User);
         }
 
+        public IEnumerable<User> GetAllUsers()
+        {
+            return db.Users.ToList();
+        }
+
+        public User GetUser(string id)
+        {
+            return db.Users.Find(id);
+        }
+
+        public void Save()
+        {
+            db.SaveChanges();
+        }
+
         public void Update(Training item)
         {
             db.Entry(item).State = EntityState.Modified;
+            Save();
         }
     }
 }

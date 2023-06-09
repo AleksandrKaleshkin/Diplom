@@ -11,6 +11,5 @@ namespace WebTraining.Core.Interfaces
         IEnumerable<NotepadDTO> GetNotes();
         IEnumerable<NotepadDTO> GetNeedNotes(User user);
         void UpdateNote(NotepadDTO note);
-        void Dispose();
     }
 }

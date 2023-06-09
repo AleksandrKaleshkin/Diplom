@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+
 using WebTraining.Core.Interfaces;
 using WebTraining.Core.Interfaces.IMeasurements;
 using WebTraining.Core.Services;
@@ -10,7 +9,9 @@ using WebTraining.DB.DataContext;
 using WebTraining.DB.Interfaces;
 using WebTraining.DB.Models;
 using WebTraining.DB.Models.InitializeData;
+using WebTraining.DB.Models.Measurements;
 using WebTraining.DB.Repositories;
+using WebTraining.DB.Repositories.MeasurementsRepository;
 
 internal class Program
 {
@@ -19,23 +20,37 @@ internal class Program
         var builder = WebApplication.CreateBuilder(args);
 
         string? connection = builder.Configuration.GetConnectionString("Connection");
-        builder.Services.AddTransient<IExerciseService, ExerciseService>();
-        builder.Services.AddTransient<ITrainingService, TrainingService>();
-        builder.Services.AddTransient<ITrainingExerciseService,TrainingExerciseService>();
-        builder.Services.AddTransient<INotepadService, NotepadService>();
-        builder.Services.AddTransient<IDoubleMeasurementsService, DoubleMeasurementsService>();
-        builder.Services.AddTransient<ISingleMeasurementstService, SingleMeasurementsService>();
-        builder.Services.AddTransient<IUnitOfWork, EFUnitOfWork>();
+
+        builder.Services.AddScoped<IExerciseRepository<Exercise>, ExerciseRepository>();
+        builder.Services.AddScoped<IExerciseService, ExerciseService>();
+
+        builder.Services.AddScoped<ITrainingRepository<Training>, TrainingRepository>();
+        builder.Services.AddScoped<ITrainingService, TrainingService>();
+
+        builder.Services.AddScoped<ITERepository<TrainingExercise>, TrainingExerciseRepository>();
+        builder.Services.AddScoped<ITrainingExerciseService,TrainingExerciseService>();
+
+        builder.Services.AddScoped<INotepadRepository<Notepad>, NotepadRepository>();
+        builder.Services.AddScoped<INotepadService, NotepadService>();
+
+        builder.Services.AddScoped<IDoubleMeasRepository<DoubleMeasurements>, DoubleMeasurementsRepository>();
+        builder.Services.AddScoped<IDoubleMeasurementsService, DoubleMeasurementsService>();
+
+        builder.Services.AddScoped<ISingleMeasRepository<SingleMeasurements>, SingleMeasurementsRepository>();
+        builder.Services.AddScoped<ISingleMeasurementstService, SingleMeasurementsService>();
+
         builder.Services.AddDbContext<WebTrainingContext>(options => options.UseNpgsql(connection));
 
 
 
         builder.Services.AddIdentity<User, IdentityRole>(opts => {
+            opts.User.AllowedUserNameCharacters= ".@abcdefghijklmnopqrstuvwxyz";
+            opts.User.RequireUniqueEmail = true;
             opts.SignIn.RequireConfirmedAccount = false;
             opts.Password.RequiredLength = 5;   // минимальная длина
-            opts.Password.RequireNonAlphanumeric = false;   // требуются ли не алфавитно-цифровые символы
+            opts.Password.RequireNonAlphanumeric = true;   // требуются ли не алфавитно-цифровые символы
             opts.Password.RequireLowercase = false; // требуются ли символы в нижнем регистре
-            opts.Password.RequireUppercase = false; // требуются ли символы в верхнем регистре
+            opts.Password.RequireUppercase = true; // требуются ли символы в верхнем регистре
             opts.Password.RequireDigit = true; // требуются ли цифры
         }).AddEntityFrameworkStores<WebTrainingContext>();
 

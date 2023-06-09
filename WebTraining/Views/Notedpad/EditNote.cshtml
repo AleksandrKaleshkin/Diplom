@@ -1,12 +1,10 @@
 ﻿@model WebTraining.Core.DTO.NotepadDTO
-
+@{
+    ViewData["Title"] = "Блокнот";
+}
 <h1>Редактировать заметки</h1>
 
 <form method="post" asp-action="EditNote">
-    <div hidden>
-        <input asp-for="DateNote" type="date" />
-        <span asp-validation-for="DateNote"></span>
-    </div>
     <div class="div-crud-data">
         <label class="label-crud-data" asp-for="Description"></label>
         <textarea class="textarea-crud-data" asp-for="Description" rows="25" cols="100"></textarea>

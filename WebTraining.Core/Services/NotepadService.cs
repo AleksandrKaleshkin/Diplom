@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using System.ComponentModel.DataAnnotations;
 using WebTraining.Core.DTO;
-using WebTraining.Core.DTO.MeasurementsDTO;
 using WebTraining.Core.Interfaces;
 using WebTraining.DB.Interfaces;
 using WebTraining.DB.Models;
@@ -10,37 +9,30 @@ namespace WebTraining.Core.Services
 {
     public class NotepadService : INotepadService
     {
-        IUnitOfWork Database { get; set; }
+        INotepadRepository<Notepad> service { get; set; }
 
-        public NotepadService(IUnitOfWork unit)
+        public NotepadService(INotepadRepository<Notepad> service)
         {
-            Database = unit;
+            this.service = service;
         }
 
         public void AddNote(NotepadDTO note)
         {
             Notepad notepad = new Notepad
             {
-                DateNote = note.DateNote.ToUniversalTime(),
+                DateNote = DateTime.UtcNow,
                 Description = note.Description,
                 UserId = note.UserId,
             };
-            Database.Notepads.Create(notepad);
-            Database.Save();
+            service.Create(notepad);
         }
 
         public void DeleteNote(int id)
         {
             if (id!= 0)
             {
-                Database.Notepads.Delete(id);
-                Database.Save();
+                service.Delete(id);
             }
-        }
-
-        public void Dispose()
-        {
-            Database.Dispose();
         }
 
         public NotepadDTO GetNote(int id)
@@ -49,7 +41,7 @@ namespace WebTraining.Core.Services
             {
                 throw new ValidationException();
             }
-            var note = Database.Notepads.Get(id);
+            var note = service.Get(id);
             if (note == null)
             {
                 throw new ValidationException();
@@ -64,22 +56,25 @@ namespace WebTraining.Core.Services
         public IEnumerable<NotepadDTO> GetNotes()
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Notepad, NotepadDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<Notepad>, List<NotepadDTO>>(Database.Notepads.GetAll());
+            return mapper.Map<IEnumerable<Notepad>, List<NotepadDTO>>(service.GetAll());
         }
 
         public IEnumerable<NotepadDTO> GetNeedNotes(User user)
         {
             IEnumerable<NotepadDTO> neednotes = GetNotes().Where(x => x.UserId == user.Id);
+            foreach (var item in neednotes)
+            {
+                item.DateNote= item.DateNote.ToLocalTime();
+            }
             return neednotes;
         }
 
         public void UpdateNote(NotepadDTO noteDTO)
         {
-            var note = Database.Notepads.Get(noteDTO.ID);
-            note.DateNote = TimeZoneInfo.ConvertTimeToUtc(DateTime.Now);
+            var note = service.Get(noteDTO.ID);
+            note.DateNote = DateTime.UtcNow;
             note.Description = noteDTO.Description;
-            Database.Notepads.Update(note);
-            Database.Save();
+            service.Update(note);
         }
     }
 }

@@ -23,12 +23,13 @@ namespace WebTraining.DB.DataContext
 
         public DbSet<SingleMeasurements> SingleMeasurements { get; set; }
 
+        public DbSet<ImageExercise> ImageExercises { get; set; }
 
 
 
-        public WebTrainingContext(DbContextOptions options) : base(options)        
-        {
 
+        public WebTrainingContext(DbContextOptions options) : base(options)
+        { 
             Database.EnsureCreated();
         }
 

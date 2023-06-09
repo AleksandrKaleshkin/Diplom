@@ -12,6 +12,5 @@ namespace WebTraining.Core.Interfaces
         List<TrainingExerciseDTO> GetNeedExercises(int id);
         IEnumerable<ExerciseDTO> GetExerciseList();
         void DeleteExercise(int id);
-        void Dispose();
     }
 }

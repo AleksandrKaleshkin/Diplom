@@ -1,5 +1,7 @@
 ﻿@model AddEditExerciseViewModel;
-
+@{
+    ViewData["Title"] = "Упражнения";
+}
 <h1>Редактировать упражнения</h1>
 
 <form method="post" asp-action="EditExercise" enctype="multipart/form-data">
@@ -22,23 +24,10 @@
             <span asp-validation-for="ExerciseDTO.TypeOfMuscleID"></span>
         </div>
 
-
-        <div class="div-crud-data">
-            <label class="label-crud-data" asp-for="ExerciseDTO.NameImage1">Фото 1</label>
-            <input class="file-crud-data" type="file" name="uploadedNameImage" accept=".jpg,.png,.webm" />
+        <div hidden>
+            <input asp-for="ExerciseDTO.ID" />     
+            <input asp-for="ExerciseDTO.TypeOfMuscle" />
         </div>
-
-        <div class="div-crud-data">
-            <label class="label-crud-data" asp-for="ExerciseDTO.NameImage2">Фото 2</label>
-            <input class="file-crud-data"   type="file" name="uploadedNameImage" />
-        </div>
-
-        <div class="div-crud-data">
-            <label class="label-crud-data" asp-for="ExerciseDTO.NameImage3">Фото 3</label>
-            <input class="file-crud-data" type="file" name="uploadedNameImage" />
-        </div>
-
-
 
         <input class="btn-crud-data" type="submit" value="Изменить" />
 

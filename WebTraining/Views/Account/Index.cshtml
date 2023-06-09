@@ -1,41 +1,45 @@
 ﻿@model WebTraining.DB.Models.User
+@{
+    ViewData["Title"] = "Профиль";
+}
+<h2 class="h2-profile">Ваше имя: @Model.Name </h2> 
 
-<h2>Ваше имя: @Model.Name </h2> 
-
-<a>Ваш статус: 
+<i class="p-profile">
+    Ваш статус: 
     @if (User.IsInRole("coach"))
     {
-        <a>Тренер</a>
+        <p class="p-profile">Тренер</p>
     }
     @if (User.IsInRole("admin"))
     {
-        <a>Админ</a>
+        <p class="p-profile">Админ</p>
     }
     @if (User.IsInRole("athlete"))
     {
-        <a>Спортсмен</a>
+        <p class="p-profile">Спортсмен</p>
     }
-</a>
+</i>
 
-<h2>Личные показатели</h2>
+<h2 class="h2-profile">Личные показатели</h2>
+
 <div >
-    <a asp-action="WeightViewMeasurements" asp-controller="SingleMeasurements">Вес</a>
-    <a asp-action="HeightViewMeasurements" asp-controller="SingleMeasurements" >Рост</a><br/>
-    <a asp-action="ViewBitcepsMeasurements" asp-controller="DoubleMeasurements">Битцепс</a>
-    <a asp-action="ForearmViewMeasurements" asp-controller="DoubleMeasurements">Предплечье</a>
-    <a asp-action="BreastViewMeasurements" asp-controller="SingleMeasurements">Грудь</a>
-    <a asp-action="WaistViewMeasurements" asp-controller="SingleMeasurements">Талия</a>
-    <a asp-action="ButtocksViewMeasurements" asp-controller="SingleMeasurements">Ягодицы</a>
-    <a asp-action="LegsViewMeasurements" asp-controller="DoubleMeasurements">Ноги</a>
-    <a asp-action="ShinsViewMeasurements" asp-controller="DoubleMeasurements">Голень</a>
-</div>
+    <a class="button-profile" asp-action="WeightViewMeasurements" asp-controller="SingleMeasurements">Вес</a>
+    <a class="button-profile" asp-action="HeightViewMeasurements" asp-controller="SingleMeasurements">Рост</a><br /><br />
+    <a class="button-profile" asp-action="ViewBitcepsMeasurements" asp-controller="DoubleMeasurements">Битцепс</a>
+    <a class="button-profile" asp-action="ForearmViewMeasurements" asp-controller="DoubleMeasurements">Предплечье</a><br /><br />
+    <a class="button-profile" asp-action="BreastViewMeasurements" asp-controller="SingleMeasurements">Грудь</a>
+    <a class="button-profile" asp-action="WaistViewMeasurements" asp-controller="SingleMeasurements">Талия</a>
+    <a class="button-profile" asp-action="ButtocksViewMeasurements" asp-controller="SingleMeasurements">Ягодицы</a><br /><br />
+    <a class="button-profile" asp-action="LegsViewMeasurements" asp-controller="DoubleMeasurements">Ноги</a>
+    <a class="button-profile" asp-action="ShinsViewMeasurements" asp-controller="DoubleMeasurements">Голень</a>
+</div><br />
 
-<h5>Настройки</h5>
+<h2 class="h2-profile">Настройки</h2>
 <div>
-    <a asp-action="ChangePassword" asp-controller="Account" asp-route-id="@Model.Id" >Сменить пароль</a>
-    <a asp-action="Edit" asp-controller="Account" asp-route-id="@Model.Id" > Сменить личные данные</a>
+    <a class="a-profile" asp-action="ChangePassword" asp-controller="Account" asp-route-id="@Model.Id" >Сменить пароль</a>
+    <a class="a-profile" asp-action="Edit" asp-controller="Account" asp-route-id="@Model.Id"> Сменить личные данные</a>
     <form method="post" asp-controller="Account" asp-action="Logout">
-        <input type="submit" value="Выход" />
+        <input class="button margin" type="submit" value="Выход" />
     </form>
 
 </div>

@@ -9,11 +9,11 @@ namespace WebTraining.Core.Services
 {
     public class TrainingExerciseService : ITrainingExerciseService
     {
-        IUnitOfWork Database { get; set; }
+        ITERepository<TrainingExercise> service { get; set; }
 
-        public TrainingExerciseService(IUnitOfWork unit)
+        public TrainingExerciseService(ITERepository<TrainingExercise> service)
         {
-            Database = unit;
+            this.service = service;
         }
 
         public void AddExercise(TrainingExerciseDTO model)
@@ -25,16 +25,14 @@ namespace WebTraining.Core.Services
                 Sets = model.Sets,
                 Repetitions = model.Repetitions
             };
-            Database.TrainingExercise.Create(trainingExercise);
-            Database.Save();
+            service.Create(trainingExercise);
         }
 
         public void DeleteExercise(int id)
         {
             if (id != 0)
             {
-                Database.TrainingExercise.Delete(id);
-                Database.Save();
+                service.Delete(id);
             }
             else
             {
@@ -50,7 +48,7 @@ namespace WebTraining.Core.Services
         public IEnumerable<TrainingExerciseDTO> GetExercises()
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<TrainingExercise, TrainingExerciseDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<TrainingExercise>, List<TrainingExerciseDTO>>(Database.TrainingExercise.GetAll());
+            return mapper.Map<IEnumerable<TrainingExercise>, List<TrainingExerciseDTO>>(service.GetAll());
         }
 
         public List<TrainingExerciseDTO> GetNeedExercises(int id)
@@ -68,13 +66,12 @@ namespace WebTraining.Core.Services
         }
         public void UpdateExercise(TrainingExerciseDTO exerciseDTO)
         {
-            var exercise = Database.TrainingExercise.Get(exerciseDTO.ID);
+            var exercise = service.Get(exerciseDTO.ID);
             exercise.TrainingId = exerciseDTO.TrainingId;
             exercise.ExerciseId = exerciseDTO.ExerciseId;
             exercise.Sets = exerciseDTO.Sets;
             exercise.Repetitions = exerciseDTO.Repetitions;
-            Database.TrainingExercise.Update(exercise);
-            Database.Save();
+            service.Update(exercise);
 
         }
 
@@ -82,7 +79,7 @@ namespace WebTraining.Core.Services
         {
             if (id != 0)
             {
-                var exercise = Database.TrainingExercise.Get(id);
+                var exercise = service.Get(id);
                 if (exercise != null)
                 {
                     return new TrainingExerciseDTO
@@ -101,12 +98,7 @@ namespace WebTraining.Core.Services
         public IEnumerable<ExerciseDTO> GetExerciseList()
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Exercise, ExerciseDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<Exercise>, List<ExerciseDTO>>(Database.Exercises.GetAll());
-        }
-
-        public void Dispose()
-        {
-            Database.Dispose();
+            return mapper.Map<IEnumerable<Exercise>, List<ExerciseDTO>>(service.GetAllExercise());
         }
     }
 }

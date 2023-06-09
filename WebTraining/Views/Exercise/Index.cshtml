@@ -27,7 +27,14 @@
         @foreach (var exercise in Model.Exercises.Where(x=>x.TypeOfMuscle.NameType=="Битцепс"))
         {
                 <tr class="trtable">
-                <td><img class="exerciseimage" src="@Url.Content(exercise.PathImage1)" /></td>
+                <td>
+                    @if (Model.Image.FirstOrDefault(x => x.ExerciseID == exercise.ID).PathImage.Count()!=0)
+                    {
+                        <img class="exerciseimage" src="@Url.Content(Model.Image.FirstOrDefault(x => x.ExerciseID == exercise.ID).PathImage)" />
+                    }
+
+                    
+                </td>
                 <td ><p class="nameexercise">@Html.DisplayFor(item => exercise.NameExercise)</p></td>
                 <td>
                     <form method="get" asp-action="Exercise" asp-route-id="@exercise.ID">
@@ -63,7 +70,7 @@
         @foreach (var exercise in Model.Exercises.Where(x => x.TypeOfMuscle.NameType == "Пресс"))
         {
             <tr>
-                <td><img class="exerciseimage" src="@Url.Content(exercise.PathImage1)" /></td>
+                <td><img class="exerciseimage" src="@Url.Content(Model.Image.FirstOrDefault(x=>x.ExerciseID==exercise.ID).PathImage)" /></td>
                 <td><p class="nameexercise">@Html.DisplayFor(item => exercise.NameExercise)</p></td>
                 <td>
                     <form method="get" asp-action="Exercise" asp-route-id="@exercise.ID">
@@ -98,7 +105,7 @@
         @foreach (var exercise in Model.Exercises.Where(x => x.TypeOfMuscle.NameType == "Трицепс"))
         {
             <tr>
-                <td><img class="exerciseimage" src="@Url.Content(exercise.PathImage1)" /></td>
+                <td><img class="exerciseimage" src="@Url.Content(Model.Image.FirstOrDefault(x=>x.ExerciseID==exercise.ID).PathImage)" /></td>
                 <td><p class="nameexercise">@Html.DisplayFor(item => exercise.NameExercise)</p></td>
                 <td>
                     <form method="get" asp-action="Exercise" asp-route-id="@exercise.ID">
@@ -134,7 +141,7 @@
         @foreach (var exercise in Model.Exercises.Where(x => x.TypeOfMuscle.NameType == "Плечи"))
         {
             <tr>
-                <td><img class="exerciseimage" src="@Url.Content(exercise.PathImage1)" /></td>
+                <td><img class="exerciseimage" src="@Url.Content(Model.Image.FirstOrDefault(x=>x.ExerciseID==exercise.ID).PathImage)" /></td>
                 <td><p class="nameexercise">@Html.DisplayFor(item => exercise.NameExercise)</p></td>
                 <td>
                     <form method="get" asp-action="Exercise" asp-route-id="@exercise.ID">
@@ -170,7 +177,7 @@
         @foreach (var exercise in Model.Exercises.Where(x => x.TypeOfMuscle.NameType == "Предплечья"))
         {
             <tr>
-                <td><img class="exerciseimage" src="@Url.Content(exercise.PathImage1)" /></td>
+                <td><img class="exerciseimage" src="@Url.Content(Model.Image.FirstOrDefault(x=>x.ExerciseID==exercise.ID).PathImage)" /></td>
                 <td><p class="nameexercise">@Html.DisplayFor(item => exercise.NameExercise)</p></td>
                 <td>
                     <form method="get" asp-action="Exercise" asp-route-id="@exercise.ID">
@@ -205,7 +212,7 @@
         @foreach (var exercise in Model.Exercises.Where(x => x.TypeOfMuscle.NameType == "Ноги"))
         {
             <tr>
-                <td><img class="exerciseimage" src="@Url.Content(exercise.PathImage1)" /></td>
+                <td><img class="exerciseimage" src="@Url.Content(Model.Image.FirstOrDefault(x=>x.ExerciseID==exercise.ID).PathImage)" /></td>
                 <td><p class="nameexercise">@Html.DisplayFor(item => exercise.NameExercise)</p></td>
                 <td>
                     <form method="get" asp-action="Exercise" asp-route-id="@exercise.ID">
@@ -241,7 +248,7 @@
         @foreach (var exercise in Model.Exercises.Where(x => x.TypeOfMuscle.NameType == "Голень"))
         {
             <tr>
-                <td><img class="exerciseimage" src="@Url.Content(exercise.PathImage1)" /></td>
+                <td><img class="exerciseimage" src="@Url.Content(Model.Image.FirstOrDefault(x=>x.ExerciseID==exercise.ID).PathImage)" /></td>
                 <td><p class="nameexercise">@Html.DisplayFor(item => exercise.NameExercise)</p></td>
                 <td>
                     <form method="get" asp-action="Exercise" asp-route-id="@exercise.ID">
@@ -277,7 +284,7 @@
         @foreach (var exercise in Model.Exercises.Where(x => x.TypeOfMuscle.NameType == "Спина"))
         {
             <tr>
-                <td><img class="exerciseimage" src="@Url.Content(exercise.PathImage1)" /></td>
+                <td><img class="exerciseimage" src="@Url.Content(Model.Image.FirstOrDefault(x=>x.ExerciseID==exercise.ID).PathImage)" /></td>
                 <td><p class="nameexercise">@Html.DisplayFor(item => exercise.NameExercise)</p></td>
                 <td>
                     <form method="get" asp-action="Exercise" asp-route-id="@exercise.ID">
@@ -313,7 +320,7 @@
         @foreach (var exercise in Model.Exercises.Where(x => x.TypeOfMuscle.NameType == "Грудь"))
         {
             <tr>
-                <td><img style="margin-bottom: 20px" class="exerciseimage" src="@Url.Content(exercise.PathImage1)" /></td>
+                <td><img style="margin-bottom: 20px" class="exerciseimage" src="@Url.Content(Model.Image.FirstOrDefault(x=>x.ExerciseID==exercise.ID).PathImage)" /></td>
                 <td><p class="nameexercise">@Html.DisplayFor(item => exercise.NameExercise)</p></td>
                 <td>
                     <form method="get" asp-action="Exercise" asp-route-id="@exercise.ID">

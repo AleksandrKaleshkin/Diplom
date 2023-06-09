@@ -1,7 +1,9 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using WebTraining.Models.Roles;
 @model ChangeRoleViewModel
-
+@{
+    ViewData["Title"] = "Роли";
+}
 <h2>Изменение ролей для пользователя @Model.UserEmail</h2>
 
 <form asp-action="Edit" method="post">

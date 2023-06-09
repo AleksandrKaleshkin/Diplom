@@ -35,23 +35,24 @@ namespace WebTraining.Controllers
             return View(training);
         }
 
+        [Authorize(Roles = "coach, admin") ]
         public IActionResult AllTraining()
         {
             TrainingViewModel training = new TrainingViewModel()
             {
                 Trainings = trainingService.GetTrainings().ToList()
-            };
+        };
             return View(training);
         }
 
 
         [HttpGet]
-
+        [Authorize(Roles = "coach, admin")]
         public IActionResult CreateTraining() 
         {
             AddEditTrainingViewModel model = new AddEditTrainingViewModel
             {
-                TrainingDTO = new TrainingDTO{DateTraining= DateTime.Now},
+                TrainingDTO = new TrainingDTO{DateTraining= DateTime.Now.Date},
                 Users = new UserList(trainingService.GetAllUsers().ToList())
                 
             };
@@ -59,34 +60,35 @@ namespace WebTraining.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "coach, admin")]
         public async Task<IActionResult> CreateTraining(AddEditTrainingViewModel training)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid )
             {
-                trainingService.AddTraing(training.TrainingDTO);
-                return RedirectToAction("AllTraining");
+                if (training.TrainingDTO.DateTraining.ToLocalTime() > DateTime.Now)
+                {
+                    trainingService.AddTraing(training.TrainingDTO);
+                    return RedirectToAction("AllTraining");
+                }
             }
-            else
-            {
-                training.Users = new UserList(trainingService.GetAllUsers().ToList());
-                return View(training);
-            }
+            training.Users = new UserList(trainingService.GetAllUsers().ToList());
+            return View(training);
 
         }
         [HttpGet]
+        [Authorize(Roles = "coach, admin")]
         public IActionResult EditTraining(int id)
         {
             AddEditTrainingViewModel model = new AddEditTrainingViewModel
             {
                 TrainingDTO = trainingService.GetTraining(id),
-                Users = new UserList(trainingService.GetAllUsers().ToList())
-               
-
+                Users = new UserList(trainingService.GetAllUsers().ToList())             
             };
             return View(model);
         }
 
         [HttpPost]
+        [Authorize(Roles = "coach, admin")]
         public IActionResult EditTraining(AddEditTrainingViewModel training)
         {
             if (ModelState.IsValid)
@@ -103,6 +105,7 @@ namespace WebTraining.Controllers
 
 
         [HttpGet]
+        [Authorize(Roles = "coach, admin")]
         public IActionResult DeleteTraining(int id) 
         {
             trainingService.DeleteTraining(id);
@@ -117,9 +120,7 @@ namespace WebTraining.Controllers
             {
                 
                 ExerciseTraining = exercise,
-                TrainingId= id,
-  
-                
+                TrainingId= id, 
             };
             if (id!= 0)
             {
@@ -128,8 +129,8 @@ namespace WebTraining.Controllers
             return RedirectToAction("Index");
         }
         [HttpGet]
-        public IActionResult AddExercise(int id) 
-        
+        [Authorize(Roles = "coach, admin")]
+        public IActionResult AddExercise(int id)         
         {
             AddEditTrainingExerciseViewModel model = new AddEditTrainingExerciseViewModel
             {
@@ -141,6 +142,7 @@ namespace WebTraining.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "coach, admin")]
         public IActionResult AddExercise(AddEditTrainingExerciseViewModel model) 
         {
             if (ModelState.IsValid)
@@ -157,6 +159,7 @@ namespace WebTraining.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "coach, admin")]
         public IActionResult EditExercise(int id)
         {
             AddEditTrainingExerciseViewModel model = new AddEditTrainingExerciseViewModel
@@ -169,6 +172,7 @@ namespace WebTraining.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "coach, admin")]
         public IActionResult EditExercise(AddEditTrainingExerciseViewModel model)
         {
             if (ModelState.IsValid)
@@ -184,11 +188,11 @@ namespace WebTraining.Controllers
 
         }
 
-
-        public IActionResult DeleteExercise(int id, int age)
+        [Authorize(Roles = "coach, admin")]
+        public IActionResult DeleteExercise(int id)
         {
             trainingExerciseService.DeleteExercise(id);
-            return RedirectToAction("ViewExercises", new { id = age });
+            return RedirectToAction("AllTraining");
         }
 
         public async Task<User> GetUser ()

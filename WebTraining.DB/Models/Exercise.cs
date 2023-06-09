@@ -14,14 +14,7 @@ namespace WebTraining.DB.Models
 
         public string? Description { get; set; }
 
-        public string? NameImage1 { get; set; }
-        public string? PathImage1 { get; set; }
-
-        public string? NameImage2 { get; set; }
-        public string? PathImage2 { get; set; }
-
-        public string? NameImage3 { get; set; }
-        public string? PathImage3 { get; set; }
+        public List<ImageExercise> Image { get; set; } = new();
 
         public List<Training> Trainings { get; set; } = new();
 

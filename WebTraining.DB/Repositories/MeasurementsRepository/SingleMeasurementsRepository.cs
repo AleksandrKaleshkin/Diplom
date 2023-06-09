@@ -1,11 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebTraining.DB.DataContext;
 using WebTraining.DB.Interfaces;
+using WebTraining.DB.Models;
 using WebTraining.DB.Models.Measurements;
 
 namespace WebTraining.DB.Repositories.MeasurementsRepository
 {
-    public class SingleMeasurementsRepository : IRepository<SingleMeasurements>
+    public class SingleMeasurementsRepository : ISingleMeasRepository<SingleMeasurements>
     {
         WebTrainingContext db;
 
@@ -17,11 +18,13 @@ namespace WebTraining.DB.Repositories.MeasurementsRepository
         public void Create(SingleMeasurements item)
         {
             db.SingleMeasurements.Add(item);
+            Save();
         }
 
         public void Delete(int id)
         {
             db.SingleMeasurements.Remove(Get(id));
+            Save();
         }
 
         public SingleMeasurements Get(int id)
@@ -39,9 +42,25 @@ namespace WebTraining.DB.Repositories.MeasurementsRepository
             return db.SingleMeasurements.Include(x=>x.User).ToList();
         }
 
+        public MusclesMeasurements GetMuscles(int id)
+        {
+            return db.MusclesMeasurements.Find(id);
+        }
+
+        public IEnumerable<MusclesMeasurements> GetTypes()
+        {
+            return db.MusclesMeasurements.ToList();
+        }
+
+        public void Save()
+        {
+            db.SaveChanges();
+        }
+
         public void Update(SingleMeasurements item)
         {
             db.Entry(item).State = EntityState.Modified;
+            Save();
         }
     }
 }

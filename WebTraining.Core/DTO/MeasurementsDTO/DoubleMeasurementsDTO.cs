@@ -12,12 +12,12 @@ namespace WebTraining.Core.DTO.MeasurementsDTO
         public int MuscleId { get; set; }
 
         [Required (ErrorMessage ="Не указано значение") ]
-        [StringLength(5, MinimumLength = 1, ErrorMessage = "Не верный формат числа. Пример: #,##")]
-        public string LeftValue { get; set; }
+        [Range(1, 250, ErrorMessage = "Недопустимое значение")]
+        public float LeftValue { get; set; }
 
         [Required(ErrorMessage = "Не указано значение")]
-        [StringLength(5, MinimumLength = 1, ErrorMessage = "Не верный формат числа. Пример: #,##")]
-        public string RightValue { get; set; }
+        [Range(1, 250, ErrorMessage = "Недопустимое значение")]
+        public float RightValue { get; set; }
 
         public float? LeftChange { get; set; }
 

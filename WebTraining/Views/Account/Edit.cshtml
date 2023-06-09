@@ -1,6 +1,6 @@
 ﻿@model WebTraining.Models.User.EditUserViewModel
 @{
-    ViewBag.Title = "Редактирование пользователя";
+    ViewBag.Title = "Редактирование данных";
 }
 <form asp-action="Edit" >
     <div asp-validation-summary="All" ></div>
@@ -8,15 +8,15 @@
         <input type="hidden" asp-for="Id" />
     </div>
     <div class="form-group">
-        <label asp-for="Email">Email</label>
-        <input type="text" asp-for="Email" class="form-control" />
+        <label class="label-crud-data"  asp-for="Email">Email</label>
+        <input class="input-crud-data" style="margin:20px" type="text" asp-for="Email" class="form-control" />
     </div>
     <div class="form-group">
-        <label asp-for="Name" >Имя</label>
-        <input type="text" asp-for="Name" class="form-control" />
+        <label class="label-crud-data" asp-for="Name">Имя</label>
+        <input class="input-crud-data" type="text" asp-for="Name" class="form-control" />
     </div>
     <div class="form-group">
-        <input type="submit" value="Сохранить"  />
+        <input class="button-profile" type="submit" value="Сохранить" />
     </div>
 </form>
 

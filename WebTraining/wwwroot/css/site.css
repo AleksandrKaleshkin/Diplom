@@ -178,3 +178,54 @@ th td{
     border-radius: 10px;
     appearance: none;
 }
+
+.input-crud-in {
+    margin-left: 20px;
+    width: 350px;
+    height: 40px;
+    border: none;
+    border-radius: 10px
+}
+
+.margin{
+    margin:15px;
+}
+
+.a-profile {
+    margin: 10px;
+    text-decoration: none;
+    font-size: 20px;
+    color: black;
+    padding: 5px;
+    border: solid;
+    border-radius: 20px;
+
+}
+
+.button-profile {
+    margin-bottom: 20px;
+    padding-top:10px;
+    padding-bottom:10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: #D2691E;
+    border: none;
+    color: white;
+    text-align: center;
+    font-size: 20px;
+    border-radius: 10px;
+    margin-block:20px;
+    text-decoration:none
+}
+
+.h2-profile{
+    margin-top: 20px;
+    margin-bottom:20px;
+}
+
+.p-profile{
+    display:flex;
+    font-size:20px;
+    font-style:italic
+
+}

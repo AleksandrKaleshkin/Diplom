@@ -5,7 +5,7 @@ using WebTraining.DB.Models;
 
 namespace WebTraining.DB.Repositories
 {
-    public class TrainingExerciseRepository : IRepository<TrainingExercise>
+    public class TrainingExerciseRepository : ITERepository<TrainingExercise>
     {
         private WebTrainingContext db;
 
@@ -17,6 +17,7 @@ namespace WebTraining.DB.Repositories
         public void Create(TrainingExercise item)
         {
             db.TrainingExercises.Add(item);
+            Save();
         }
 
         public void Delete(int id)
@@ -25,6 +26,7 @@ namespace WebTraining.DB.Repositories
             if (trainExse != null)
             {
                 db.TrainingExercises.Remove(trainExse);
+                Save();
             }
         }
 
@@ -43,6 +45,11 @@ namespace WebTraining.DB.Repositories
             return db.TrainingExercises.Include(o=>o.Exercise).ToList();
         }
 
+        public IEnumerable<Exercise> GetAllExercise()
+        {
+            return db.Exercises.Include(o => o.TypeOfMuscle);
+        }
+
         public List<TrainingExercise> GetExercises(int id)
         {
             IEnumerable<TrainingExercise> training = GetAll();
@@ -57,9 +64,15 @@ namespace WebTraining.DB.Repositories
             return exercises;
         }
 
+        public void Save()
+        {
+            db.SaveChanges();
+        }
+
         public void Update(TrainingExercise item)
         {
             db.Entry(item).State = EntityState.Modified;
+            Save();
         }
     }
 }

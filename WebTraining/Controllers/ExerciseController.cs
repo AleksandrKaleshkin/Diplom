@@ -16,45 +16,50 @@ namespace WebTraining.Controllers
         public ExerciseController(IExerciseService serv, IWebHostEnvironment appEnvironment)
         {
             exerciseService= serv;
-            _appEnvironment= appEnvironment;
-            
+            _appEnvironment= appEnvironment;            
         }
 
         public IActionResult Index()
         {
             ExerciseViewModel viewModel = new ExerciseViewModel()
             {
-                Exercises = exerciseService.GetExercises().ToList()
-        };
+                Exercises = exerciseService.GetExercises().ToList(),
+                Image=exerciseService.GetImages().ToList()
+            };
             return View(viewModel);
         }
 
         public IActionResult Exercise(int id)
         {
-            ExerciseDTO exercise = exerciseService.GetExercise(id);
-            return View(exercise);
+            ExerciseEViewModel model = new ExerciseEViewModel
+            {
+                Exercise = exerciseService.GetExercise(id),
+                Image = exerciseService.GetImageExercises(exerciseService.GetExercise(id)).ToList()
+            };
+            return View(model);
         }
 
         
         [HttpGet]
+        [Authorize(Roles = "coach, admin")]
         public IActionResult CreateExercise()
         {
             AddEditExerciseViewModel exercise = new AddEditExerciseViewModel
             {
                 TypeOfMysc = new TypeOfMyscList(exerciseService.GetTypeOfMuscles().ToList()),
-                ExerciseDTO = new ExerciseDTO() { }
-                
+                ExerciseDTO = new ExerciseDTO() { }               
             };
             return View(exercise);
         }
 
         [HttpPost]
+        [Authorize(Roles = "coach, admin")]
         public IActionResult CreateExercise(AddEditExerciseViewModel exercise, IFormFileCollection uploadedNameImage)
         {
             if (ModelState.IsValid)
-            {
-                AddEditPicture(exercise, uploadedNameImage);            
-                exerciseService.AddExercise(exercise.ExerciseDTO);
+            {        
+                exerciseService.AddExercise(exercise.ExerciseDTO);                
+                AddEditPicture(exerciseService.GetExercises().Last(), uploadedNameImage);
                 return RedirectToAction("Index");
             }
             else
@@ -64,6 +69,7 @@ namespace WebTraining.Controllers
             }
         }
         [HttpGet]
+        [Authorize(Roles = "coach, admin")]
         public IActionResult Delete(int id)
         {
             ExerciseDTO exercise = exerciseService.GetExercise(id);
@@ -77,12 +83,12 @@ namespace WebTraining.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "coach, admin")]
         public IActionResult EditExercise(int id) 
         {
             var exercise = exerciseService.GetExercise(id);
             if (exercise != null)
             {
-                DeletePicture(exercise);
                 AddEditExerciseViewModel model = new AddEditExerciseViewModel
                 {
                     TypeOfMysc = new TypeOfMyscList(exerciseService.GetTypeOfMuscles().ToList()),
@@ -95,12 +101,12 @@ namespace WebTraining.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "coach, admin")]
         public IActionResult EditExercise(AddEditExerciseViewModel exercise, IFormFileCollection uploadedNameImage, int type)
         {
             if (ModelState.IsValid)
             {
-                AddEditPicture(exercise, uploadedNameImage);
-                exerciseService.UpdateExercise(exercise.ExerciseDTO,type);
+                exerciseService.UpdateExercise(exercise.ExerciseDTO);
                 return RedirectToAction("Index");
             }
             else
@@ -110,7 +116,7 @@ namespace WebTraining.Controllers
             }
         }
 
-        private void AddEditPicture (AddEditExerciseViewModel exercise, IFormFileCollection uploadedNameImage)
+        private void AddEditPicture (ExerciseDTO exercise, IFormFileCollection uploadedNameImage)
         {
             int numImage = 1;
             foreach (var fileimage in uploadedNameImage)
@@ -120,32 +126,30 @@ namespace WebTraining.Controllers
                 {
                     fileimage.CopyTo(fileStream);
                 }
-                if (numImage == 1 )
+                ImageExerciseDTO imageExercise = new ImageExerciseDTO
                 {
-                    exercise.ExerciseDTO.NameImage1 = fileimage.FileName;
-                    exercise.ExerciseDTO.PathImage1 = PathImage;
-                }
-                else if (numImage == 2 )
-                {
-                    exercise.ExerciseDTO.NameImage2 = fileimage.FileName;
-                    exercise.ExerciseDTO.PathImage2 = PathImage;
-                }
-                else if (numImage == 3 )
-                {
-                    exercise.ExerciseDTO.NameImage3 = fileimage.FileName;
-                    exercise.ExerciseDTO.PathImage3 = PathImage;
-                }
+                    NameImage = fileimage.FileName,
+                    PathImage = PathImage,
+                    ExerciseID = exercise.ID
+                };
+                exerciseService.AddPicture(imageExercise);
+
                 numImage++;
             }
         }
+
         private void DeletePicture(ExerciseDTO exercise)
         {
-            string[] paths = { _appEnvironment.WebRootPath + exercise.PathImage1, _appEnvironment.WebRootPath + exercise.PathImage2, _appEnvironment.WebRootPath + exercise.PathImage3 };
-            foreach (var item in paths)
+            var allimage = exerciseService.GetImages();
+            var imageExercises = exerciseService.GetImageExercises(exercise);       
+            foreach (var item in imageExercises)
             {
-                if (item != _appEnvironment.WebRootPath)
+                var allneedimage = allimage.Where(x=>x.PathImage==item.PathImage).Where(x=>x.ExerciseID!=item.ExerciseID).ToList();
+                item.PathImage = _appEnvironment.WebRootPath + item.PathImage;
+                if (item.PathImage != _appEnvironment.WebRootPath&&allneedimage.Count==0 )
                 {
-                    System.IO.File.Delete(item);
+                    System.IO.File.Delete(item.PathImage);
+                    exerciseService.DeleteImage(item.ID);
                 }
             }
         }

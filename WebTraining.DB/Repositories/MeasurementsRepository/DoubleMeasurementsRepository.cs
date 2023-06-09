@@ -5,7 +5,7 @@ using WebTraining.DB.Models.Measurements;
 
 namespace WebTraining.DB.Repositories.MeasurementsRepository
 {
-    public class DoubleMeasurementsRepository : IRepository<DoubleMeasurements>
+    public class DoubleMeasurementsRepository : IDoubleMeasRepository<DoubleMeasurements>
     {
         WebTrainingContext db;
 
@@ -39,9 +39,25 @@ namespace WebTraining.DB.Repositories.MeasurementsRepository
             return db.DoubleMeasurements.Include(x=>x.User).Include(x=>x.TypeOfMuscle).ToList();
         }
 
+        public MusclesMeasurements GetMuscles(int id)
+        {
+            return db.MusclesMeasurements.Find(id);
+        }
+
+        public IEnumerable<MusclesMeasurements> GetTypes()
+        {
+            return db.MusclesMeasurements.ToList();
+        }
+
+        public void Save()
+        {
+            db.SaveChanges();
+        }
+
         public void Update(DoubleMeasurements item)
         {   
             db.Entry(item).State = EntityState.Modified;
+            Save();
         }
     }
 }

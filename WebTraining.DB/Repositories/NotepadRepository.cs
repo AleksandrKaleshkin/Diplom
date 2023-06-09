@@ -5,7 +5,7 @@ using WebTraining.DB.Models;
 
 namespace WebTraining.DB.Repositories
 {
-    public class NotepadRepository : IRepository<Notepad>
+    public class NotepadRepository : INotepadRepository<Notepad>
     {
         private WebTrainingContext db;
 
@@ -17,6 +17,7 @@ namespace WebTraining.DB.Repositories
         public void Create(Notepad item)
         {
             db.Notepads.Add(item);
+            Save();
         }
 
         public void Delete(int id)
@@ -25,6 +26,7 @@ namespace WebTraining.DB.Repositories
             if (note != null)
             {
                 db.Notepads.Remove(note);
+                Save();
             }
         }
 
@@ -43,9 +45,15 @@ namespace WebTraining.DB.Repositories
             return db.Notepads.ToList();
         }
 
+        public void Save()
+        {
+            db.SaveChanges();
+        }
+
         public void Update(Notepad item)
         {
             db.Entry(item).State = EntityState.Modified;
+            Save();
 
         }
     }
