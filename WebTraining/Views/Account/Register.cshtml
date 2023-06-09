@@ -6,17 +6,17 @@
 <form method="post" asp-action="Register" asp-controller="Account">
         <div asp-validation-summary="ModelOnly"></div>
     <div>
-        <label class="label-crud-data" asp-for="Email"></label><br />
+        <label class="label-crud-data" asp-for="Email">Почта</label><br />
         <input class="input-crud-in" asp-for="Email" />
         <span asp-validation-for="Email"></span>
     </div>
     <div>
-        <label class="label-crud-data" asp-for="Name"></label><br />
+        <label class="label-crud-data" asp-for="Name">Имя</label><br />
         <input class="input-crud-in" asp-for="Name" />
         <span asp-validation-for="Name"></span>
     </div>
     <div>
-        <label class="label-crud-data" asp-for="Password"></label><br />
+        <label class="label-crud-data" asp-for="Password">Пароль</label><br />
         <input class="input-crud-in" asp-for="Password" />
         <span asp-validation-for="Password"></span>
     </div>

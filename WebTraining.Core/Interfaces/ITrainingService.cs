@@ -12,6 +12,5 @@ namespace WebTraining.Core.Interfaces
         IEnumerable<TrainingDTO> GetNeedTraining(User user);
         IEnumerable<User> GetAllUsers();
         void UpdateTraining(TrainingDTO training);
-
     }
 }

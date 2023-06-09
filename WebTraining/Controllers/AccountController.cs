@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebTraining.DB.Models;
-using WebTraining.DB.Models.InitializeData;
+
 using WebTraining.Models.User;
 
 namespace WebTraining.Controllers
@@ -25,7 +25,8 @@ namespace WebTraining.Controllers
         public async Task<IActionResult> Index()
         {
             User user = await userManager.FindByNameAsync(User.Identity.Name);
-            return View(user);
+                return View(user);
+
         }
 
         [HttpGet]
@@ -41,9 +42,9 @@ namespace WebTraining.Controllers
             {
                 User user = new User { Email = model.Email, UserName = model.Email, Name = model.Name };
                 var result = await userManager.CreateAsync(user,model.Password);
-                await userManager.AddToRoleAsync(user, "athlete");
                 if (result.Succeeded)
                 {
+                    await userManager.AddToRoleAsync(user, "athlete");
                     await signInManager.SignInAsync(user, true);
                     return RedirectToAction("Index", "Home");
                 }

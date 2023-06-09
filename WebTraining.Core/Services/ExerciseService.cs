@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Internal;
 using System.ComponentModel.DataAnnotations;
 using WebTraining.Core.DTO;
 using WebTraining.Core.Interfaces;
 using WebTraining.DB.Interfaces;
 using WebTraining.DB.Models;
-using WebTraining.DB.Models.InitializeData;
+
 
 namespace WebTraining.Core.Services
 {

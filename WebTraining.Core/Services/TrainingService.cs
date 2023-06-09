@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 using WebTraining.Core.DTO;
 using WebTraining.Core.Interfaces;
-using WebTraining.DB.DataContext;
 using WebTraining.DB.Interfaces;
 using WebTraining.DB.Models;
 

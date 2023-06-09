@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -41,10 +42,16 @@ internal class Program
 
         builder.Services.AddDbContext<WebTrainingContext>(options => options.UseNpgsql(connection));
 
+        builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie(options =>
+            {
+                options.LogoutPath = new PathString("/Account/Login");
+            });
+
 
 
         builder.Services.AddIdentity<User, IdentityRole>(opts => {
-            opts.User.AllowedUserNameCharacters= ".@abcdefghijklmnopqrstuvwxyz";
+            opts.User.AllowedUserNameCharacters= ".@1234567890abcdefghijklmnopqrstuvwxyz";
             opts.User.RequireUniqueEmail = true;
             opts.SignIn.RequireConfirmedAccount = false;
             opts.Password.RequiredLength = 5;   // минимальная длина
@@ -54,23 +61,32 @@ internal class Program
             opts.Password.RequireDigit = true; // требуются ли цифры
         }).AddEntityFrameworkStores<WebTrainingContext>();
 
+        builder.Services.Configure<SecurityStampValidatorOptions>(options =>
+        {
+            options.ValidationInterval = TimeSpan.FromSeconds(20);
+        });
+
 
 
         // Add services to the container.
         builder.Services.AddControllersWithViews();
 
         var app = builder.Build();
-
-
+        
+        
 
         using (var scope = app.Services.CreateScope())
         {
             var services = scope.ServiceProvider;
             try
             {
+
                 var userManager = services.GetRequiredService<UserManager<User>>();
                 var rolesManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-                await RoleInitializer.InitializeAsync(userManager, rolesManager);
+                var signInmanager = services.GetRequiredService<SignInManager<User>>();
+                await RoleInitializer.InitializeAsync(userManager, rolesManager, signInmanager);
+
+
             }
             catch (Exception ex)
             {

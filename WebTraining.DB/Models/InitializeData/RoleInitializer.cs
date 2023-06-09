@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebTraining.DB.Models.InitializeData
 {
     public class RoleInitializer
     {
-        public static async Task InitializeAsync(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+        public static async Task InitializeAsync(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, SignInManager<User> signInManager)
         {
             //Почитать как поместить в конфигурацию и затем передать в метод
             string adminEmail = "admin@mail.ru";
@@ -21,6 +23,8 @@ namespace WebTraining.DB.Models.InitializeData
             {
                 await roleManager.CreateAsync(new IdentityRole("coach"));
             }
+
+
             if (await userManager.FindByNameAsync(adminEmail)==null)
             {
                 User admin = new User { UserName = adminEmail, Email= adminEmail, Name="Admin" };
@@ -28,8 +32,17 @@ namespace WebTraining.DB.Models.InitializeData
                 if (result.Succeeded)
                 {
                     await userManager.AddToRoleAsync(admin, "admin");
+
                 }
+                await signInManager.SignOutAsync();
             }
+
         }
+        public static async Task Add(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, SignInManager<User> signInManager)
+        {
+            await signInManager.SignOutAsync();
+        }
+           
     }
+
 }
