@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations;
 using WebTraining.Core.DTO;
 using WebTraining.Core.Interfaces;
@@ -83,11 +84,13 @@ namespace WebTraining.Core.Services
 
         public void UpdateTraining(TrainingDTO trainingDTO)
         {
-            var training = service.Get(trainingDTO.ID);
-            training.NameTraining = trainingDTO.NameTraining;
-            training.DateTraining = trainingDTO.DateTraining.ToUniversalTime();
-            training.UserId = trainingDTO.UserId;
-            service.Update(training);
+                var training = service.Get(trainingDTO.ID);
+                training.NameTraining = trainingDTO.NameTraining;
+                training.DateTraining = trainingDTO.DateTraining.ToUniversalTime();
+                training.UserId = trainingDTO.UserId;
+                service.Update(training);
+
+            
         }
 
         public IEnumerable<User> GetAllUsers()

@@ -158,16 +158,16 @@ namespace WebTraining.DB.Models.InitializeData
                 new ImageExercise
                 {
                     ID = 18,
-                    PathImage = "/files/image/ExerciseImage/BaseExercise/Breast/1/жим1.jpg",
-                    NameImage = "Жим лежа.jpg",
+                    PathImage = "/files/image/ExerciseImage/BaseExercise/Breast/2/Отжимания1.jpg",
+                    NameImage = "Отжимания от пола.jpg",
                     ExerciseID = 7,
                     Exercise = db.Exercises.FirstOrDefault(x => x.ID == 7)
                 },
                 new ImageExercise
                 {
                     ID = 19,
-                    PathImage = "/files/image/ExerciseImage/BaseExercise/Breast/1/жим2.jpg",
-                    NameImage = "Жим лежа.jpg",
+                    PathImage = "/files/image/ExerciseImage/BaseExercise/Breast/2/Отжимания2.jpg",
+                    NameImage = "Отжимания от пола.jpg",
                     ExerciseID = 7,
                     Exercise = db.Exercises.FirstOrDefault(x => x.ID == 7)
                 },
@@ -178,30 +178,6 @@ namespace WebTraining.DB.Models.InitializeData
                     NameImage = "breast.png",
                     ExerciseID = 7,
                     Exercise = db.Exercises.FirstOrDefault(x => x.ID == 7)
-                },
-                new ImageExercise
-                {
-                    ID = 21,
-                    PathImage = "/files/image/ExerciseImage/BaseExercise/Breast/2/Отжимания1.jpg",
-                    NameImage = "Отжимания от пола.jpg",
-                    ExerciseID = 8,
-                    Exercise = db.Exercises.FirstOrDefault(x => x.ID == 8)
-                },
-                new ImageExercise
-                {
-                    ID = 22,
-                    PathImage = "/files/image/ExerciseImage/BaseExercise/Breast/2/Отжимания2.jpg",
-                    NameImage = "Отжимания от пола.jpg",
-                    ExerciseID = 8,
-                    Exercise = db.Exercises.FirstOrDefault(x => x.ID == 8)
-                },
-                new ImageExercise
-                {
-                    ID = 23,
-                    PathImage = "/files/image/ExerciseImage/BaseExercise/Muscle/breast.png",
-                    NameImage = "breast.png",
-                    ExerciseID = 8,
-                    Exercise = db.Exercises.FirstOrDefault(x => x.ID == 8)
                 }
 
                 ) ;
@@ -279,14 +255,6 @@ namespace WebTraining.DB.Models.InitializeData
                     new Exercise
                     {
                         ID = 7,
-                        NameExercise = "Жим лежа",
-                        Description = "Является базовым упражнением и лучшим для набора мышечной массы и силы. \r\nЖим штанги техника\r\nПроцесс механики движения при выполнении данного упражнения:\r\n\r\nИсходное положение, лежим на горизонтальной скамье.\r\nНоги стоят на полу, лопатки сведены и грудные выставлены вперёд\r\nПоднимаем штангу с крепления обеими руками или с помощью партнёра\r\nОпускаем штангу к середине груди, до касания грудной клетки\r\nВыжимаем штангу, не производим выход пока локи полностью зафиксируются, т.е. после\r\n \r\n\r\nНе допускается!\r\n\r\nРезкое опускание штанги на грудь, упражнение выполняется со средней скоростью\r\nНе желательно «отпружинивать» штангу грудной клеткой, можно её травмировать\r\nБольшой вес нужно жать только со страховочным партнёром!",
-                        TypeOfMuscleID = 9,
-                        TypeOfMuscle = db.TypeOfMuscles.FirstOrDefault(x => x.ID == 9)
-                    },
-                    new Exercise
-                    {
-                        ID = 8,
                         NameExercise = "Отжимания от пола",
                         Description = "Отжимание от пола, всеми известное популярное упражнение, которое можно выполнять и дома и в зале.\r\nЭто наверно самое первое упражнение для рядового начинающего спортсмена ну и разумеется человека который хочет быть в форме, когда на зал и спорт не хватает времени и сил. Данное упражнение не требует дополнительных трат на инвентарь, для него не нужна поставленная отточенная техника как с жимом штанги лёжа и отжиматься от пола могут абсолютно все — мужчины, женщины, дети и взрослое поколение.\r\n\r\nОтжимания от пола техника\r\n1) Принимаем упор лёжа, ставим ладони шире плеч, поясница прямая, ноги на небольшой расстоянии на носочках.\r\n\r\n2) Вдыхая, опускаем корпус ниже за счёт сгибания локтей.\r\n\r\n3) На выходе, выпрямляем локтевые суставы в исходное положение.\r\n\r\n4) Продолжаем повторение по схеме 1-3.\r\nВ выполнении упражнения основную нагрузку на себя принимают мышцы груди, упражнение уникально тем, чтоб напрягает брюшные мышцы пресса, так же как и планка. Так же укрепляются межреберные мышц, дельты и трёхглавая мышцы плеча.Отжимания укрепляют не только мышцы, но и связки, кости сухожилия, упражнение делает организм крепче.",
                         TypeOfMuscleID = 9,

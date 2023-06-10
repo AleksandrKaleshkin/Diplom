@@ -44,20 +44,20 @@ namespace WebTraining.DB.Repositories
         public IEnumerable<Exercise> GetAll()
         {
          
-            if (db.Exercises.AsNoTracking().Count()==0)
+            if (db.Exercises.Count()==0)
             {
                 ExerciseInitializer initializer = new ExerciseInitializer(db);
                 initializer.InitializeExercise();
                 db.SaveChanges();
             }
-            return db.Exercises.AsNoTracking().Include(o=>o.TypeOfMuscle);
+            return db.Exercises.Include(o=>o.TypeOfMuscle);
         }
         public IEnumerable<ImageExercise> GetImage(Exercise exercise)
         {
             return db.ImageExercises.ToList().Where(x => x.Exercise == exercise);
         }
 
-        public ImageExercise GetImage(int id)
+        public ImageExercise GetNeedImage(int id)
         {
             var image = db.ImageExercises.Find(id);
             if (image != null)
@@ -69,7 +69,7 @@ namespace WebTraining.DB.Repositories
 
         public void DeleteImage(int id)
         {
-            db.ImageExercises.Remove(GetImage(id));
+            //db.ImageExercises.Remove(GetImage(id));
         }
 
         public IEnumerable<ImageExercise> GetImages()
@@ -110,6 +110,10 @@ namespace WebTraining.DB.Repositories
             Save();
         }
 
-
+        public void UpdatePic(ImageExercise item)
+        {
+            db.Entry(item).State = EntityState.Modified;
+            Save();
+        }
     }
 }

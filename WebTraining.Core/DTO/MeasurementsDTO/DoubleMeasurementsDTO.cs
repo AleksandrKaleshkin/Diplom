@@ -11,11 +11,9 @@ namespace WebTraining.Core.DTO.MeasurementsDTO
 
         public int MuscleId { get; set; }
 
-        [Required (ErrorMessage ="Не указано значение") ]
         [Range(1, 250, ErrorMessage = "Недопустимое значение")]
         public float LeftValue { get; set; }
 
-        [Required(ErrorMessage = "Не указано значение")]
         [Range(1, 250, ErrorMessage = "Недопустимое значение")]
         public float RightValue { get; set; }
 

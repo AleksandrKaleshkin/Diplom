@@ -47,9 +47,12 @@
                         </form>
                     </td>
                     <td>
-                        <form method="get" asp-action="Delete" asp-route-id="@meas.ID">
+                    @if (meas == Model.Measurements.OrderBy(x => x.Date).Reverse().First())
+                    {
+                    <form method="get" asp-action="Delete" asp-route-id="@meas.ID">
                         <button class="btn-crud-data">Удалить</button>
-                        </form>
+                    </form>
+                    }
                     </td>
                 </tr>
         }

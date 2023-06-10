@@ -14,6 +14,8 @@ namespace WebTraining.DB.Interfaces
         void AddPicture(ImageExercise image);
         IEnumerable<ImageExercise> GetImage(Exercise exercise);
         IEnumerable<ImageExercise> GetImages();
+        ImageExercise GetNeedImage(int id);
+        void UpdatePic(ImageExercise item);
         void DeleteImage(int id);
         void Save();
     }

@@ -159,16 +159,8 @@ namespace WebTraining.Controllers
                     var result = await userManager.UpdateAsync(user);
                     if (result.Succeeded)
                     {
-                        if (User.IsInRole("admin"))
-                        {
-                            return RedirectToAction("ListUsers");
-                        }
-                        else
-                        {
                             await signInManager.SignOutAsync();
                             return RedirectToAction("Index", "Home");
-                        }
-
                     }
                     else
                     {
@@ -187,9 +179,13 @@ namespace WebTraining.Controllers
         public async Task<IActionResult> Delete(string id)
         {
             User user = await userManager.FindByIdAsync(id);
+            
             if (user != null)
             {
-                await userManager.DeleteAsync(user);
+                if (user.Email!= "admin@mail.ru")
+                {
+                    await userManager.DeleteAsync(user);
+                }
             }
             return RedirectToAction("ListUsers");
         }
@@ -218,15 +214,8 @@ namespace WebTraining.Controllers
                     IdentityResult result = await userManager.ChangePasswordAsync(user,model.OldPassword, model.NewPassword);
                     if (result.Succeeded)
                     {
-                        if (User.IsInRole("admin"))
-                        {
-                            return RedirectToAction("ListUsers");
-                        }
-                        else
-                        {
                             await signInManager.SignOutAsync();
                             return RedirectToAction("Index", "Home");
-                        }
                     }
                     else
                     {

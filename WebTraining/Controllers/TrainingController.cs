@@ -65,12 +65,14 @@ namespace WebTraining.Controllers
         {
             if (ModelState.IsValid )
             {
-                if (training.TrainingDTO.DateTraining.ToLocalTime() > DateTime.Now)
+                if (training.TrainingDTO.DateTraining > DateTime.Now)
                 {
                     trainingService.AddTraing(training.TrainingDTO);
                     return RedirectToAction("AllTraining");
                 }
+                ModelState.AddModelError("TrainingDTO.DateTraining", "Дата тренировки должна быть в настоящем или будующем времени");
             }
+
             training.Users = new UserList(trainingService.GetAllUsers().ToList());
             return View(training);
 
@@ -93,15 +95,16 @@ namespace WebTraining.Controllers
         {
             if (ModelState.IsValid)
             {
-                trainingService.UpdateTraining(training.TrainingDTO);
-                return RedirectToAction("AllTraining");
+                if (training.TrainingDTO.DateTraining > DateTime.Now)
+                {
+                    trainingService.UpdateTraining(training.TrainingDTO);
+                    return RedirectToAction("AllTraining");
+                }
+                ModelState.AddModelError("TrainingDTO.DateTraining", "Дата тренировки должна быть в настоящем или будующем времени");
             }
-            else
-            {
-                training.Users = new UserList(trainingService.GetAllUsers().ToList());
-                return View(training);
-            }
-        }
+            training.Users = new UserList(trainingService.GetAllUsers().ToList());
+            return View(training);
+        }    
 
 
         [HttpGet]
@@ -176,7 +179,7 @@ namespace WebTraining.Controllers
         public IActionResult EditExercise(AddEditTrainingExerciseViewModel model)
         {
             if (ModelState.IsValid)
-            {
+            {                
                 trainingExerciseService.UpdateExercise(model.TrainingExercises);
                 return RedirectToAction("ViewExercises", new { id = model.TrainingExercises.TrainingId });
             }

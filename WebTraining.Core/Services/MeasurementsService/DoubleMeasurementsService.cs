@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using System.ComponentModel.DataAnnotations;
-using System.Globalization;
 using WebTraining.Core.DTO.MeasurementsDTO;
 using WebTraining.Core.Interfaces.IMeasurements;
 using WebTraining.DB.Interfaces;

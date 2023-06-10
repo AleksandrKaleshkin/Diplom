@@ -7,6 +7,12 @@
 
 <form method="post" asp-action="CreateExercise" enctype="multipart/form-data">
     <div>
+
+    <div hidden>
+        <input asp-for="ExerciseDTO.ID" />
+            <input asp-for="ExerciseDTO.TypeOfMuscle" />
+
+    </div>
     <div class="div-crud-data">
         <label class="label-crud-data" asp-for="ExerciseDTO.NameExercise">Название упражнения</label>
         <input class="input-crud-data" placeholder="Введите название упражнения..." asp-for="ExerciseDTO.NameExercise" />
@@ -23,21 +29,24 @@
             <label class="label-crud-data" asp-for="ExerciseDTO.TypeOfMuscleID">Тип мышц</label>
         <select class="select-crud-data" asp-for="ExerciseDTO.TypeOfMuscleID" asp-items="Model.TypeOfMysc.MyscList"></select>
         <span asp-validation-for="ExerciseDTO.TypeOfMuscleID"></span>
-    </div>
+
+
+
 
 
     <div class="div-crud-data">
-            <label class="label-crud-data" >Фото 1</label>
+            <label class="label-crud-data" >Фото</label>
         <input class="file-crud-data" type="file" name="uploadedNameImage" />
+        <span asp-validation-for="ImageExercise"></span>
     </div>
 
     <div class="div-crud-data">
-        <label class="label-crud-data" >Фото 2</label>
-            <input  class="file-crud-data" border="none" type="file" name="uploadedNameImage" />
+        <label class="label-crud-data" >Фото</label>
+            <input  class="file-crud-data"  type="file" name="uploadedNameImage" />
     </div>
 
     <div class="div-crud-data">
-        <label class="label-crud-data" >Фото 3</label>
+        <label class="label-crud-data" >Фото</label>
             <input  class="file-crud-data" type="file" name="uploadedNameImage" />
     </div>
 

@@ -9,11 +9,11 @@ namespace WebTraining.Core.Interfaces
     {
         ExerciseDTO GetExercise(int id);
         void DeleteExercise(int id);
-        void AddExercise(ExerciseDTO exercise);
+        Exercise AddExercise(ExerciseDTO exercise);
         IEnumerable<ExerciseDTO> GetExercises();
         void UpdateExercise(ExerciseDTO exercise);
         void DeleteImage(int id);
-
+        void UpdatePicture(ImageExerciseDTO image);
         void AddPicture(ImageExerciseDTO image);
         IEnumerable<ImageExerciseDTO> GetImageExercises(ExerciseDTO exercise);
         IEnumerable<ImageExerciseDTO> GetImages();

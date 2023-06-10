@@ -7,5 +7,6 @@ namespace WebTraining.Models
     {
         public ExerciseDTO ExerciseDTO { get; set; }
         public TypeOfMyscList? TypeOfMysc { get; set; }
+        public IEnumerable<ImageExerciseDTO>? ImageExercise { get; set; }
     }
 }

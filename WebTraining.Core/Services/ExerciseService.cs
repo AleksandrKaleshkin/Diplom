@@ -18,11 +18,12 @@ namespace WebTraining.Core.Services
             this.service = service;
         }
 
-        public void AddExercise(ExerciseDTO exerciseDTO)
+        public Exercise AddExercise(ExerciseDTO exerciseDTO)
         {
             var exercises = GetExercises();
             Exercise exercise = new Exercise
             {
+                ID=++exercises.OrderBy(x=>x.ID).Last().ID,
                 NameExercise = exerciseDTO.NameExercise,
                 Description = exerciseDTO.Description,
                 TypeOfMuscleID= exerciseDTO.TypeOfMuscleID,
@@ -30,6 +31,7 @@ namespace WebTraining.Core.Services
             };
             service.Create(exercise);
             service.Save();
+            return exercise;
         }
 
 
@@ -95,6 +97,7 @@ namespace WebTraining.Core.Services
         {
             ImageExercise imageExercise = new ImageExercise
             {
+                ID = ++GetImages().OrderBy(m=>m.ID).Last().ID,
                 NameImage = image.NameImage,
                 PathImage = image.PathImage,
                 ExerciseID = image.ExerciseID,
@@ -118,6 +121,15 @@ namespace WebTraining.Core.Services
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<ImageExercise, ImageExerciseDTO>()).CreateMapper();
             return mapper.Map<IEnumerable<ImageExercise>, List<ImageExerciseDTO>>(service.GetImages());
+        }
+
+        public void UpdatePicture(ImageExerciseDTO image)
+        {
+            var imagedb = service.GetNeedImage(image.ID);
+            imagedb.NameImage = image.NameImage;
+            imagedb.PathImage = image.PathImage;
+            service.UpdatePic(imagedb);
+
         }
     }
 }
