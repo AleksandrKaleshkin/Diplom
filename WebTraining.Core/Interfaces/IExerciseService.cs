@@ -9,9 +9,10 @@ namespace WebTraining.Core.Interfaces
     {
         ExerciseDTO GetExercise(int id);
         void DeleteExercise(int id);
-        Exercise AddExercise(ExerciseDTO exercise);
+        void AddExercise(ExerciseDTO exercise);
         IEnumerable<ExerciseDTO> GetExercises();
         void UpdateExercise(ExerciseDTO exercise);
+
         void DeleteImage(int id);
         void UpdatePicture(ImageExerciseDTO image);
         void AddPicture(ImageExerciseDTO image);

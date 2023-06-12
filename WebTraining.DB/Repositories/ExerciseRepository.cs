@@ -33,7 +33,7 @@ namespace WebTraining.DB.Repositories
 
         public Exercise Get(int id)
         {
-            var exercise = db.Exercises.Find(id);
+            var exercise = db.Exercises.Include(o => o.TypeOfMuscle).FirstOrDefault(x=>x.ID==id);
             if (exercise !=null)
             {
                 return exercise;
@@ -52,52 +52,6 @@ namespace WebTraining.DB.Repositories
             }
             return db.Exercises.Include(o=>o.TypeOfMuscle);
         }
-        public IEnumerable<ImageExercise> GetImage(Exercise exercise)
-        {
-            return db.ImageExercises.ToList().Where(x => x.Exercise == exercise);
-        }
-
-        public ImageExercise GetNeedImage(int id)
-        {
-            var image = db.ImageExercises.Find(id);
-            if (image != null)
-            {
-                return image;
-            }
-            return null;
-        }
-
-        public void DeleteImage(int id)
-        {
-            //db.ImageExercises.Remove(GetImage(id));
-        }
-
-        public IEnumerable<ImageExercise> GetImages()
-        {
-            if (db.ImageExercises.Count() == 0)
-            {
-                ExerciseInitializer initializer = new ExerciseInitializer(db);
-                initializer.InitializeImage();
-                db.SaveChanges();
-            }
-            return db.ImageExercises.ToList();
-        }
-
-        public void AddPicture(ImageExercise image)
-        {
-            db.ImageExercises.Add(image);
-            Save();
-        }
-
-        public TypeOfMuscle GetType(int id)
-        {
-            return db.TypeOfMuscles.Find(id);
-        }
-
-        public IEnumerable<TypeOfMuscle> GetTypes()
-        {
-            return db.TypeOfMuscles.ToList();
-        }
 
         public void Save()
         {
@@ -105,12 +59,6 @@ namespace WebTraining.DB.Repositories
         }
 
         public void Update(Exercise item)
-        {
-            db.Entry(item).State = EntityState.Modified;
-            Save();
-        }
-
-        public void UpdatePic(ImageExercise item)
         {
             db.Entry(item).State = EntityState.Modified;
             Save();

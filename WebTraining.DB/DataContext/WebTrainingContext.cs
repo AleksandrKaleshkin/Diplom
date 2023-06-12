@@ -31,6 +31,7 @@ namespace WebTraining.DB.DataContext
         public WebTrainingContext(DbContextOptions options) : base(options)
         {
             Database.EnsureCreated();
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

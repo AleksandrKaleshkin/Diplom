@@ -5,6 +5,7 @@ namespace WebTraining.Core.DTO
 {
     public class ExerciseDTO
     {
+        [Key]
         public int ID { get; set; }
         [Required(ErrorMessage = "Укажите название упражнения")]
         [StringLength(200, MinimumLength = 2, ErrorMessage = "Длина строки должна быть от 2 до 200 символов")]

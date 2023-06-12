@@ -42,6 +42,10 @@ internal class Program
         builder.Services.AddScoped<ISingleMeasRepository<SingleMeasurements>, SingleMeasurementsRepository>();
         builder.Services.AddScoped<ISingleMeasurementstService, SingleMeasurementsService>();
 
+        builder.Services.AddScoped<IMusculesMeasRepository, MusclesMeasRepository>();
+        builder.Services.AddScoped<IimageExerciseRepository,ImageExerciseRepository>();
+        builder.Services.AddScoped<ITypeOfMuscleRepository, TypeOfMuscleRepository>();
+
         builder.Services.AddDbContext<WebTrainingContext>(options => options.UseNpgsql(connection));
 
         builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

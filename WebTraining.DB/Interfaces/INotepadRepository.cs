@@ -2,7 +2,7 @@
 {
     public interface INotepadRepository<T>
     {
-        IEnumerable<T> GetAll();
+        Task<IEnumerable<T>> GetAll();
         T Get(int id);
         void Create(T item);
         void Update(T item);

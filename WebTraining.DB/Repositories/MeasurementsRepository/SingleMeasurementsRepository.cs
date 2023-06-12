@@ -42,16 +42,6 @@ namespace WebTraining.DB.Repositories.MeasurementsRepository
             return db.SingleMeasurements.Include(x=>x.User).ToList();
         }
 
-        public MusclesMeasurements GetMuscles(int id)
-        {
-            return db.MusclesMeasurements.Find(id);
-        }
-
-        public IEnumerable<MusclesMeasurements> GetTypes()
-        {
-            return db.MusclesMeasurements.ToList();
-        }
-
         public void Save()
         {
             db.SaveChanges();

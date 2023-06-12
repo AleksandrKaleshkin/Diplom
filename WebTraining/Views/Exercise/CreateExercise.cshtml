@@ -6,13 +6,6 @@
 <h1>Добавить упражнение</h1>
 
 <form method="post" asp-action="CreateExercise" enctype="multipart/form-data">
-    <div>
-
-    <div hidden>
-        <input asp-for="ExerciseDTO.ID" />
-            <input asp-for="ExerciseDTO.TypeOfMuscle" />
-
-    </div>
     <div class="div-crud-data">
         <label class="label-crud-data" asp-for="ExerciseDTO.NameExercise">Название упражнения</label>
         <input class="input-crud-data" placeholder="Введите название упражнения..." asp-for="ExerciseDTO.NameExercise" />
@@ -48,6 +41,7 @@
     <div class="div-crud-data">
         <label class="label-crud-data" >Фото мышц,работающих при повторении</label>
             <input  class="file-crud-data" type="file" name="uploadedNameImage" />
+        <span asp-validation-for="ImageExercise"></span>
     </div>
 
 

@@ -61,7 +61,7 @@ namespace WebTraining.Core.Services
             return mapper.Map<IEnumerable<NotepadDTO>>(note_list);
         }
 
-        public IEnumerable<NotepadDTO> GetNeedNotes(User user)
+        public IEnumerable<NotepadDTO> GetUserNotes(User user)
         {
             IEnumerable<NotepadDTO> neednotes = GetNotes().Where(x => x.UserId == user.Id);
             foreach (var item in neednotes)

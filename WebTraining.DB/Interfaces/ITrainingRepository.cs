@@ -9,8 +9,10 @@ namespace WebTraining.DB.Interfaces
         void Create(T item);
         void Update(T item);
         void Delete(int id);
+
         User GetUser(string id);
         IEnumerable<User> GetAllUsers();
+
         void Save();
     }
 }

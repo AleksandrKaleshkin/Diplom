@@ -10,30 +10,25 @@ namespace WebTraining.Core.Services
 {
     public class ExerciseService : IExerciseService
     {
-        private readonly IExerciseRepository<Exercise> service;
+        private readonly IExerciseRepository<Exercise> exerciseRepository;
         private readonly IMapper mapper;
+        private readonly ITypeOfMuscleRepository typeOfMuscleRepository;
+        private readonly IimageExerciseRepository imageExerciseRepository;
 
 
-        public ExerciseService(IExerciseRepository<Exercise> service, IMapper mapper)
+        public ExerciseService(IExerciseRepository<Exercise> repository, IMapper mapper, ITypeOfMuscleRepository typeOfMuscleRepository, IimageExerciseRepository imageExerciseRepository)
         {
             this.mapper = mapper;
-            this.service = service;
+            exerciseRepository = repository;
+            this.typeOfMuscleRepository= typeOfMuscleRepository;
+            this.imageExerciseRepository = imageExerciseRepository;
         }
 
-        public Exercise AddExercise(ExerciseDTO exerciseDTO)
+        public void AddExercise(ExerciseDTO exerciseDTO)
         {
-            var exercises = GetExercises();
-            Exercise exercise = new Exercise
-            {
-                ID=++exercises.OrderBy(x=>x.ID).Last().ID,
-                NameExercise = exerciseDTO.NameExercise,
-                Description = exerciseDTO.Description,
-                TypeOfMuscleID= exerciseDTO.TypeOfMuscleID,
-                TypeOfMuscle=service.GetType(exerciseDTO.TypeOfMuscleID)
-            };
-            service.Create(exercise);
-            service.Save();
-            return exercise;
+            exerciseDTO.TypeOfMuscle = typeOfMuscleRepository.GetType(exerciseDTO.TypeOfMuscleID);
+            Exercise exercise = mapper.Map<Exercise>(exerciseDTO);
+            exerciseRepository.Create(exercise);
         }
 
 
@@ -41,11 +36,11 @@ namespace WebTraining.Core.Services
         {
             if (id==0)
             {
-                throw new ValidationException("Упражнение не найден");
+                throw new ValidationException("Упражнение не найдено");
             }
             ExerciseDTO exercise= GetExercise(id);
-            service.Delete(id);
-            service.Save();
+            exerciseRepository.Delete(id);
+            exerciseRepository.Save();
         }
 
 
@@ -54,83 +49,67 @@ namespace WebTraining.Core.Services
         {
             if (id==0)
             {
-                throw new ValidationException();
+                throw new ValidationException("Упражнение не найдено");
             }
-            var exercise = service.Get(id);
-            if (exercise==null)
-            {
-                throw new ValidationException();
-            }
-            return new ExerciseDTO
-            {
-                ID= exercise.ID,
-                Description = exercise.Description,
-                TypeOfMuscle= service.GetType(exercise.TypeOfMuscleID),
-                TypeOfMuscleID= exercise.TypeOfMuscleID,
-                NameExercise = exercise.NameExercise
-            };
+            var exercise = exerciseRepository.Get(id);
+            return mapper.Map<ExerciseDTO>(exercise);
         }
 
         public IEnumerable<ExerciseDTO> GetExercises()
         {
-            var exercise_list = service.GetAll();
+            var exercise_list = exerciseRepository.GetAll();
             return mapper.Map<IEnumerable<ExerciseDTO>>(exercise_list);
         }
 
         public void UpdateExercise(ExerciseDTO exerciseDTO)
         {
-            exerciseDTO.TypeOfMuscle = service.GetType(exerciseDTO.TypeOfMuscleID);
-            var exercise = service.Get(exerciseDTO.ID);
+            var exercise = exerciseRepository.Get(exerciseDTO.ID);
+
             exercise.NameExercise = exerciseDTO.NameExercise;
             exercise.Description= exerciseDTO.Description;
             exercise.TypeOfMuscleID = exerciseDTO.TypeOfMuscleID;
-            exercise.TypeOfMuscle = exercise.TypeOfMuscle;
-            service.Update(exercise);
-            service.Save();
+
+            exerciseRepository.Update(exercise);
+            exerciseRepository.Save();
         }
 
         public IEnumerable<TypeOfMuscleDTO> GetTypeOfMuscles()
         {
-            var muscle_list = service.GetTypes();
+            var muscle_list = typeOfMuscleRepository.GetAllTypes();
             return mapper.Map<IEnumerable<TypeOfMuscleDTO>>(muscle_list);            
         }
 
-        public void AddPicture(ImageExerciseDTO image)
+
+        public void AddPicture(ImageExerciseDTO imageDTO)
         {
-            ImageExercise imageExercise = new ImageExercise
-            {
-                ID = ++GetImages().OrderBy(m=>m.ID).Last().ID,
-                NameImage = image.NameImage,
-                PathImage = image.PathImage,
-                ExerciseID = image.ExerciseID,
-                Exercise = service.Get(image.ExerciseID)
-            };
-            service.AddPicture(imageExercise);
+            imageDTO.Exercise = exerciseRepository.Get(imageDTO.ExerciseID);
+            ImageExercise image = mapper.Map<ImageExercise>(imageDTO);
+            imageExerciseRepository.AddPicture(image);
         }
 
         public IEnumerable<ImageExerciseDTO> GetImageExercises(ExerciseDTO exercise)
         {
-            var exercisedb = service.Get(exercise.ID);
+            var exercisedb = exerciseRepository.Get(exercise.ID);
             return GetImages().Where(x=>x.ExerciseID==exercisedb.ID);
         }
 
         public void DeleteImage(int id)
         {
-            service.DeleteImage(id);
+            imageExerciseRepository.DeleteImage(id);
         }
 
         public IEnumerable<ImageExerciseDTO> GetImages()
         {
-            var image_list = service.GetImages();
+            var image_list = imageExerciseRepository.GetImages();
             return mapper.Map<IEnumerable<ImageExerciseDTO>>(image_list);
         }
 
         public void UpdatePicture(ImageExerciseDTO image)
         {
-            var imagedb = service.GetNeedImage(image.ID);
+            var imagedb = imageExerciseRepository.GetExerciseImage(image.ID);
             imagedb.NameImage = image.NameImage;
             imagedb.PathImage = image.PathImage;
-            service.UpdatePic(imagedb);
+            imageExerciseRepository.UpdatePic(imagedb);
 
         }
     }

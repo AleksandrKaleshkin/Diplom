@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using WebTraining.Core.DTO;
 using WebTraining.DB.Models;
 
 namespace WebTraining.Core.Models

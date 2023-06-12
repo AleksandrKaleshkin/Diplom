@@ -22,7 +22,7 @@ namespace WebTraining.Controllers
         public async Task<IActionResult> Index()
         {
             User user = await GetUser();
-            IEnumerable<NotepadDTO> notes=notepadService.GetNeedNotes(user).ToList();
+            IEnumerable<NotepadDTO> notes=notepadService.GetUserNotes(user).ToList();
             NoteViewModel noteView = new NoteViewModel()
             {
                 Exercises = notes

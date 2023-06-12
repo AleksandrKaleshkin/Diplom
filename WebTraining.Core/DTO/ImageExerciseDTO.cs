@@ -1,4 +1,6 @@
-﻿namespace WebTraining.Core.DTO
+﻿using WebTraining.DB.Models;
+
+namespace WebTraining.Core.DTO
 {
     public class ImageExerciseDTO
     {
@@ -9,5 +11,6 @@
         public string PathImage { get; set; }
 
         public int ExerciseID { get; set; }
+        public Exercise Exercise { get; set; }
     }
 }

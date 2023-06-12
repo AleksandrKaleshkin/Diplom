@@ -10,12 +10,14 @@ namespace WebTraining.Core.Services.MeasurementsService
 {
     public class SingleMeasurementsService : ISingleMeasurementstService
     {
-        private readonly ISingleMeasRepository<SingleMeasurements> service;    
+        private readonly ISingleMeasRepository<SingleMeasurements> singleMeasRepository;    
         private readonly IMapper mapper;
+        private readonly IMusculesMeasRepository musculesRepository;
 
-        public SingleMeasurementsService(ISingleMeasRepository<SingleMeasurements> service, IMapper mapper)
+        public SingleMeasurementsService(ISingleMeasRepository<SingleMeasurements> singleMeasRepository, IMapper mapper, IMusculesMeasRepository musculesRepository)
         {
-            this.service = service;
+            this.singleMeasRepository = singleMeasRepository;
+            this.musculesRepository = musculesRepository;
             this.mapper = mapper;
         }
 
@@ -35,10 +37,10 @@ namespace WebTraining.Core.Services.MeasurementsService
                         UserId = measDTO.UserId,
                         User=user,
                         MuscleId=measDTO.MuscleId,
-                        TypeOfMuscle=service.GetMuscles(measDTO.MuscleId)
+                        TypeOfMuscle=musculesRepository.GetMuscle(measDTO.MuscleId)
                     };
-                    service.Create(meas);
-                    service.Save();
+                    singleMeasRepository.Create(meas);
+                    singleMeasRepository.Save();
                 }
             }
             else
@@ -50,10 +52,10 @@ namespace WebTraining.Core.Services.MeasurementsService
                     Change = 0,
                     UserId = measDTO.UserId,
                     MuscleId = measDTO.MuscleId,
-                    TypeOfMuscle = service.GetMuscles(measDTO.MuscleId)
+                    TypeOfMuscle = musculesRepository.GetMuscle(measDTO.MuscleId)
                 };
-                service.Create(meas);
-                service.Save();
+                singleMeasRepository.Create(meas);
+                singleMeasRepository.Save();
             }
         }
 
@@ -61,8 +63,8 @@ namespace WebTraining.Core.Services.MeasurementsService
         {
             if (id != 0)
             {
-                service.Delete(id);
-                service.Save();
+                singleMeasRepository.Delete(id);
+                singleMeasRepository.Save();
             }
             else
             {
@@ -76,7 +78,7 @@ namespace WebTraining.Core.Services.MeasurementsService
         {
             if (id != 0)
             {
-                var meas = service.Get(id);
+                var meas = singleMeasRepository.Get(id);
                 if (meas != null)
                 {
 
@@ -96,7 +98,7 @@ namespace WebTraining.Core.Services.MeasurementsService
 
         public IEnumerable<SingleMeasurementstDTO> GetMeasurements()
         {
-            var measurements_list = service.GetAll();
+            var measurements_list = singleMeasRepository.GetAll();
             return mapper.Map<IEnumerable<SingleMeasurementstDTO>>(measurements_list);
         }
 
@@ -112,7 +114,7 @@ namespace WebTraining.Core.Services.MeasurementsService
 
         public void UpdateMeasurement(SingleMeasurementstDTO measDTO, User user)
         {
-            var meas = service.Get(measDTO.ID);
+            var meas = singleMeasRepository.Get(measDTO.ID);
             var meass = GetNeedMeasurements(user, measDTO.MuscleId);
             if (meas != null)
             {
@@ -123,17 +125,17 @@ namespace WebTraining.Core.Services.MeasurementsService
                     meas.Value = measDTO.Value;
                     meas.Change = (float)Math.Round((measDTO.Value - premeas.Value), 4);
                     meas.MuscleId = measDTO.MuscleId;
-                    service.Update(meas);
-                    service.Save();
+                    singleMeasRepository.Update(meas);
+                    singleMeasRepository.Save();
                 }
                 else
                 {
                     meas.Date = measDTO.Date.ToUniversalTime();
                     meas.Value = measDTO.Value;
                     meas.Change = 0;
-                    meas.MuscleId = measDTO.MuscleId;
-                    service.Update(meas);
-                    service.Save();
+                    meas.MuscleId = measDTO.MuscleId;                   
+                    singleMeasRepository.Update(meas);
+                    singleMeasRepository.Save();
                 }
             }
         }
@@ -152,7 +154,7 @@ namespace WebTraining.Core.Services.MeasurementsService
 
         private IEnumerable<MusclesMeasurementsDTO> GetTypeOfMuscles()
         {
-            var type_list = service.GetTypes();
+            var type_list = musculesRepository.AllMuscle();
             return mapper.Map<IEnumerable<MusclesMeasurementsDTO>>(type_list);
         }
 

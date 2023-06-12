@@ -12,9 +12,11 @@ namespace WebTraining.Core.Services.MeasurementsService
     {
         private readonly IDoubleMeasRepository<DoubleMeasurements> service;
         private readonly IMapper mapper;
+        private readonly IMusculesMeasRepository musculesRepository;
 
-        public DoubleMeasurementsService(IDoubleMeasRepository<DoubleMeasurements> service, IMapper mapper)
+        public DoubleMeasurementsService(IDoubleMeasRepository<DoubleMeasurements> service, IMapper mapper, IMusculesMeasRepository musculesRepository)
         {
+            this.musculesRepository= musculesRepository;
             this.mapper = mapper;
             this.service = service;
         }
@@ -36,7 +38,7 @@ namespace WebTraining.Core.Services.MeasurementsService
                         RightChange = (float)Math.Round((measDTO.RightValue - premeas.RightValue),3),
                         UserId = measDTO.UserId,
                         MuscleId=measDTO.MuscleId,
-                        TypeOfMuscle=service.GetMuscles(measDTO.MuscleId)
+                        TypeOfMuscle=musculesRepository.GetMuscle(measDTO.MuscleId)
                     };
                     service.Create(meas);
                     service.Save();
@@ -52,7 +54,8 @@ namespace WebTraining.Core.Services.MeasurementsService
                         LeftChange = 0,
                         RightChange = 0,
                         UserId = measDTO.UserId,
-                        MuscleId=measDTO.MuscleId
+                        MuscleId=measDTO.MuscleId,
+                        TypeOfMuscle = musculesRepository.GetMuscle(measDTO.MuscleId)
                     };
                     service.Create(meas);
                     service.Save();            
@@ -162,7 +165,7 @@ namespace WebTraining.Core.Services.MeasurementsService
 
         private IEnumerable<MusclesMeasurementsDTO> GetTypeOfMuscles()
         {
-            var type_list = service.GetTypes();
+            var type_list = musculesRepository.AllMuscle();
             return mapper.Map<IEnumerable<MusclesMeasurementsDTO>>(type_list);
         }
 

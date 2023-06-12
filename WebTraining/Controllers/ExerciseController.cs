@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using WebTraining.Core.DTO;
 using WebTraining.Core.Interfaces;
 using WebTraining.Core.Models;
-using WebTraining.DB.Models;
 using WebTraining.Models;
 
 
@@ -14,6 +13,7 @@ namespace WebTraining.Controllers
     {
         readonly IExerciseService exerciseService;
         readonly IWebHostEnvironment _appEnvironment;
+
         public ExerciseController(IExerciseService serv, IWebHostEnvironment appEnvironment)
         {
             exerciseService = serv;
@@ -73,15 +73,16 @@ namespace WebTraining.Controllers
         }
         [HttpGet]
         [Authorize(Roles = "coach, admin")]
+
         public IActionResult Delete(int id)
         {
             ExerciseDTO exercise = exerciseService.GetExercise(id);
             if (exercise != null)
             {
-                //DeletePicture(exercise);
+                DeletePicture(exercise);
                 exerciseService.DeleteExercise(id);
                 return RedirectToAction("Index");
-            }
+            }            
             return RedirectToAction("Index");
         }
 
@@ -211,23 +212,28 @@ namespace WebTraining.Controllers
                 }
                 ImageExerciseDTO newimage = new ImageExerciseDTO()
                 {
+                    ExerciseID = exerciseService.GetExercises().Last().ID,
                     PathImage = path,
-                    ExerciseID = exerciseService.GetExercises().OrderBy(x=>x.ID).Last().ID,
                     NameImage = item.FileName
                 };
                 exerciseService.AddPicture(newimage);
             }
         }
 
-        //private void DeletePicture(ImageExerciseDTO image)
-        //{
-        //    image.PathImage = _appEnvironment.WebRootPath + image.PathImage;
-        //    if (image.PathImage != _appEnvironment.WebRootPath)
-        //    {
-        //        System.IO.File.Delete(image.PathImage);
-        //        exerciseService.DeleteImage(image.ID);
-        //    }
-        //}
+        private void DeletePicture(ExerciseDTO exercise)
+        {
+            var image = exerciseService.GetImageExercises(exercise);
+
+            foreach (var item in image)
+            {
+                item.PathImage = _appEnvironment.WebRootPath + item.PathImage;
+                if (item.PathImage != _appEnvironment.WebRootPath)
+                {
+                    System.IO.File.Delete(item.PathImage);
+                    exerciseService.DeleteImage(item.ID);
+                }
+            }
+        }
     }
 }
 
