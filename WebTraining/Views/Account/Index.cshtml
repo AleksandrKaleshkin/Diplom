@@ -13,6 +13,9 @@
     @if (User.IsInRole("admin"))
     {
         <p class="p-profile">Админ</p>
+        <form>
+            <button class="btn-add" style="margin-left:10px" asp-action="ListUsers">Список пользователей</button>
+        </form>
     }
     @if (User.IsInRole("athlete"))
     {
@@ -20,19 +23,23 @@
     }
 </i>
 
-<h2 class="h2-profile">Личные показатели</h2>
+@if (User.IsInRole("admin") | User.IsInRole("athlete"))
+{
+    <h2 class="h2-profile">Личные показатели</h2>
 
-<div >
-    <a class="button-profile" asp-action="WeightViewMeasurements" asp-controller="SingleMeasurements">Вес</a>
-    <a class="button-profile" asp-action="HeightViewMeasurements" asp-controller="SingleMeasurements">Рост</a><br /><br />
-    <a class="button-profile" asp-action="ViewBitcepsMeasurements" asp-controller="DoubleMeasurements">Бицепс</a>
-    <a class="button-profile" asp-action="ForearmViewMeasurements" asp-controller="DoubleMeasurements">Предплечье</a><br /><br />
-    <a class="button-profile" asp-action="BreastViewMeasurements" asp-controller="SingleMeasurements">Грудь</a>
-    <a class="button-profile" asp-action="WaistViewMeasurements" asp-controller="SingleMeasurements">Талия</a>
-    <a class="button-profile" asp-action="ButtocksViewMeasurements" asp-controller="SingleMeasurements">Ягодицы</a><br /><br />
-    <a class="button-profile" asp-action="LegsViewMeasurements" asp-controller="DoubleMeasurements">Ноги</a>
-    <a class="button-profile" asp-action="ShinsViewMeasurements" asp-controller="DoubleMeasurements">Голень</a>
-</div><br />
+    <div >
+        <a class="button-profile" asp-action="WeightViewMeasurements" asp-controller="SingleMeasurements">Вес</a>
+        <a class="button-profile" asp-action="HeightViewMeasurements" asp-controller="SingleMeasurements">Рост</a><br /><br />
+        <a class="button-profile" asp-action="ViewBitcepsMeasurements" asp-controller="DoubleMeasurements">Бицепс</a>
+        <a class="button-profile" asp-action="ForearmViewMeasurements" asp-controller="DoubleMeasurements">Предплечье</a><br /><br />
+        <a class="button-profile" asp-action="BreastViewMeasurements" asp-controller="SingleMeasurements">Грудь</a>
+        <a class="button-profile" asp-action="WaistViewMeasurements" asp-controller="SingleMeasurements">Талия</a>
+        <a class="button-profile" asp-action="ButtocksViewMeasurements" asp-controller="SingleMeasurements">Ягодицы</a><br /><br />
+        <a class="button-profile" asp-action="LegsViewMeasurements" asp-controller="DoubleMeasurements">Ноги</a>
+        <a class="button-profile" asp-action="ShinsViewMeasurements" asp-controller="DoubleMeasurements">Голень</a>
+    </div><br />
+}
+
 
 <h2 class="h2-profile">Настройки</h2>
 <div>
