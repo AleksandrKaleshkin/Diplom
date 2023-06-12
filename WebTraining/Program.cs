@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,7 @@ using WebTraining.DB.Models.InitializeData;
 using WebTraining.DB.Models.Measurements;
 using WebTraining.DB.Repositories;
 using WebTraining.DB.Repositories.MeasurementsRepository;
+using WebTraining.Mapping;
 
 internal class Program
 {
@@ -65,6 +67,15 @@ internal class Program
         {
             options.ValidationInterval = TimeSpan.FromSeconds(20);
         });
+
+        var mapperConfig = new MapperConfiguration(mc =>
+        {
+            mc.AddProfile(new MappingProfile());
+        });
+
+        IMapper mapper = mapperConfig.CreateMapper();
+        builder.Services.AddSingleton(mapper);
+
 
 
 

@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations;
 using WebTraining.Core.DTO;
 using WebTraining.Core.Interfaces;
@@ -10,10 +9,12 @@ namespace WebTraining.Core.Services
 {
     public class TrainingService : ITrainingService
     {
-        ITrainingRepository<Training> service { get; set; }
+        private readonly ITrainingRepository<Training> service;
+        private readonly IMapper mapper;
 
-        public TrainingService(ITrainingRepository<Training> service)
+        public TrainingService(ITrainingRepository<Training> service, IMapper mapper)
         {
+            this.mapper = mapper;
             this.service = service;
         }
 
@@ -60,8 +61,8 @@ namespace WebTraining.Core.Services
 
         public IEnumerable<TrainingDTO> GetTrainingss()
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Training, TrainingDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<Training>, List<TrainingDTO>>(service.GetAll());
+            var training_list = service.GetAll();
+            return mapper.Map<IEnumerable<TrainingDTO>>(training_list);
         }
 
         public IEnumerable<TrainingDTO> GetTrainings()

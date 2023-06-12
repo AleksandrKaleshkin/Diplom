@@ -10,11 +10,13 @@ namespace WebTraining.Core.Services
 {
     public class ExerciseService : IExerciseService
     {
-        IExerciseRepository<Exercise> service { get; set; }
+        private readonly IExerciseRepository<Exercise> service;
+        private readonly IMapper mapper;
 
 
-        public ExerciseService(IExerciseRepository<Exercise> service)
+        public ExerciseService(IExerciseRepository<Exercise> service, IMapper mapper)
         {
+            this.mapper = mapper;
             this.service = service;
         }
 
@@ -71,8 +73,8 @@ namespace WebTraining.Core.Services
 
         public IEnumerable<ExerciseDTO> GetExercises()
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Exercise, ExerciseDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<Exercise>, List<ExerciseDTO>>(service.GetAll());
+            var exercise_list = service.GetAll();
+            return mapper.Map<IEnumerable<ExerciseDTO>>(exercise_list);
         }
 
         public void UpdateExercise(ExerciseDTO exerciseDTO)
@@ -89,8 +91,8 @@ namespace WebTraining.Core.Services
 
         public IEnumerable<TypeOfMuscleDTO> GetTypeOfMuscles()
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<TypeOfMuscle, TypeOfMuscleDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<TypeOfMuscle>, List<TypeOfMuscleDTO>>(service.GetTypes());            
+            var muscle_list = service.GetTypes();
+            return mapper.Map<IEnumerable<TypeOfMuscleDTO>>(muscle_list);            
         }
 
         public void AddPicture(ImageExerciseDTO image)
@@ -119,8 +121,8 @@ namespace WebTraining.Core.Services
 
         public IEnumerable<ImageExerciseDTO> GetImages()
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<ImageExercise, ImageExerciseDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<ImageExercise>, List<ImageExerciseDTO>>(service.GetImages());
+            var image_list = service.GetImages();
+            return mapper.Map<IEnumerable<ImageExerciseDTO>>(image_list);
         }
 
         public void UpdatePicture(ImageExerciseDTO image)

@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using WebTraining.Core.DTO;
 using WebTraining.Core.Interfaces;
+using WebTraining.Core.Models;
 using WebTraining.DB.Interfaces;
 using WebTraining.DB.Models;
 
@@ -9,10 +10,13 @@ namespace WebTraining.Core.Services
 {
     public class TrainingExerciseService : ITrainingExerciseService
     {
-        ITERepository<TrainingExercise> service { get; set; }
+        private readonly ITERepository<TrainingExercise> service;
+        private readonly IMapper mapper;
 
-        public TrainingExerciseService(ITERepository<TrainingExercise> service)
+
+        public TrainingExerciseService(ITERepository<TrainingExercise> service, IMapper mapper)
         {
+            this.mapper = mapper;
             this.service = service;
         }
 
@@ -47,8 +51,8 @@ namespace WebTraining.Core.Services
 
         public IEnumerable<TrainingExerciseDTO> GetExercises()
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<TrainingExercise, TrainingExerciseDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<TrainingExercise>, List<TrainingExerciseDTO>>(service.GetAll());
+            var exexercise_list = service.GetAll();
+            return mapper.Map<IEnumerable<TrainingExerciseDTO>>(exexercise_list);
         }
 
         public List<TrainingExerciseDTO> GetNeedExercises(int id)
@@ -97,8 +101,8 @@ namespace WebTraining.Core.Services
 
         public IEnumerable<ExerciseDTO> GetExerciseList()
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Exercise, ExerciseDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<Exercise>, List<ExerciseDTO>>(service.GetAllExercise());
+            var exerciselist = service.GetAllExercise();
+            return mapper.Map<IEnumerable<ExerciseDTO>>(exerciselist);
         }
     }
 }

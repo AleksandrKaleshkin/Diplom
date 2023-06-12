@@ -11,10 +11,12 @@ namespace WebTraining.Core.Services.MeasurementsService
     public class SingleMeasurementsService : ISingleMeasurementstService
     {
         private readonly ISingleMeasRepository<SingleMeasurements> service;    
+        private readonly IMapper mapper;
 
-        public SingleMeasurementsService(ISingleMeasRepository<SingleMeasurements> service)
+        public SingleMeasurementsService(ISingleMeasRepository<SingleMeasurements> service, IMapper mapper)
         {
-            this.service= service;
+            this.service = service;
+            this.mapper = mapper;
         }
 
         public void AddMeasurement(SingleMeasurementstDTO measDTO, User user)
@@ -94,8 +96,8 @@ namespace WebTraining.Core.Services.MeasurementsService
 
         public IEnumerable<SingleMeasurementstDTO> GetMeasurements()
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<SingleMeasurements, SingleMeasurementstDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<SingleMeasurements>, List<SingleMeasurementstDTO>>(service.GetAll());
+            var measurements_list = service.GetAll();
+            return mapper.Map<IEnumerable<SingleMeasurementstDTO>>(measurements_list);
         }
 
         public IEnumerable<SingleMeasurementstDTO> GetNeedMeasurements(User user, int type)
@@ -150,8 +152,8 @@ namespace WebTraining.Core.Services.MeasurementsService
 
         private IEnumerable<MusclesMeasurementsDTO> GetTypeOfMuscles()
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<MusclesMeasurements, MusclesMeasurementsDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<MusclesMeasurements>, List<MusclesMeasurementsDTO>>(service.GetTypes());
+            var type_list = service.GetTypes();
+            return mapper.Map<IEnumerable<MusclesMeasurementsDTO>>(type_list);
         }
 
         public MusclesMeasurementsDTO GetTypeOfMuscle(string type)

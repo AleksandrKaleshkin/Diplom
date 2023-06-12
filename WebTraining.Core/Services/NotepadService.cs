@@ -9,10 +9,12 @@ namespace WebTraining.Core.Services
 {
     public class NotepadService : INotepadService
     {
-        INotepadRepository<Notepad> service { get; set; }
+        private readonly INotepadRepository<Notepad> service;
+        private readonly IMapper mapper;
 
-        public NotepadService(INotepadRepository<Notepad> service)
+        public NotepadService(INotepadRepository<Notepad> service, IMapper mapper)
         {
+            this.mapper = mapper;
             this.service = service;
         }
 
@@ -55,8 +57,8 @@ namespace WebTraining.Core.Services
 
         public IEnumerable<NotepadDTO> GetNotes()
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Notepad, NotepadDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<Notepad>, List<NotepadDTO>>(service.GetAll());
+            var note_list = service.GetAll();
+            return mapper.Map<IEnumerable<NotepadDTO>>(note_list);
         }
 
         public IEnumerable<NotepadDTO> GetNeedNotes(User user)

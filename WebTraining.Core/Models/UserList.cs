@@ -8,6 +8,7 @@ namespace WebTraining.Core.Models
     {
             public UserList(List<User> users)
             {
+
                 UsersList = new SelectList(users, "Id", "Name");
             }
             public SelectList? UsersList { get; private set; }        
