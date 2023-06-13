@@ -1,0 +1,44 @@
+﻿@model TrainingViewModel
+@{
+    ViewData["Title"] = "Тренировки";
+}
+
+<h1>Тренировки</h1>
+<h3>@DateTime.Now.ToString("dd MMM yyyy")</h3>
+<div>
+    <table class="tabletraining">
+        <thead>
+            <tr>
+                <th>
+                    <a>Название</a>
+                </th>
+                <th>
+                    <a>Дата тренировки</a>
+                </th>
+            </tr>
+
+        </thead>
+        <tbody>
+            @foreach (var trainig in Model.Trainings)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(item => trainig.NameTraining)
+                    </td>
+
+                    <td>
+                        <a>
+                            @Html.DisplayFor(item => trainig.DateTraining)
+                        </a>
+                    </td>
+
+                    <td>
+                        <form method="get" asp-action="ViewExercises" asp-route-id="@trainig.ID">
+                            <button class="btn-add">Посмотреть</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

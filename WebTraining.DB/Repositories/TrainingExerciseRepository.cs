@@ -32,7 +32,7 @@ namespace WebTraining.DB.Repositories
 
         public TrainingExercise Get(int id)
         {
-            var trainExse = db.TrainingExercises.Find(id);
+            var trainExse = db.TrainingExercises.Include(x=>x.Training).Include(x=>x.Exercise).FirstOrDefault(x => x.ID == id);
             if (trainExse !=null)
             {
                 return trainExse;

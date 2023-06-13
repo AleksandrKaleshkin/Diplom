@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using System.Collections.Generic;
 using WebTraining.Core.DTO;
 using WebTraining.Core.DTO.MeasurementsDTO;
 using WebTraining.DB.Models;
@@ -15,14 +14,14 @@ namespace WebTraining.Mapping
             CreateMap<Exercise, ExerciseDTO>().ReverseMap();
             CreateMap<ImageExercise, ImageExerciseDTO>().ReverseMap();
 
-            CreateMap<Notepad, NotepadDTO>();
+            CreateMap<Notepad, NotepadDTO>().ReverseMap();
 
-            CreateMap<TrainingExercise, TrainingExerciseDTO>();
-            CreateMap<Training, TrainingDTO>();
+            CreateMap<TrainingExercise, TrainingExerciseDTO>().ReverseMap();
+            CreateMap<Training, TrainingDTO>().ReverseMap();
 
-            CreateMap<DoubleMeasurements, DoubleMeasurementsDTO>();
-            CreateMap<SingleMeasurements,SingleMeasurementstDTO>();
-            CreateMap<MusclesMeasurements, MusclesMeasurementsDTO>();
+            CreateMap<DoubleMeasurements, DoubleMeasurementsDTO>().ReverseMap();
+            CreateMap<SingleMeasurements,SingleMeasurementstDTO>().ReverseMap();
+            CreateMap<MusclesMeasurements, MusclesMeasurementsDTO>().ReverseMap();
 
 
         }

@@ -30,7 +30,27 @@ namespace WebTraining.Controllers
             User user = await GetUser();
             TrainingViewModel training = new TrainingViewModel()
             {
-                Trainings = trainingService.GetNeedTraining(user).ToList()
+                Trainings = trainingService.GetUserTraining(user).ToList()
+            };
+            return View(training);
+        }
+
+        public async Task<IActionResult> PastTraining()
+        {
+            User user = await GetUser();
+            TrainingViewModel training = new TrainingViewModel()
+            {
+                Trainings = trainingService.GetUserPastTraining(user).ToList()
+            };
+            return View(training);
+        }
+
+        public async Task<IActionResult> PastAllTraining()
+        {
+            User user = await GetUser();
+            TrainingViewModel training = new TrainingViewModel()
+            {
+                Trainings = trainingService.GetPastTrainings().ToList()
             };
             return View(training);
         }
@@ -202,7 +222,5 @@ namespace WebTraining.Controllers
         {
             return await userManager.FindByNameAsync(User.Identity.Name);
         }
-
-
     }
 }

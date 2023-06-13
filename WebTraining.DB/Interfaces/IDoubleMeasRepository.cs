@@ -1,5 +1,4 @@
-﻿using WebTraining.DB.Models.Measurements;
-
+﻿
 namespace WebTraining.DB.Interfaces
 {
     public interface IDoubleMeasRepository<T>

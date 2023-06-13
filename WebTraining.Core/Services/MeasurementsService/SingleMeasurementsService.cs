@@ -26,7 +26,7 @@ namespace WebTraining.Core.Services.MeasurementsService
             var meass = GetNeedMeasurements(user, measDTO.MuscleId).OrderBy(x => x.Date);
             if (meass.Count() > 0)
             {
-                var premeas = GetPreMeasurement(meass.Last());
+                var premeas = meass.Last();
                 if (premeas != null)
                 {
                     SingleMeasurements meas = new SingleMeasurements
@@ -81,15 +81,7 @@ namespace WebTraining.Core.Services.MeasurementsService
                 var meas = singleMeasRepository.Get(id);
                 if (meas != null)
                 {
-
-                    return new SingleMeasurementstDTO
-                    {
-                        Date = meas.Date,
-                        Value = meas.Value,
-                        Change = meas.Change,
-                        MuscleId = meas.MuscleId,
-                        UserId = meas.UserId
-                    };
+                    return mapper.Map<SingleMeasurementstDTO>(meas);
                 }
                 throw new ValidationException("Измерение не найдено");
             }
@@ -120,7 +112,7 @@ namespace WebTraining.Core.Services.MeasurementsService
             {
                 if (meass.Count() != 1)
                 {
-                    SingleMeasurementstDTO premeas = GetPreMeasurement(meass.Reverse().Skip(1).FirstOrDefault());
+                    SingleMeasurementstDTO premeas = meass.Reverse().Skip(1).FirstOrDefault();
                     meas.Date = measDTO.Date;
                     meas.Value = measDTO.Value;
                     meas.Change = (float)Math.Round((measDTO.Value - premeas.Value), 4);
@@ -138,18 +130,6 @@ namespace WebTraining.Core.Services.MeasurementsService
                     singleMeasRepository.Save();
                 }
             }
-        }
-
-        private SingleMeasurementstDTO GetPreMeasurement(SingleMeasurementstDTO premeas)
-        {
-            return new SingleMeasurementstDTO
-            {
-                ID = premeas.ID,
-                Date = premeas.Date,
-                Value = premeas.Value,
-                Change = premeas.Change,
-                UserId = premeas.UserId,
-            };
         }
 
         private IEnumerable<MusclesMeasurementsDTO> GetTypeOfMuscles()

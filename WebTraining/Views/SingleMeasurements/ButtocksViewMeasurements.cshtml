@@ -41,19 +41,21 @@
                 </td>
 
 
-                <td>
-                    <form method="get" asp-action="Edit" asp-route-id="@meas.ID">
-                        <button class="btn-crud-data">Изменить</button>
-                    </form>
-                </td>
-                <td>
-                    @if (meas == Model.Measurements.OrderBy(x => x.Date).Reverse().First())
-                    {
-                    <form method="get" asp-action="Delete" asp-route-id="@meas.ID">
+                @if (meas == Model.Measurements.OrderBy(x => x.Date).Reverse().First())
+                {
+                    <td>
+                        <form method="get" asp-action="Edit" asp-route-id="@meas.ID">
+                            <button class="btn-crud-data">Изменить</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form method="get" asp-action="Delete" asp-route-id="@meas.ID">
                             <button class="btn-crud-data">Удалить</button>
                         </form>
-                    }
-                </td>
+                    </td>
+                }
+
+
             </tr>
         }
     </tbody>

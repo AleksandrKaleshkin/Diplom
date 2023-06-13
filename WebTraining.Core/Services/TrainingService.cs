@@ -20,26 +20,22 @@ namespace WebTraining.Core.Services
 
         public void AddTraing(TrainingDTO trainingDTO)
         {
-            Training training = new Training
-            {
-                NameTraining = trainingDTO.NameTraining,
-                DateTraining = trainingDTO.DateTraining.ToUniversalTime(),
-                UserId=trainingDTO.UserId,
-                User= service.GetUser(trainingDTO.UserId)              
-            };
+            trainingDTO.DateTraining = trainingDTO.DateTraining.ToUniversalTime();
+            trainingDTO.User = service.GetUser(trainingDTO.UserId);
+            Training training = mapper.Map<Training>(trainingDTO);
             service.Create(training);
         }
 
         public void DeleteTraining(int id)
         {
-            if (id!= 0)
-            {               
-                service.Delete(id);
-            }
-            else
+            if (id== 0)
             {
                 throw new ValidationException("Тренировка не найдена");
             }
+            service.Delete(id);
+
+
+
         }
 
         public TrainingDTO GetTraining(int id)
@@ -53,10 +49,7 @@ namespace WebTraining.Core.Services
             {
                 throw new ValidationException();
             }
-            return new TrainingDTO { 
-                ID= training.ID,
-                NameTraining = training.NameTraining,
-                DateTraining = training.DateTraining };
+            return mapper.Map<TrainingDTO>(training);
         }
 
         public IEnumerable<TrainingDTO> GetTrainingss()
@@ -72,14 +65,18 @@ namespace WebTraining.Core.Services
             {
                 item.DateTraining = item.DateTraining.ToLocalTime();
             }
-            return training;
+            return training.Where(x => x.DateTraining > DateTime.Now);
         }
 
 
-        public IEnumerable<TrainingDTO> GetNeedTraining(User user)
+        public IEnumerable<TrainingDTO> GetUserTraining(User user)
         {
-            IEnumerable<TrainingDTO> training = GetTrainings();
-            IEnumerable<TrainingDTO> needtraining = training.Where(x => x.UserId == user.Id);
+            IEnumerable<TrainingDTO> training = GetTrainingss();
+            IEnumerable<TrainingDTO> needtraining = training.Where(x => x.UserId == user.Id).Where(x=>x.DateTraining>DateTime.UtcNow);
+            foreach (var item in needtraining)
+            {
+                item.DateTraining = item.DateTraining.ToLocalTime();
+            }
             return needtraining;
         }
 
@@ -89,14 +86,33 @@ namespace WebTraining.Core.Services
                 training.NameTraining = trainingDTO.NameTraining;
                 training.DateTraining = trainingDTO.DateTraining.ToUniversalTime();
                 training.UserId = trainingDTO.UserId;
-                service.Update(training);
-
-            
+                service.Update(training);            
         }
 
         public IEnumerable<User> GetAllUsers()
         {
             return service.GetAllUsers();
+        }
+
+        public IEnumerable<TrainingDTO> GetUserPastTraining(User user)
+        {
+            IEnumerable<TrainingDTO> training = GetTrainingss();
+            IEnumerable<TrainingDTO> needtraining = training.Where(x => x.UserId == user.Id);
+            foreach (var item in needtraining)
+            {
+                item.DateTraining = item.DateTraining.ToLocalTime();
+            }
+            return needtraining.Where(x => x.DateTraining < DateTime.Now);
+        }
+
+        public IEnumerable<TrainingDTO> GetPastTrainings()
+        {
+            IEnumerable<TrainingDTO> training = GetTrainingss();
+            foreach (var item in training)
+            {
+                item.DateTraining = item.DateTraining.ToLocalTime();
+            }
+            return training.Where(x=>x.DateTraining<DateTime.Now);
         }
     }
 }

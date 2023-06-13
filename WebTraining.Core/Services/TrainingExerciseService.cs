@@ -22,26 +22,17 @@ namespace WebTraining.Core.Services
 
         public void AddExercise(TrainingExerciseDTO model)
         {
-            TrainingExercise trainingExercise = new TrainingExercise
-            {                
-                TrainingId = model.TrainingId,
-                ExerciseId = model.ExerciseId,
-                Sets = model.Sets,
-                Repetitions = model.Repetitions
-            };
+            TrainingExercise trainingExercise = mapper.Map<TrainingExercise>(model);
             service.Create(trainingExercise);
         }
 
         public void DeleteExercise(int id)
         {
-            if (id != 0)
-            {
-                service.Delete(id);
-            }
-            else
+            if (id == 0)
             {
                 throw new ValidationException("Тренировка не найдена");
             }
+            service.Delete(id);
         }
 
         public TrainingExerciseDTO GetExercise(int id)
@@ -86,14 +77,7 @@ namespace WebTraining.Core.Services
                 var exercise = service.Get(id);
                 if (exercise != null)
                 {
-                    return new TrainingExerciseDTO
-                    {
-                        ID= exercise.ID,                        
-                        ExerciseId = exercise.ExerciseId,
-                        TrainingId = exercise.TrainingId,
-                        Repetitions = exercise.Repetitions,
-                        Sets = exercise.Sets
-                    };
+                    return mapper.Map<TrainingExerciseDTO>(exercise);
                 }
             }
             throw new ValidationException();

@@ -1,0 +1,53 @@
+﻿@model TrainingViewModel
+@{
+    ViewData["Title"] = "Тренировки";
+}
+
+<h1>Все прошлые тренировки</h1>
+<div>
+    <table class="tabletraining">
+        <thead>
+            <tr>
+                <th>
+                    <a>Название</a>
+                </th>
+                <th>
+                    <a>Дата тренировки</a>
+                </th>
+                <th>
+                    <a>Спортсмен</a>
+                </th>
+            </tr>
+
+        </thead>
+        <tbody>
+            @foreach (var trainig in Model.Trainings)
+            {
+                    <tr>
+                        <td>
+                        @Html.DisplayFor(item => trainig.NameTraining)
+                        </td>
+
+                        <td>
+                            <p>@Html.DisplayFor(item => trainig.DateTraining)</p>
+                        </td>
+                        <td>
+                        @Html.DisplayFor(item => trainig.User.Name)
+                        </td>
+
+                        <td>
+                            <form method="get"  asp-action="ViewExercises" asp-route-id="@trainig.ID">
+                                <button class="button">Посмотреть</button>
+                            </form>
+                        </td>
+                        <td>
+                            <form method="get" asp-action="DeleteTraining" asp-route-id="@trainig.ID">
+                                <button class="button">Удалить</button>
+                            </form>
+                        </td>
+
+                    </tr>
+            }
+        </tbody>
+    </table>
+</div>

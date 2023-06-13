@@ -28,8 +28,7 @@
 
                     <td>
                     <a>
-                        @Html.DisplayFor(item => trainig.DateTraining.Date)
-
+                        @Html.DisplayFor(item => trainig.DateTraining)
                     </a>
                 </td>
 
@@ -43,6 +42,10 @@
         }
     </tbody>
     </table>
+
+    <form asp-action="PastTraining">
+        <button class="btn-add margint">Прошедшие тренировки</button>
+    </form>
 </div>
 
 

@@ -24,10 +24,11 @@
             <span asp-validation-for="ExerciseDTO.TypeOfMuscleID"></span>
         </div>
 
-        <div hidden>
-            <input asp-for="ExerciseDTO.ID" />     
-            <input asp-for="ExerciseDTO.TypeOfMuscle" />
-        </div>
+        <label class="label-crud-data">Текущие фото</label>
+        @foreach (var item in Model.ImageExercise)
+        {
+            <img class="exerciseimage" style="width:80px" src="@Url.Content(item.PathImage)" />
+        }
 
             <div class="div-crud-data">
                 <label class="label-crud-data">Фото</label>

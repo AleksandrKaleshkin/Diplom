@@ -2,7 +2,6 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-
 using WebTraining.Core.Interfaces;
 using WebTraining.Core.Interfaces.IMeasurements;
 using WebTraining.Core.Services;

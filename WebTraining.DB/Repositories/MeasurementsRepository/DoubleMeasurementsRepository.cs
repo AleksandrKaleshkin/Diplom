@@ -26,7 +26,7 @@ namespace WebTraining.DB.Repositories.MeasurementsRepository
 
         public DoubleMeasurements Get(int id)
         {
-            DoubleMeasurements? meas = db.DoubleMeasurements.Find(id);
+            DoubleMeasurements? meas = db.DoubleMeasurements.Include(x => x.User).Include(x => x.TypeOfMuscle).FirstOrDefault(x => x.ID == id);
             if (meas != null)
             {
                 return meas;

@@ -32,7 +32,12 @@ namespace WebTraining.DB.Repositories
 
         public Training Get(int id)
         {
-            return db.Training.Find(id);
+            var training = db.Training.Include(o => o.User).FirstOrDefault(x => x.ID == id);
+            if (training != null)
+            {
+                return training;
+            }
+            return null;
         }
 
         public IEnumerable<Training> GetAll()

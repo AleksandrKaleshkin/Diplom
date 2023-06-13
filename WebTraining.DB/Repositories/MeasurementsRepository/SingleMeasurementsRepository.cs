@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebTraining.DB.DataContext;
 using WebTraining.DB.Interfaces;
-using WebTraining.DB.Models;
 using WebTraining.DB.Models.Measurements;
 
 namespace WebTraining.DB.Repositories.MeasurementsRepository
@@ -29,7 +28,7 @@ namespace WebTraining.DB.Repositories.MeasurementsRepository
 
         public SingleMeasurements Get(int id)
         {
-            SingleMeasurements meas = db.SingleMeasurements.Find(id);
+            SingleMeasurements meas = db.SingleMeasurements.Include(x => x.User).Include(x => x.TypeOfMuscle).FirstOrDefault(x=>x.ID==id);
             if (meas != null)
             {
                 return meas;
@@ -39,7 +38,7 @@ namespace WebTraining.DB.Repositories.MeasurementsRepository
 
         public IEnumerable<SingleMeasurements> GetAll()
         {
-            return db.SingleMeasurements.Include(x=>x.User).ToList();
+            return db.SingleMeasurements.Include(x=>x.User).Include(x => x.TypeOfMuscle).ToList();
         }
 
         public void Save()

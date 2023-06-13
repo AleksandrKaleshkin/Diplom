@@ -82,16 +82,7 @@ namespace WebTraining.Core.Services.MeasurementsService
                 var meas = service.Get(id);
                     if (meas!=null)
                     {
-                    return new DoubleMeasurementsDTO
-                    {
-                        Date = meas.Date,
-                        LeftValue = meas.LeftValue,
-                        RightValue = meas.RightValue,
-                        LeftChange = meas.LeftChange,
-                        RightChange = meas.RightChange,
-                        UserId = meas.UserId,
-                        MuscleId =meas.MuscleId
-                    };
+                    return mapper.Map<DoubleMeasurementsDTO>(meas);
                     }
             }
             throw new ValidationException("Измерение не найдено");

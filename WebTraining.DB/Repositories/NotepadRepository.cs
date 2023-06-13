@@ -40,9 +40,9 @@ namespace WebTraining.DB.Repositories
             return null;
         }
 
-        public async Task<IEnumerable<Notepad>> GetAll()
+        public IEnumerable<Notepad> GetAll()
         {
-            return await db.Notepads.ToListAsync();
+            return db.Notepads.ToList();
         }
 
         public void Save()
